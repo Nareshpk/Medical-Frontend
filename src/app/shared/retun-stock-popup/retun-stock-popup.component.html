@@ -1,0 +1,417 @@
+<app-add-popup title="Dispatch Process" acceptLabel="Ok" cancelLabel="Cancel" acceptIcon="fa fa-plus" [widthArg]="400" [heightArg]="400" (acceptClick)="onOkClick($event, ReturnForm)" (cancelClick)="onCancelClick()">
+    <!-- <ul class="nav nav-tabs">
+    <li  *ngIf="Returnitems=='Raw Material'">
+        <a data-target="#opt" data-toggle="tab"
+            ><span class="scheduler-border">Raw Metrieal</span></a
+        >
+    </li>
+    <li *ngIf="Returnitems=='Consumable Item'">
+        <a data-target="#opt1" data-toggle="tab">
+            <span class="scheduler-border">Consumables Item</span></a
+        >
+    </li> -->
+    <!-- <li *ngIf="Returnitems=='Child Part'">
+      <a data-target="#opt2" data-toggle="tab">
+          <span class="scheduler-border">Child Part</span></a
+      >
+  </li>
+  <li *ngIf="Returnitems=='Part'">
+    <a data-target="#opt3" data-toggle="tab">
+        <span class="scheduler-border">Part</span></a
+    >
+  </li> -->
+    <!-- </ul> -->
+    <div class="tab-content">
+        <div *ngIf="Returnitems=='Raw Material'">
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Raw Matrieal</legend>
+                <div class="formData">
+                    <form [formGroup]="ReturnForm">
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="date" for="date" cssClass="required">Dispatch Date</label>
+                                    <input class="form-control" formControlName="date" readonly />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="time" for="time" cssClass="required">Time</label>
+                                    <input type="time" class="form-control" path="time" formControlName="time" />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="paidamount" for="paidamount" cssClass="required">Paid Amount</label>
+                                    <input OnlyNumber class="form-control" formControlName="paidamount" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="dispatch" for="dispatch" cssClass="required">Mode of Dispatch</label>
+                                    <select class="form-control" path="dispatch" formControlName="dispatch">
+                                    <option value="" hidden> - Select Dispatch - </option>
+                                    <option value="null"> - Select Dispatch - </option>
+                                    <option>Courier</option>
+                                    <option>Own Vehicle</option>
+                                    <option>Supplier Vehicle</option>
+                                    <option>3rd Party Transport</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="vichleno" for="vichleno" cssClass="required">Vehicle No</label>
+                                    <input class="form-control" formControlName="vichleno" />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="personname" for="personname" cssClass="required">Person Name</label>
+                                    <input class="form-control" formControlName="personname" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="mobilenumber" for="mobilenumber" cssClass="required">Mobile Number</label>
+                                    <input OnlyNumber class="form-control" formControlName="mobilenumber" />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="status" for="status" cssClass="required">Status</label>
+                                    <select class="form-control" path="status" formControlName="status">
+                                    <option value="" hidden> - Select Status - </option>
+                                    <option value="null"> - Select Status - </option>
+                                    <option>Partial Returned</option>
+                                    <option>Returned</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="referenceid" for="referenceid" cssClass="required">Reference id No</label>
+                                    <input class="form-control" formControlName="referenceid" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="ordernumber" for="ordernumber" cssClass="required">Item code</label>
+                                    <select class="form-control" path="ordernumber" formControlName="ordernumber" (change)="onChange($event)">
+                                            
+                                        <option value="null"> -Select item Code- </option>
+                                        <option *ngFor="let rawmetriealcode of rawmetriealcodes" [value]="rawmetriealcode.slNo">
+                                            {{rawmetriealcode.itemcode2.itemcode}} </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="rejectitems" for="rejectitems" cssClass="required">Reject Qty</label>
+                                    <input class="form-control" formControlName="rejectitems" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </fieldset>
+        </div>
+        <div *ngIf="Returnitems=='Consumable Item'">
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Consumable Items</legend>
+                <div class="formData">
+                    <form [formGroup]="ReturnForm">
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cudate" for="cudate" cssClass="required">Dispatch Date</label>
+                                    <input class="form-control" formControlName="cudate" readonly />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cutime" for="cutime" cssClass="required">Time</label>
+                                    <input type="time" class="form-control" path="cutime" formControlName="cutime" />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cupaidamount" for="cupaidamount" cssClass="required">paid Amount</label>
+                                    <input OnlyNumber class="form-control" formControlName="cupaidamount" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cudispatch" for="cudispatch" cssClass="required">Mode of Dispatch</label>
+                                    <select class="form-control" path="cudispatch" formControlName="cudispatch">
+                                    <option value="" hidden> - Select Dispatch - </option>
+                                    <option value="null"> - Select Dispatch - </option>
+                                    <option>Courier</option>
+                                    <option>Own Vichle</option>
+                                    <option>Supplier Vichle</option>
+                                    <option>3rd Party Transport</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cuvichleno" for="cuvichleno" cssClass="required">Vichle No</label>
+                                    <input class="form-control" formControlName="cuvichleno" />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cupersonname" for="cupersonname" cssClass="required">Person Name</label>
+                                    <input class="form-control" formControlName="cupersonname" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cumobilenumber" for="cumobilenumber" cssClass="required">Mobile Number</label>
+                                    <input OnlyNumber class="form-control" formControlName="cumobilenumber" />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="custatus" for="custatus" cssClass="required">Status</label>
+                                    <select class="form-control" path="custatus" formControlName="custatus">
+                                    <option value="" hidden> - Select Status - </option>
+                                    <option value="null"> - Select Status - </option>
+                                    <option>Partial Returned</option>
+                                    <option>Returned</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cureferenceid" for="cureferenceid" cssClass="required">Reference id No</label>
+                                    <input class="form-control" formControlName="cureferenceid" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cuordernumber" for="cuordernumber" cssClass="required">Item code</label>
+                                    <input class="form-control" formControlName="cuordernumber" readonly/>
+                                    <!-- <select class="form-control" path="cuordernumber" formControlName="cuordernumber" (change)="onChange($event)">
+                                                
+                                    <option value="null"> -Select item Code- </option>
+                                    <option *ngFor="let consumableItemcode of consumableItemcodes" [value]="consumableItemcode.slNo">
+                                    {{consumableItemcode.cucode}} </option>
+                                </select> -->
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="curejectitems" for="curejectitems" cssClass="required">Reject Qty</label>
+                                    <input class="form-control" formControlName="curejectitems" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </fieldset>
+        </div>
+        <div *ngIf="Returnitems=='Child Part'">
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Raw Matrieal</legend>
+                <div class="formData">
+                    <form [formGroup]="ReturnForm">
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cptdate" for="cptdate" cssClass="required">Dispatch Date</label>
+                                    <input class="form-control" formControlName="cptdate" readonly />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cpttime" for="cpttime" cssClass="required">Time</label>
+                                    <input type="time" class="form-control" path="cpttime" formControlName="cpttime" />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cptpaidamount" for="cptpaidamount" cssClass="required">paid Amount</label>
+                                    <input OnlyNumber class="form-control" formControlName="cptpaidamount" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cptdispatch" for="cptdispatch" cssClass="required">Mode of Dispatch</label>
+                                    <select class="form-control" path="cptdispatch" formControlName="cptdispatch">
+                                    <option value="" hidden> - Select Dispatch - </option>
+                                    <option value="null"> - Select Dispatch - </option>
+                                    <option>Courier</option>
+                                    <option>Own Vichle</option>
+                                    <option>Supplier Vichle</option>
+                                    <option>3rd Party Transport</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cptvichleno" for="cptvichleno" cssClass="required">Vichle No</label>
+                                    <input class="form-control" formControlName="cptvichleno" />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cptpersonname" for="cptpersonname" cssClass="required">Person Name</label>
+                                    <input class="form-control" formControlName="cptpersonname" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cptmobilenumber" for="cptmobilenumber" cssClass="required">Mobile Number</label>
+                                    <input OnlyNumber class="form-control" formControlName="cptmobilenumber" />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cptstatus" for="cptstatus" cssClass="required">Status</label>
+                                    <select class="form-control" path="cptstatus" formControlName="cptstatus">
+                                    <option value="" hidden> - Select Status - </option>
+                                    <option value="null"> - Select Status - </option>
+                                    <option>Partial Returned</option>
+                                    <option>Returned</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cptreferenceid" for="cptreferenceid" cssClass="required">Reference id No</label>
+                                    <input class="form-control" formControlName="cptreferenceid" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="childpartnumber" for="childpartnumber" cssClass="required">Item code</label>
+                                    <input class="form-control" formControlName="childpartnumber" readonly/>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="cptrejectitems" for="cptrejectitems" cssClass="required">Reject Qty</label>
+                                    <input class="form-control" formControlName="cptrejectitems" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </fieldset>
+        </div>
+        <div *ngIf="Returnitems=='Part'">
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Part</legend>
+                <div class="formData">
+                    <form [formGroup]="ReturnForm">
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="prtdate" for="prtdate" cssClass="required">Dispatch Date</label>
+                                    <input class="form-control" formControlName="prtdate" readonly />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="prttime" for="prttime" cssClass="required">Time</label>
+                                    <input type="time" class="form-control" path="prttime" formControlName="prttime" />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="prtpaidamount" for="prtpaidamount" cssClass="required">paid Amount</label>
+                                    <input OnlyNumber class="form-control" formControlName="prtpaidamount" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="prtdispatch" for="prtdispatch" cssClass="required">Mode of Dispatch</label>
+                                    <select class="form-control" path="prtdispatch" formControlName="prtdispatch">
+                                    <option value="" hidden> - Select Dispatch - </option>
+                                    <option value="null"> - Select Dispatch - </option>
+                                    <option>Courier</option>
+                                    <option>Own Vichle</option>
+                                    <option>Supplier Vichle</option>
+                                    <option>3rd Party Transport</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="prtvichleno" for="prtvichleno" cssClass="required">Vichle No</label>
+                                    <input class="form-control" formControlName="prtvichleno" />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="prtpersonname" for="prtpersonname" cssClass="required">Person Name</label>
+                                    <input class="form-control" formControlName="prtpersonname" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="prtmobilenumber" for="prtmobilenumber" cssClass="required">Mobile Number</label>
+                                    <input OnlyNumber class="form-control" formControlName="prtmobilenumber" />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="prtstatus" for="prtstatus" cssClass="required">Status</label>
+                                    <select class="form-control" path="prtstatus" formControlName="prtstatus">
+                                    <option value="" hidden> - Select Status - </option>
+                                    <option value="null"> - Select Status - </option>
+                                    <option>Partial Returned</option>
+                                    <option>Returned</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="prtreferenceid" for="prtreferenceid" cssClass="required">Reference id No</label>
+                                    <input class="form-control" formControlName="prtreferenceid" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="partnumber" for="partnumber" cssClass="required">Item code</label>
+                                    <input class="form-control" formControlName="partnumber" readonly/>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <div class="form-group">
+                                    <label path="prtrejectitems" for="prtrejectitems" cssClass="required">Reject Qty</label>
+                                    <input class="form-control" formControlName="prtrejectitems" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</app-add-popup>

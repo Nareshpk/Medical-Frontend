@@ -1,0 +1,29 @@
+.callout-base {
+    position: fixed; /* Sit on top of the page content */
+    z-index: 1052; /* Specify a stack order in case you're using a different order for other elements */
+    margin-top:55px;
+    margin-left: -250px;
+    left: 50%;
+    width: 500px;
+}
+
+.overlay {
+    position: relative; /* Sit on top of the page content */
+    display: block; /* Hidden by default */
+    width: 500px; /* Full width (cover the whole page) */
+    height: auto;
+    margin: 0 auto;
+    background-color: rgba(0,0,255,0.7); /* Black background with opacity */
+    /*cursor: pointer;  Add a pointer on hover */
+    margin-top: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+}
+
+.text{
+    position: relative;
+    font-size: 15px;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}

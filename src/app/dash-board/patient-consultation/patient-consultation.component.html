@@ -1,0 +1,223 @@
+<div style="margin-top: 20px;">
+  <form [formGroup]="patientdetailsForm" (ngSubmit)="onPatientdetails($event,patientdetailsForm)">
+    <h1>Op Patient Entery Details</h1>
+    <mat-divider></mat-divider>
+    <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
+      fxLayoutAlign="start stretch" fxLayoutGap="5px" style="margin-top: 20px;">
+
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for="">Patient Id
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+              <mat-select matNativeControl formControlName="pslno"  placeholder="Enter Patient Id" (selectionChange)="onChange($event.value)">
+                <mat-option *ngFor="let patient of patient001mb" [value]="patient.slNo" >
+                  {{patient.patientId}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for="">Patient Name
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+              <input formControlName="pname" matInput placeholder="Enter Patient Name" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for="">Age
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+              <input formControlName="age" matInput placeholder="Enter Age" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
+      fxLayoutAlign="start stretch" fxLayoutGap="5px">
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for=""> Sex
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+              <input formControlName="sex" matInput placeholder="Enter  Sex" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for="">Address
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+              <input formControlName="address" matInput placeholder="Enter Address" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for="">Phone
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+              <input formControlName="phone" matInput placeholder="Enter Phone" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
+      fxLayoutAlign="start stretch" fxLayoutGap="5px">
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for=""> Doctor Name
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+              <mat-select matNativeControl formControlName="dslno"  placeholder="Enter Doctor Name">
+                <mat-option *ngFor="let doctor of doctor001mb" [value]="doctor.slNo" >
+                  {{doctor.dFirstName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for="">
+            Diagnosis
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+              <mat-select matNativeControl formControlName="diagnosis"  placeholder="Enter Diagnosis">
+                <mat-option *ngFor="let diagnosiss of diagnosis001mb" [value]="diagnosiss.diagnosis" >
+                  {{diagnosiss.diagnosis}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for="">
+            Treatment
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+              <mat-select matNativeControl formControlName="treatment"  placeholder="Enter treatment" multiple>
+                <mat-option *ngFor="let treatments of treatment001mb" [value]="treatments.treatment" >
+                  {{treatments.treatment}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
+      fxLayoutAlign="start stretch" fxLayoutGap="5px">
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for=""> Doctor Fees
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+              <input formControlName="fees" matInput placeholder="Enter Doctor Fees" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for="">
+            Balance
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+              <input formControlName="balance" matInput placeholder="Enter Balance" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for="">
+            Fees Status
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+                <mat-select matNativeControl formControlName="fstatus" placeholder="Fees Status">
+                  <mat-option value="Paid">
+                    Paid
+                  </mat-option>
+                  <mat-option value="UnPaid">
+                    Un Paid
+                  </mat-option>
+                  <mat-option value="partial paid">
+                    partial paid
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
+      fxLayoutAlign="start stretch" fxLayoutGap="5px">
+      <div class="custom-form-group">
+        <label class="custom-label" for="">consultant Date
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" [style.width.px]=327>
+            <input matInput (dateChange)="resetAwardLevelOnDobChange()" [max]="todaysDate"
+              [matDatepicker]="date_of_birth" formControlName="cdate" placeholder="Select Date"
+              (click)="date_of_birth.open()" />
+            <mat-datepicker-toggle matSuffix [for]="date_of_birth"></mat-datepicker-toggle>
+            <mat-datepicker #date_of_birth></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="custom-form-group">
+        <label class="custom-label" for="">Remainder Date
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" [style.width.px]=327>
+            <input matInput (dateChange)="resetAwardLevelOnDobChange()"
+              [matDatepicker]="date_of_birthpickerFour" formControlName="rdate"
+              placeholder="Select Remainder Date" (click)="date_of_birthpickerFour.open()" />
+            <mat-datepicker-toggle matSuffix [for]="date_of_birthpickerFour"></mat-datepicker-toggle>
+            <mat-datepicker #date_of_birthpickerFour></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="save-cancel-btn" fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="end end">
+      <button mat-raised-button color="accent" type="click">Cancel</button>
+      <button mat-raised-button color="primary" type="submit">Save</button>
+    </div>
+  </form>
+</div>

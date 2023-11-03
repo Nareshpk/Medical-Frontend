@@ -1,0 +1,129 @@
+<div style="margin-top: 20px;">
+<form [formGroup]="registerForm" (ngSubmit)="onUserClick($event ,registerForm)">
+  <!-- <h1>Patient Details</h1>
+  <mat-divider></mat-divider> -->
+  <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
+    fxLayoutAlign="start stretch" fxLayoutGap="35px">
+
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for="">FirstName
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=400>
+            <input formControlName="firstname" matInput placeholder="Enter FirstName"/>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for="">LastName
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=400>
+            <input formControlName="lastname" matInput placeholder="Enter LastName" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
+    fxLayoutAlign="start stretch" fxLayoutGap="35px">
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for="">UserName
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=400>
+            <input formControlName="username" matInput placeholder="Enter UserName" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for="">Role Name
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=400>
+            <mat-select matNativeControl formControlName="roleid">
+              <mat-option *ngFor="let role of roles" [value]="role.id">
+                {{role.rolename}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
+    fxLayoutAlign="start stretch" fxLayoutGap="35px">
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for="">Unit
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=400>
+            <mat-select matNativeControl formControlName="unitslno" placeholder="Select Unit">
+              <mat-option *ngFor="let unitmaster of unitmasters" [value]="unitmaster.slNo">
+                {{unitmaster.unitName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for="">Department
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=400>
+            <mat-select matNativeControl formControlName="dpslno">
+              <mat-option *ngFor="let department of departments" [value]="department.departslNo">
+                {{department.departslNo2?.department}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
+    fxLayoutAlign="start stretch" fxLayoutGap="35px">
+
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for="">email
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=400>
+            <input formControlName="email" matInput placeholder="Enter Address" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for="">Password
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=400>
+            <input formControlName="password" matInput placeholder="Enter Address" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="save-cancel-btn" fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="end end">
+    <button mat-raised-button color="accent" type="click">Cancel</button>
+    <button mat-raised-button color="primary" type="submit">Save</button>
+  </div>
+</form>
+</div>

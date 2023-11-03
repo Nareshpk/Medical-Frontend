@@ -1,0 +1,48 @@
+<app-searched-popup
+    title="Search Menu"
+    acceptLabel="Search"
+    cancelLabel="Clear"
+    acceptIcon="fa fa-search"
+    [widthArg]="400"
+    [heightArg]="400"
+    (acceptClick)="SearchClick(SearchMenuValues,SearchMenuItems)"
+    (cancelClick)="onCancelClick()"
+> 
+    <ul class="nav nav-tabs">
+        <li>
+            <a data-target="#opt" data-toggle="tab"
+                ><span class="scheduler-border">Machine Search</span></a
+            >
+        </li>
+        <li>
+            <a data-target="#opt1" data-toggle="tab">
+                <span class="scheduler-border">Supplier Search</span></a
+            >
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade " id="opt">
+            <fieldset class="scheduler-border" >
+                <legend class="scheduler-border">Machine Search</legend>
+                <div class="row input_type">
+                    <label  class="content" required="true">Machine Code :</label>
+                    <a class="search_bar" ><input type="text"  placeholder="Search.."
+                        [(ngModel)]="SearchMenuValues"></a>
+                </div>
+               
+            </fieldset>	
+        </div>
+        <div class="tab-pane fade in" id="opt1">
+            <fieldset class="scheduler-border" >
+                <legend class="scheduler-border">Supplier Search</legend>
+                    <div class="row input_type">
+                        <label class="content" required="true">Supplier Code :</label>
+                        <a class="search_bar" ><input type="text"  placeholder="Search.."
+                            [(ngModel)]="SearchMenuItems"></a>
+                    </div>
+            </fieldset> 
+        </div>
+    </div>
+
+   
+</app-searched-popup>

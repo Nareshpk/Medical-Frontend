@@ -1,0 +1,34 @@
+<nandalala-popup [title]="title" [showAccept]="true" acceptLabel="OK" [showCancel]="false" [widthArg]="400" [heightArg]="400" (acceptClick)="onAcceptClick()">
+    <div class="row">
+        <div class="col-sm-6">
+            <label for="insertuser" class="content">Created User </label>
+        </div>
+        <div class=" col-sm-4" class="field">
+            <span class="colon"> &#58;</span> {{details.insertUser}}
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-sm-6 ">
+            <label for="insertdatetime " class="content">Created Datetime </label>
+        </div>
+        <div class=" col-sm-4 " class="field">
+            <span class="colon"> &#58;</span> {{details.insertDatetime | date:'MM/dd/yyyy HH:mm a' }}
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-sm-6 ">
+            <label for="updateuser " class="content">Update User</label>
+        </div>
+        <div class=" col-sm-4 " class="field">
+            <span class="colon"> &#58;</span> {{details.updatedUser}}
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-sm-6 ">
+            <label for="updatedatetime " class="content">Update Datetime</label>
+        </div>
+        <div class=" col-sm-4 " class="field">
+            <span class="colon"> &#58;</span> {{details.updatedDatetime | date:'MM/dd/yyyy HH:mm a'}}
+        </div>
+    </div>
+</nandalala-popup>

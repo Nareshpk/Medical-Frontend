@@ -1,0 +1,85 @@
+<fieldset class="scheduler-border" >
+    <legend class="scheduler-border">{{title}}</legend>
+    <div class="formData">
+        <form [formGroup]="purchasereqForm">
+            <div formArrayName="purchasereqFormArry"  *ngFor="let row of f?.purchasereqFormArry['controls']; let i = index">
+                <div [formGroupName]="i">
+                    <div class="row">
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="form-group">
+                                <label path="orderslno" for="orderslno" cssClass="required">item code</label>
+                                <select *ngIf="title=='Raw Material'" class="form-control" path="orderslno" formControlName="orderslno" (change)="onChange($event,i)">
+                                    <option value="null"> -Select item Code- </option>
+                                    <option *ngFor="let orderitem001mb of orderitem001mbs" [value]="orderitem001mb.slNo">
+                                    {{orderitem001mb.itemcode}} </option>
+                                </select>
+                                <select *ngIf="title=='Child Part'" class="form-control" path="orderslno" formControlName="orderslno" (change)="onChange($event,i)">
+                                    <option value="null"> -Select item Code- </option>
+                                    <option *ngFor="let childPart001mb of childPart001mbs" [value]="childPart001mb.slNo">
+                                    {{childPart001mb.cpartno}} </option>
+                                </select>
+                                <select *ngIf="title=='Part'" class="form-control" path="orderslno" formControlName="orderslno" (change)="onChange($event,i)">
+                                    <option value="null"> -Select item Code- </option>
+                                    <option *ngFor="let part001mb of part001mbs" [value]="part001mb.slNo">
+                                    {{part001mb.partno}} </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2">
+                            <div class="form-group">
+                                <label path="itemname" for="itemname" cssClass="required">item name</label>
+                                <input class="form-control" path="itemname" formControlName="itemname" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2">
+                            <div class="form-group">
+                                <label path="descrip" for="descrip" cssClass="required">Description</label>
+                                <input class="form-control" path="descrip" formControlName="descrip"  readonly/>
+                            </div>
+                        </div>
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="form-group">
+                                <label path="uom" for="series" cssClass="required" required="true">UOM</label>
+                                <input class="form-control" formControlName="uom" readonly/>
+                                
+                            </div>
+                        </div>
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="form-group">
+                                <label path="hsn" for="series" cssClass="required" required="true">HSN/SAC</label>
+                                <input class="form-control" formControlName="hsn" readonly>
+                            
+                            </div>
+                        </div>
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="form-group">
+                                <label path="unitrate" for="series" cssClass="required" required="true">UnitRate</label>
+                                <input class="form-control" formControlName="unitrate" readonly/>
+                                
+                            </div>
+                        </div>
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="form-group">
+                                <label path="qunty" for="series" cssClass="required" required="true">Quantity</label>
+                                <input class="form-control" formControlName="qunty" (change)="onChangeQty($event,i)"/>
+                                
+                            </div>
+                        </div>
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="form-group">
+                                <label path="totalamount" for="series" cssClass="required" required="true">TotalAmount</label>
+                                <input class="form-control" formControlName="totalamount" readonly/>
+                                
+                            </div>
+                        </div>
+                        <div class="col-xs-1 col-sm-1" style="left: 80px;top: 20px;">
+                            <button type="button" class="btn btn-primary submit" (click)="addItem()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                            <button type="button" class="btn btn-warning reset"   (click)="removeItem(i)" ><i class="fa fa-minus" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div> 
+</fieldset>
+

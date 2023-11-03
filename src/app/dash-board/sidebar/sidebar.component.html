@@ -1,0 +1,19 @@
+<mat-nav-list>
+  <div class="profile-card">
+      <div class="header">
+          <h6>{{user.username}}</h6>
+          <span>{{user.email}}</span>
+      </div>
+      <!-- <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Soufiane FADIL"> -->
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <h2 matSubheader>Pages</h2>
+
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/app-dash-board/app-home-consultation">Patient Entery</a>
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/app-dash-board/app-history">Patient History</a>
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/app-dash-board/app-clinic-expenses">Clinic Expenses</a>
+  <a mat-list-item routerLinkActive="list-item-active" routerLink="/articles">Account</a>
+
+</mat-nav-list>

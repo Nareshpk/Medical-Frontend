@@ -1,0 +1,75 @@
+<a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'Edit' ? true : false" href="javascript:void(0)"
+    (click)="onClick($event)">
+    <div class="iconalign" (click)="changeType(toggle)">
+        <span>
+            <i [ngClass]="toggle? 'fa fa-pencil-square' : 'fa fa-pencil-square-o'"></i>
+        </span>
+    </div>
+</a>
+<a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'Delete' ? true : false" href="javascript:void(0)"
+    (click)="onClick($event)">
+    <i class="fa fa-trash"></i>
+</a>
+<a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'Audit' ? true : false" href="javascript:void(0)"
+    (click)="onClick($event)">
+    <i class="fa fa-history"></i>
+</a>
+<a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'View' ? true : false" href="javascript:void(0)"
+    (click)="onClick($event)">
+    <i class="fa fa-eye" style="color:#3AB0FF"></i>
+</a>
+<a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'Pdf' ? true : false" href="javascript:void(0)"
+    (click)="onClick($event)">
+    <i class="fa fa-file-pdf-o" style="color:red"></i>
+</a>
+<a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'Excel' ? true : false" href="javascript:void(0)"
+    (click)="onClick($event)">
+    <i class="fa fa-file-excel-o" style="color: green;"></i>
+</a>
+
+<a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'Approval Status' ? true : false" href="javascript:void(0)"
+    (click)="onClick($event)" title="Approved">
+    <i class="fa fa-play" style="color: green;"></i>
+</a>
+
+ <a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'Status' ? true : false" href="javascript:void(0)"
+    (click)="onClick($event)" title="Status">
+    <i class="fa fa-play" style="color: orange;"></i>
+</a>
+
+<!-- <a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'Hold' ? true : false" href="javascript:void(0)"
+    (click)="onClick($event)" title="Hold">
+    <i class="fa fa-ban" style="color: blue;"></i>
+</a>
+
+<a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'Reject' ? true : false" href="javascript:void(0)"
+    (click)="onClick($event)" title="Reject">
+    <i class="fa fa-times" style="color: red;"></i>
+</a> -->
+
+
+
+
+<a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'File' ? true : false" href="{{downloadUrl}}"
+    target="_blank">
+    <i class="fa fa-download"></i>
+</a>
+
+
+<a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'File2' ? true : false" href="{{downloadUrl2}}"
+    target="_blank">
+    <i class="fa fa-download"></i>
+</a>
+
+<a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'File3' ? true : false" href="{{downloadUrl3}}"
+    target="_blank">
+    <i class="fa fa-download"></i>
+</a>
+
+<a [ngStyle]="{'color':colorthemes_1}" title="Start" *ngIf="this.label == 'Start' ? true : false" href="javascript:void(0)" (click)="onClick($event)">
+    <div class="iconalign" (click)="changeType(toggle)">
+        <span>
+            <i [ngClass]="toggle? 'fa fa-play' : 'fa fa-play'"></i>
+        </span>
+    </div>
+</a>

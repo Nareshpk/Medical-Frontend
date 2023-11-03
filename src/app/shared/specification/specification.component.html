@@ -1,0 +1,48 @@
+<app-add-popup title="Add" 
+acceptLabel="Ok" 
+cancelLabel="Cancel" 
+acceptIcon="fa fa-plus" 
+[widthArg]="400" 
+[heightArg]="400" 
+
+(acceptClick)="onOkClick($event, specificationForm)"
+(cancelClick)="onCancelClick()">
+
+<div class="formData">
+    <form [formGroup]="specificationForm">
+        <div formArrayName="specificationFormArray"  *ngFor="let row of f?.specificationFormArray['controls']; let i = index">
+            <div [formGroupName]="i">
+                <div class="row">
+                    <div class="col-xs-3 col-sm-3">
+                        <div class="form-group">
+                            <label path="parameter" for="parameter" cssClass="required">parameter</label>
+                            <input class="form-control" path="parameter" formControlName="parameter" />
+                            
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3">
+                        <div class="form-group">
+                            <label path="specification" for="specification" cssClass="required">Specification</label>
+                            <input class="form-control" path="specification" formControlName="specification" />
+                            
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3">
+                        <div class="form-group">
+                            <label path="inspecmethod" for="inspecmethod" cssClass="required">Inspection Method</label>
+                            <input class="form-control" path="inspecmethod" formControlName="inspecmethod" />
+                            
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1" style="left: 80px;top: 20px;">
+                        <button type="button" class="btn btn-primary submit" (click)="addItem()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-warning reset"   (click)="removeItem(i)" ><i class="fa fa-minus" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+  
+</app-add-popup>

@@ -1,0 +1,348 @@
+<app-add-popup title="incoming Inspection" 
+acceptLabel="Ok" 
+cancelLabel="Cancel" 
+acceptIcon="fa fa-plus" 
+[widthArg]="400" 
+[heightArg]="400" 
+
+(acceptClick)="onOkClick($event, rawMaterialForm)"
+(cancelClick)="onCancelClick()">
+
+<!-- <ul class="nav nav-tabs">
+    <li *ngIf="suplier=='Raw Material'">
+        <a data-target="#opt" data-toggle="tab"
+            ><span class="scheduler-border">Raw Metrieal</span></a
+        >
+    </li>
+    <li *ngIf="suplier=='Consumable Item'">
+        <a data-target="#opt1" data-toggle="tab">
+            <span class="scheduler-border">Consumables Item</span></a
+        >
+    </li>
+    <li *ngIf="suplier=='Child Part'">
+      <a data-target="#opt2" data-toggle="tab">
+          <span class="scheduler-border">Child Part</span></a
+      >
+  </li>
+  <li *ngIf="suplier=='Part'">
+    <a data-target="#opt3" data-toggle="tab">
+        <span class="scheduler-border">Part</span></a
+    >
+  </li>
+  </ul> -->
+
+<div class="tab-content">
+    <div *ngIf="suplier=='Raw Material'">
+        <fieldset class="scheduler-border" >
+            <legend class="scheduler-border">Raw Material</legend>
+            <div class="formData">
+                <form [formGroup]="rawMaterialForm">
+                    <div formArrayName="rawMaterialFormArray"  *ngFor="let row of f?.rawMaterialFormArray['controls']; let i = index">
+                        <div [formGroupName]="i">
+                            <div class="row">
+                                <div class="col-xs-2 col-sm-2">
+                                    <div class="form-group">
+                                        <label path="itemcode" for="itemcode" cssClass="required">Item Code</label>
+                                        <input class="form-control" path="itemcode" formControlName="itemcode" readonly/>
+                                        <!-- <select class="form-control" path="itemcode" formControlName="itemcode" (change)="onChange($event,i)">
+                                                
+                                            <option value="null"> -Select item Code- </option>
+                                            <option *ngFor="let orderitem001mb of orderitem001mbs" [value]="orderitem001mb.slNo">
+                                                {{orderitem001mb.itemcode}} </option>
+                                        </select> -->
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2">
+                                    <div class="form-group">
+                                        <label path="itemname" for="itemname" cssClass="required">Item Name</label>
+                                        <input class="form-control" path="itemname" formControlName="itemname" readonly/>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="descrip" for="descrip" cssClass="required" >Descripstion</label>
+                                        <input class="form-control" path="descrip" formControlName="descrip" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="qunty" for="qunty" cssClass="required">Quantity</label>
+                                        <input class="form-control" path="qunty" formControlName="qunty" readonly/>
+                                        
+                                    </div>
+                                </div> 
+                                <div class="col-xs-1 col-sm-1"  style="left: 10px;">
+                                    <div class="form-group">
+                                        <label path="receivedQty" for="receivedQty" cssClass="required">Rec-Qty</label>
+                                        <input class="form-control" path="receivedQty" formControlName="receivedQty" readonly/>
+                                        
+                                    </div>
+                                </div> 
+                                <div class="col-xs-1 col-sm-1"style="left: 40px;">
+                                    <div class="form-group">
+                                        <label path="receivedQty" for="receivedQty" cssClass="required">Acc-Qty</label>
+                                        <input class="form-control" path="receivedQty" formControlName="acceptedQty" readonly/>
+                                        
+                                    </div>
+                                </div> 
+                                <div class="col-xs-1 col-sm-1" style="left: 70px;">
+                                    <div class="form-group">
+                                        <label path="rejectedQty" for="rejectedQty" cssClass="required">Rej-Qty</label>
+                                        <input class="form-control" path="rejectedQty" formControlName="rejectedQty" readonly />
+                                        
+                                    </div>
+                                </div> 
+                                <div class="col-xs-1 col-sm-1" style="left: 100px;">
+                                    <div class="form-group">
+                                        <label path="outstanding" for="outstanding" cssClass="required">Out-Qty</label>
+                                        <input class="form-control" path="outstanding" formControlName="outstanding" readonly/>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1" style="left: 80px;top: 20px;">
+                                    <button type="button" class="btn btn-primary" style="left: 10%;" (click)="onAddbuttonClick1($event ,i)">Observation</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <div *ngIf="suplier=='Consumable Item'">
+        <fieldset class="scheduler-border" >
+            <legend class="scheduler-border">Consumable Items</legend>
+            <div class="formData">
+                <form [formGroup]="rawMaterialForm">
+                    <div formArrayName="rawMaterialFormArray"  *ngFor="let row of f?.rawMaterialFormArray['controls']; let i = index">
+                        <div [formGroupName]="i">
+                            <div class="row">
+                                <div class="col-xs-2 col-sm-2">
+                                    <div class="form-group">
+                                        <label path="cucode" for="cucode" cssClass="required">Consumable Code</label>
+                                        <input class="form-control" path="cucode" formControlName="cucode" readonly/>
+                                        <!-- <select class="form-control" path="cucode" formControlName="cucode" (change)="onChange($event,i)">
+                                                
+                                            <option value="null"> -Select item Code- </option>
+                                            <option *ngFor="let consumble001mb of consumble001mbs" [value]="consumble001mb.slNo">
+                                                {{consumble001mb.consmno}} </option>
+                                        </select> -->
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2">
+                                    <div class="form-group">
+                                        <label path="cuname" for="cuname" cssClass="required">Consumable Name</label>
+                                        <input class="form-control" path="cuname" formControlName="cuname" readonly/>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="cudescrip" for="cudescrip" cssClass="required" >Descripstion</label>
+                                        <input class="form-control" path="cudescrip" formControlName="cudescrip" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="cuqunty" for="series" cssClass="required" required="true">Quantity</label>
+                                        <input class="form-control" formControlName="cuqunty" readonly/>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1"  style="left: 10px;">
+                                    <div class="form-group">
+                                        <label path="cureceivedQty" for="cureceivedQty" cssClass="required">Rec-Qty</label>
+                                        <input class="form-control" path="cureceivedQty" formControlName="cureceivedQty"readonly/>
+                                        
+                                    </div>
+                                </div> 
+                                <div class="col-xs-1 col-sm-1"style="left: 40px;">
+                                    <div class="form-group">
+                                        <label path="cuacceptedQty" for="cuacceptedQty" cssClass="required">Acc-Qty</label>
+                                        <input class="form-control" path="cuacceptedQty" formControlName="cuacceptedQty" readonly/>
+                                        
+                                    </div>
+                                </div> 
+                                <div class="col-xs-1 col-sm-1" style="left: 70px;">
+                                    <div class="form-group">
+                                        <label path="curejectedQty" for="curejectedQty" cssClass="required">Rej-Qty</label>
+                                        <input class="form-control" path="curejectedQty" formControlName="curejectedQty" readonly />
+                                        
+                                    </div>
+                                </div> 
+                                <div class="col-xs-1 col-sm-1" style="left: 100px;">
+                                    <div class="form-group">
+                                        <label path="cuoutstanding" for="cuoutstanding" cssClass="required">Out-Qty</label>
+                                        <input class="form-control" path="cuoutstanding" formControlName="cuoutstanding" readonly/>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1" style="left: 80px;top: 20px;">
+                                    <button type="button" class="btn btn-primary" style="left: 10%;" (click)="onAddbuttonClick2($event ,i)">Observation</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <div *ngIf="suplier=='Child Part'">
+        <fieldset class="scheduler-border" >
+            <legend class="scheduler-border">Child Part</legend>
+            <div class="formData">
+                <form [formGroup]="rawMaterialForm">
+                    <div formArrayName="rawMaterialFormArray"  *ngFor="let row of f?.rawMaterialFormArray['controls']; let i = index">
+                        <div [formGroupName]="i">
+                            <div class="row">
+                                <div class="col-xs-2 col-sm-2">
+                                    <div class="form-group">
+                                        <label path="cptcode" for="cptcode" cssClass="required">ChildPar Code</label>
+                                        <input class="form-control" path="cptcode" formControlName="cptcode" readonly/>
+                                        <!-- <select class="form-control" path="cptcode" formControlName="cptcode" (change)="onChange($event,i)">
+                                                
+                                            <option value="null"> -Select item Code- </option>
+                                            <option *ngFor="let childPart001mb of childPart001mbs" [value]="childPart001mb.slNo">
+                                                {{childPart001mb.cpartno}} </option>
+                                        </select> -->
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2">
+                                    <div class="form-group">
+                                        <label path="cptname" for="cptname" cssClass="required">ChildPart Name</label>
+                                        <input class="form-control" path="cptname" formControlName="cptname" readonly/>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="cptdescrip" for="cptdescrip" cssClass="required" >Descripstion</label>
+                                        <input class="form-control" path="cptdescrip" formControlName="cptdescrip" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="cptqunty" for="series" cssClass="required" required="true">Quantity</label>
+                                        <input class="form-control" formControlName="cptqunty" readonly/>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1"  style="left: 10px;">
+                                    <div class="form-group">
+                                        <label path="cptreceivedQty" for="cptreceivedQty" cssClass="required">Rec-Qty</label>
+                                        <input class="form-control" path="cptreceivedQty" formControlName="cptreceivedQty" readonly/>
+                                        
+                                    </div>
+                                </div> 
+                                <div class="col-xs-1 col-sm-1"style="left: 40px;">
+                                    <div class="form-group">
+                                        <label path="cptacceptedQty" for="cptacceptedQty" cssClass="required">Acc-Qty</label>
+                                        <input class="form-control" path="cptacceptedQty" formControlName="cptacceptedQty"readonly/>
+                                        
+                                    </div>
+                                </div> 
+                                <div class="col-xs-1 col-sm-1" style="left: 70px;">
+                                    <div class="form-group">
+                                        <label path="cptrejectedQty" for="cptrejectedQty" cssClass="required">Rej-Qty</label>
+                                        <input class="form-control" path="cptrejectedQty" formControlName="cptrejectedQty" readonly />
+                                        
+                                    </div>
+                                </div> 
+                                <div class="col-xs-1 col-sm-1" style="left: 100px;">
+                                    <div class="form-group">
+                                        <label path="cptoutstanding" for="cptoutstanding" cssClass="required">Out-Qty</label>
+                                        <input class="form-control" path="cptoutstanding" formControlName="cptoutstanding" readonly/>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1" style="left: 80px;top: 20px;">
+                                    <button type="button" class="btn btn-primary" style="left: 10%;" (click)="onAddbuttonClick3($event ,i)">Observation</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <div *ngIf="suplier=='Part'">
+        <fieldset class="scheduler-border" >
+            <legend class="scheduler-border">Part</legend>
+            <div class="formData">
+                <form [formGroup]="rawMaterialForm">
+                    <div formArrayName="rawMaterialFormArray"  *ngFor="let row of f?.rawMaterialFormArray['controls']; let i = index">
+                        <div [formGroupName]="i">
+                            <div class="row">
+                                <div class="col-xs-2 col-sm-2">
+                                    <div class="form-group">
+                                        <label path="prtcode" for="prtcode" cssClass="required">Part Code</label>
+                                        <input class="form-control" path="prtcode" formControlName="prtcode" readonly/>
+                                        <!-- <select class="form-control" path="prtcode" formControlName="prtcode" (change)="onChange($event,i)">
+                                                
+                                            <option value="null"> -Select item Code- </option>
+                                            <option *ngFor="let part001mb of part001mbs" [value]="part001mb.slNo">
+                                                {{part001mb.partno}} </option>
+                                        </select> -->
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2">
+                                    <div class="form-group">
+                                        <label path="prtname" for="prtname" cssClass="required">Part Name</label>
+                                        <input class="form-control" path="prtname" formControlName="prtname" readonly/>
+                                        
+                                    </div>
+                                </div> 
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="prtdescrip" for="prtdescrip" cssClass="required" >Descripstion</label>
+                                        <input class="form-control" path="prtdescrip" formControlName="prtdescrip" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="prtqunty" for="series" cssClass="required" required="true">Quantity</label>
+                                        <input class="form-control" formControlName="prtqunty" readonly/>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1"  style="left: 10px;">
+                                    <div class="form-group">
+                                        <label path="prtreceivedQty" for="prtreceivedQty" cssClass="required">Rec-Qty</label>
+                                        <input class="form-control" path="prtreceivedQty" formControlName="prtreceivedQty"readonly/>
+                                        
+                                    </div>
+                                </div> 
+                                <div class="col-xs-1 col-sm-1"style="left: 40px;">
+                                    <div class="form-group">
+                                        <label path="prtacceptedQty" for="prtacceptedQty" cssClass="required">Acc-Qty</label>
+                                        <input class="form-control" path="prtacceptedQty" formControlName="prtacceptedQty" readonly/>
+                                        
+                                    </div>
+                                </div> 
+                                <div class="col-xs-1 col-sm-1" style="left: 70px;">
+                                    <div class="form-group">
+                                        <label path="prtrejectedQty" for="prtrejectedQty" cssClass="required">Rej-Qty</label>
+                                        <input class="form-control" path="prtrejectedQty" formControlName="prtrejectedQty" readonly />
+                                        
+                                    </div>
+                                </div> 
+                                <div class="col-xs-1 col-sm-1" style="left: 100px;">
+                                    <div class="form-group">
+                                        <label path="prtoutstanding" for="prtoutstanding" cssClass="required">Out-Qty</label>
+                                        <input class="form-control" path="prtoutstanding" formControlName="prtoutstanding" readonly/>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1" style="left: 80px;top: 20px;">
+                                    <button type="button" class="btn btn-primary" style="left: 10%;" (click)="onAddbuttonClick4($event ,i)">Observation</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+</div>
+</app-add-popup>

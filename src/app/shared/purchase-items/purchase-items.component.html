@@ -1,0 +1,25 @@
+<app-add-popup title="Add Items" 
+acceptLabel="Ok" 
+cancelLabel="Cancel" 
+acceptIcon="fa fa-plus" 
+[widthArg]="400" 
+[heightArg]="400" 
+
+(acceptClick)="onOkClick($event, purchasereqForm)"
+(cancelClick)="onCancelClick()">
+
+  <ul class="nav nav-tabs" *ngIf="suppliertype001mbs">
+    <li *ngFor="let suppliertype001mb of suppliertype001mbs">
+        <a [attr.data-target]="'#'+suppliertype001mb.slNo"  data-toggle="tab">
+          <span class="scheduler-border">{{suppliertype001mb.name}}</span>
+        </a>
+    </li>
+  </ul>
+  
+    <div class="tab-content" >
+      <div class="tab-pane fade" *ngFor="let suppliertype001mb of suppliertype001mbs" [attr.id]="suppliertype001mb.slNo" >
+        <app-items [title]="suppliertype001mb.name" ></app-items>
+      </div>
+    </div>  
+  
+</app-add-popup>

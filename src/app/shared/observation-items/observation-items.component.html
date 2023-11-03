@@ -1,0 +1,454 @@
+<app-add-popup title="Observation Items" 
+acceptLabel="Ok" 
+cancelLabel="Cancel" 
+acceptIcon="fa fa-plus" 
+[widthArg]="400" 
+[heightArg]="400" 
+
+(acceptClick)="onOkClick($event, observationForm)"
+(cancelClick)="onCancelClick()">
+
+
+<!-- <ul class="nav nav-tabs">
+    <li *ngIf="incoming=='Raw'">
+        <a data-target="#optRaw" data-toggle="tab"
+            ><span class="scheduler-border">Raw Metrieal</span></a
+        >
+    </li>
+    <li *ngIf="incoming=='Consumable Item'">
+        <a data-target="#optRaw1" data-toggle="tab">
+            <span class="scheduler-border">Consumables Item</span></a
+        >
+    </li>
+    <li *ngIf="incoming=='Child Part'">
+      <a data-target="#optRaw2" data-toggle="tab">
+          <span class="scheduler-border">Child Part</span></a
+      >
+  </li>
+  <li *ngIf="incoming=='Part'">
+    <a data-target="#optRaw3" data-toggle="tab">
+        <span class="scheduler-border">Part</span></a
+    >
+  </li>
+  </ul> -->
+
+  <div class="tab-content">
+    <div *ngIf="incoming=='Raw'">
+        <fieldset class="scheduler-border" >
+            <legend class="scheduler-border">Raw Matrieal</legend>
+            <div class="formData">
+                <form [formGroup]="observationForm">
+                    <div formArrayName="observationFormArray"  *ngFor="let row of f?.observationFormArray['controls']; let i = index">
+                        <div [formGroupName]="i">
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label path="ordernumber" for="ordernumber" cssClass="required">Item Code</label>
+                                        <input class="form-control" path="ordernumber" formControlName="ordernumber" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label path="orderparameter" for="orderparameter" cssClass="required">Parameter</label>
+                                        <input class="form-control" path="orderparameter" formControlName="orderparameter" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label path="orderspecification" for="orderspecification" cssClass="required">Specification</label>
+                                        <input class="form-control" path="orderspecification" formControlName="orderspecification" readonly/>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label path="orderinspection" for="orderinspection" cssClass="required" >Inspection</label>
+                                        <input class="form-control" path="orderinspection" formControlName="orderinspection" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="orderobservartion" for="orderobservartion" cssClass="required" >Observation</label>
+                                        <input class="form-control" path="orderobservartion" formControlName="orderobservartion" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="orderobservartion1" for="orderobservartion1" cssClass="required" ></label>
+                                        <input class="form-control" path="orderobservartion1" formControlName="orderobservartion1" [ngClass]="{'is-invalid': submitted && row['controls'].orderobservartion1.errors}" />
+                                        <!-- <div *ngIf="submitted && row['controls'].orderobservartion1.errors" class="invalid-feedback">
+                                            <div *ngIf="row['controls'].orderobservartion1.errors.required">
+                                                Req
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="orderorderobservartion2" for="orderobservartion2" cssClass="required" ></label>
+                                        <input class="form-control" path="orderobservartion2" formControlName="orderobservartion2" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="orderobservartion3" for="orderobservartion3" cssClass="required" ></label>
+                                        <input class="form-control" path="orderobservartion3" formControlName="orderobservartion3" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="orderobservartion4" for="orderobservartion4" cssClass="required" ></label>
+                                        <input class="form-control" path="orderobservartion4" formControlName="orderobservartion4" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="orderobservartion5" for="orderobservartion5" cssClass="required" ></label>
+                                        <input class="form-control" path="orderobservartion5" formControlName="orderobservartion5" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="orderobservartion6" for="orderobservartion6" cssClass="required" ></label>
+                                        <input class="form-control" path="orderobservartion6" formControlName="orderobservartion6" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="orderobservartion7" for="orderobservartion7" cssClass="required" ></label>
+                                        <input class="form-control" path="orderobservartion7" formControlName="orderobservartion7" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="orderobservartion8" for="orderobservartion8" cssClass="required" ></label>
+                                        <input class="form-control" path="orderobservartion8" formControlName="orderobservartion8" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="orderobservartion9" for="orderobservartion9" cssClass="required" ></label>
+                                        <input class="form-control" path="orderobservartion9" formControlName="orderobservartion9" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <div *ngIf="incoming=='Consumable Item'">
+        <fieldset class="scheduler-border" >
+            <legend class="scheduler-border">Consumable Items</legend>
+            <div class="formData">
+                <form [formGroup]="observationForm">
+                    <div formArrayName="observationFormArray"  *ngFor="let row of f?.observationFormArray['controls']; let i = index">
+                        <div [formGroupName]="i">
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label path="consumnumber" for="consumnumber" cssClass="required">CIC Code</label>
+                                        <input class="form-control" path="consumnumber" formControlName="consumnumber" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label path="consumparameter" for="consumparameter" cssClass="required">Parameter</label>
+                                        <input class="form-control" path="consumparameter" formControlName="consumparameter" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label path="consumspecification" for="consumspecification" cssClass="required">Specification</label>
+                                        <input class="form-control" path="consumspecification" formControlName="consumspecification" readonly/>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label path="consuminspection" for="consuminspection" cssClass="required" >Inspection</label>
+                                        <input class="form-control" path="consuminspection" formControlName="consuminspection" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2 col-sm-2">
+                                    <div class="form-group">
+                                        <label path="consumobservartion" for="consumobservartion" cssClass="required" >Observation</label>
+                                        <input class="form-control" path="consumobservartion" formControlName="consumobservartion" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="consumobservartion1" for="consumobservartion1" cssClass="required" ></label>
+                                        <input class="form-control" path="consumobservartion1" formControlName="consumobservartion1" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="consumobservartion2" for="consumobservartion2" cssClass="required" ></label>
+                                        <input class="form-control" path="consumobservartion2" formControlName="consumobservartion2" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="consumobservartion3" for="consumobservartion3" cssClass="required" ></label>
+                                        <input class="form-control" path="consumobservartion3" formControlName="consumobservartion3" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="consumobservartion4" for="consumobservartion4" cssClass="required" ></label>
+                                        <input class="form-control" path="consumobservartion4" formControlName="consumobservartion4" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="consumobservartion5" for="consumobservartion5" cssClass="required" ></label>
+                                        <input class="form-control" path="consumobservartion5" formControlName="consumobservartion5" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="consumobservartion6" for="consumobservartion6" cssClass="required" ></label>
+                                        <input class="form-control" path="consumobservartion6" formControlName="consumobservartion6" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="consumobservartion7" for="consumobservartion7" cssClass="required" ></label>
+                                        <input class="form-control" path="consumobservartion7" formControlName="consumobservartion7" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="consumobservartion8" for="consumobservartion8" cssClass="required" ></label>
+                                        <input class="form-control" path="consumobservartion8" formControlName="consumobservartion8" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="consumobservartion9" for="consumobservartion9" cssClass="required" ></label>
+                                        <input class="form-control" path="consumobservartion9" formControlName="consumobservartion9" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div> 
+    <div *ngIf="incoming=='Child Part'">
+        <fieldset class="scheduler-border" >
+            <legend class="scheduler-border">Child Part</legend>
+            <div class="formData">
+                <form [formGroup]="observationForm">
+                    <div formArrayName="observationFormArray"  *ngFor="let row of f?.observationFormArray['controls']; let i = index">
+                        <div [formGroupName]="i">
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label path="childnumber" for="childnumber" cssClass="required">Child-Part Code</label>
+                                        <input class="form-control" path="childnumber" formControlName="childnumber" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label path="childparameter" for="childparameter" cssClass="required">Parameter</label>
+                                        <input class="form-control" path="childparameter" formControlName="childparameter" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label path="childspecification" for="childspecification" cssClass="required">Specification</label>
+                                        <input class="form-control" path="childspecification" formControlName="childspecification" readonly/>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label path="childinspection" for="childinspection" cssClass="required" >Inspection</label>
+                                        <input class="form-control" path="childinspection" formControlName="childinspection" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="childobservartion" for="childobservartion" cssClass="required" >Observation</label>
+                                        <input class="form-control" path="childobservartion" formControlName="childobservartion" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="childobservartion1" for="childobservartion1" cssClass="required" ></label>
+                                        <input class="form-control" path="childobservartion1" formControlName="childobservartion1" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="childobservartion2" for="childobservartion2" cssClass="required" ></label>
+                                        <input class="form-control" path="childobservartion2" formControlName="childobservartion2" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="childobservartion3" for="childobservartion3" cssClass="required" ></label>
+                                        <input class="form-control" path="childobservartion3" formControlName="childobservartion3" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="childobservartion4" for="childobservartion4" cssClass="required" ></label>
+                                        <input class="form-control" path="childobservartion4" formControlName="childobservartion4" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="childobservartion5" for="childobservartion5" cssClass="required" ></label>
+                                        <input class="form-control" path="childobservartion5" formControlName="childobservartion5" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="childobservartion6" for="childobservartion6" cssClass="required" ></label>
+                                        <input class="form-control" path="childobservartion6" formControlName="childobservartion6" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="childobservartion7" for="childobservartion7" cssClass="required" ></label>
+                                        <input class="form-control" path="childobservartion7" formControlName="childobservartion7" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="childobservartion8" for="childobservartion8" cssClass="required" ></label>
+                                        <input class="form-control" path="childobservartion8" formControlName="childobservartion8" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="childobservartion9" for="childobservartion9" cssClass="required" ></label>
+                                        <input class="form-control" path="childobservartion9" formControlName="childobservartion9" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <div *ngIf="incoming=='Part'">
+        <fieldset class="scheduler-border" >
+            <legend class="scheduler-border">Part</legend>
+            <div class="formData">
+                <form [formGroup]="observationForm">
+                    <div formArrayName="observationFormArray"  *ngFor="let row of f?.observationFormArray['controls']; let i = index">
+                        <div [formGroupName]="i">
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label path="partnumber" for="partnumber" cssClass="required">Part-Code</label>
+                                        <input class="form-control" path="partnumber" formControlName="partnumber" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label path="partparameter" for="partparameter" cssClass="required">Parameter</label>
+                                        <input class="form-control" path="partparameter" formControlName="partparameter" readonly/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label path="partspecification" for="partspecification" cssClass="required">Specification</label>
+                                        <input class="form-control" path="partspecification" formControlName="partspecification" readonly/>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3">
+                                    <div class="form-group">
+                                        <label path="partinspection" for="partinspection" cssClass="required" >Inspection</label>
+                                        <input class="form-control" path="partinspection" formControlName="partinspection" readonly/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="partobservartion" for="partobservartion" cssClass="required" >Observation</label>
+                                        <input class="form-control" path="partobservartion" formControlName="partobservartion" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="partobservartion1" for="partobservartion1" cssClass="required" ></label>
+                                        <input class="form-control" path="partobservartion1" formControlName="partobservartion1" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="partobservartion2" for="partobservartion2" cssClass="required" ></label>
+                                        <input class="form-control" path="partobservartion2" formControlName="partobservartion2" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="partobservartion3" for="partobservartion3" cssClass="required" ></label>
+                                        <input class="form-control" path="partobservartion3" formControlName="partobservartion3" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="partobservartion4" for="partobservartion4" cssClass="required" ></label>
+                                        <input class="form-control" path="partobservartion4" formControlName="partobservartion4" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="partobservartion5" for="partobservartion5" cssClass="required" ></label>
+                                        <input class="form-control" path="partobservartion5" formControlName="partobservartion5" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="partobservartion6" for="partobservartion6" cssClass="required" ></label>
+                                        <input class="form-control" path="partobservartion6" formControlName="partobservartion6" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="partobservartion7" for="partobservartion7" cssClass="required" ></label>
+                                        <input class="form-control" path="partobservartion7" formControlName="partobservartion7" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="partobservartion8" for="partobservartion8" cssClass="required" ></label>
+                                        <input class="form-control" path="partobservartion8" formControlName="partobservartion8" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-1 col-sm-1">
+                                    <div class="form-group">
+                                        <label path="partobservartion9" for="partobservartion9" cssClass="required" ></label>
+                                        <input class="form-control" path="partobservartion9" formControlName="partobservartion9" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+
+
+  
+</app-add-popup>

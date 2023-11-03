@@ -1,0 +1,149 @@
+<form [formGroup]="doctorForm" (ngSubmit)="onUserPostMethod($event,doctorForm)">
+  <h1>Doctor Details</h1>
+  <mat-divider></mat-divider>
+  <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
+    fxLayoutAlign="start stretch" fxLayoutGap="5px">
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for="">First Name
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+            <input formControlName="dfname" matInput placeholder="Enter First Name" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for=""> Last Name
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+            <input formControlName="dlname" matInput placeholder="Enter Last Name" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for=""> Date Of Birth
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" [style.width.px]=327>
+            <input matInput [matDatepicker]="date_of_birthpickerFour" formControlName="date_of_birth"
+              placeholder="Select Remainder Date" (click)="date_of_birthpickerFour.open()" />
+            <mat-datepicker-toggle matSuffix [for]="date_of_birthpickerFour"></mat-datepicker-toggle>
+            <mat-datepicker #date_of_birthpickerFour></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
+    fxLayoutAlign="start stretch" fxLayoutGap="5px">
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for="">Doctor specialist
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+            <input formControlName="specialist" matInput placeholder="Enter Doctor specialist" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for=""> E-mail
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+            <input formControlName="email" matInput placeholder="Enter E-mail" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for=""> Contact
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+            <input formControlName="contact" matInput placeholder="Enter Contoct" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="save-cancel-btn" fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="end end">
+    <button mat-raised-button color="accent" (click)="onCansel()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit">Save</button>
+  </div>
+</form>
+
+<div style="margin-top: 20px;">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="dFirstName">
+      <th mat-header-cell *matHeaderCellDef> First Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.dFirstName}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="dLastName">
+      <th mat-header-cell *matHeaderCellDef>Last Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.dLastName}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="specialist">
+      <th mat-header-cell *matHeaderCellDef> Specialist </th>
+      <td mat-cell *matCellDef="let element"> {{element.specialist}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="dateOfBirth">
+      <th mat-header-cell *matHeaderCellDef> Date Of Birth </th>
+      <td mat-cell *matCellDef="let element"> {{element.dateOfBirth | date: "dd-MM-yyyy" }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> E-mail </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="contact">
+      <th mat-header-cell *matHeaderCellDef> Contact </th>
+      <td mat-cell *matCellDef="let element"> {{element.contact}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef> <span class="tab_head"> Action </span>
+      </th>
+      <td mat-cell *matCellDef="let element" data-label="action" (click)="$event.stopPropagation()"
+        (click)="$event.stopPropagation()" style="pointer-events:all;">
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="editable(element)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="onDeleteButtonClick(element)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

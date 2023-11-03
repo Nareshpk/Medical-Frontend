@@ -1,0 +1,7 @@
+<div class="callout-base" (mouseover)="onOver()" (mouseout)="onOut()">
+    <div *ngFor="let message of messages" [@movePanel]='state'>
+        <div class="overlay" [ngStyle]="{'background-color': message.color}">
+            <div class="text"(click)="doAnimate()" [innerHTML]="message.text"></div>
+        </div>
+    </div>
+</div>

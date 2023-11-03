@@ -1,0 +1,128 @@
+<app-add-popup title="Payment Process"  
+[widthArg]="400" 
+[heightArg]="400" 
+(acceptClick)="onpaymentClick($event, paymentForm)" (cancelClick)="onCancelClick()"
+ >
+<fieldset class="scheduler-border">
+    <legend class="scheduler-border">Payment</legend>
+    <div class="formData">
+        <form [formGroup]="paymentForm">
+            <div class="row">
+                <div class="col-xs-9 col-sm-8">
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4">
+                            <div class="form-group">
+                                <label path="date" for="date" cssClass="required">Payment Date</label>
+                                <input class="form-control" formControlName="date" readonly />
+        
+                            </div>
+                        </div>
+        
+                        <div class="col-xs-4 col-sm-4">
+                            <div class="form-group">
+                                <label path="tAmount" for="tAmount" cssClass="required">Total Amount</label>
+                                <input class="form-control" formControlName="tAmount" />
+        
+                            </div>
+                        </div>
+        
+                        <div class="col-xs-4 col-sm-4">
+                            <div class="form-group">
+                                <label path="paidAmount" for="paidAmount" cssClass="required">Paid Amount</label>
+                                <input class="form-control" (change)="onPaidAmountChange($event)" formControlName="paidAmount"  />
+                                <div *ngIf="submitted && f.paidAmount.errors" class="invalid-feedback">
+                                    <div *ngIf="f.paidAmount.errors.required">Please Enter the Paid Amount</div>
+                                </div>
+                            </div>
+                        </div>
+        
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4">
+                            <div class="form-group">
+                                <label path="outAmount" for="outAmount" cssClass="required">Outstanding Amount</label>
+                                <input class="form-control" formControlName="outAmount"  readonly/>
+        
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 col-sm-4">
+                            <div class="form-group">
+                                <label path="status" for="status" cssClass="required">Status</label>
+                                <input class="form-control" formControlName="status"  readonly/>
+        
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 col-sm-4">
+                            <div class="p-fluid p-grid p-formgrid">
+                                <div class="p-field p-col-12 p-md-5">
+                                    <label path="dueDate" for="dueDate" cssClass="required">Next Due Date</label>
+                                    <p-calendar [monthNavigator]="true"  [minDate]="minDate" [maxDate]="maxDate" [yearNavigator]="true" formControlName="dueDate"  yearRange="2000:2030" inputId="navigators" [showIcon]="true" inputId="icon">
+                                    </p-calendar>
+                                    <div *ngIf="submitted && f.dueDate.errors" class="invalid-feedback">
+                                        <div *ngIf="f.dueDate.errors.required">Please Select the Date</div>
+                                    </div>
+                                </div>
+                            </div>
+                       </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-xs-4 col-sm-4">
+                            <div class="form-group">
+                                <label path="modeofPay" for="series" cssClass="required" required="true">Mode of Pay</label>
+                                <select class="form-control" path="modeofPay" (change)="onmodeofPayChange($event)" formControlName="modeofPay">
+                                    <option value="" hidden> - Select Mode - </option>
+                                    <option value="null"> - Select Mode - </option>
+                                    <option>NEFT</option>
+                                    <option>RTGS</option>
+                                    <option>UPI</option>
+                                    <option>Cheque</option>
+                                </select>
+                                <div *ngIf="submitted && f.modeofPay.errors" class="invalid-feedback">
+                                    <div *ngIf="f.modeofPay.errors.required">Please Select the Mode of Pay</div>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="col-xs-4 col-sm-4">
+                            <div class="form-group">
+                                <label path="chequeNo" for="chequeNo" cssClass="required">Cheque No</label>
+                                <input class="form-control" formControlName="chequeNo"  />
+        
+                            </div>
+                        </div>
+        
+                        <div class="col-xs-4 col-sm-4">
+                            <div class="form-group">
+                                <label path="payIdno" for="payIdno" cssClass="required">Payment Reference ID No</label>
+                                <input class="form-control" formControlName="payIdno"  />
+        
+                            </div>
+                        </div>
+                    </div>
+
+                    
+        
+                </div>
+                <div class="col-xs-4 col-sm-4">
+                    <div class="col-xs-1 col-sm-1"></div>
+                    <img src={{qrimage}} style="height:200px;width:200px">
+                </div>
+            </div>
+
+            <!-- <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary submit">Submit</button>
+                        <button type="button" class="btn btn-warning reset" (click)="onReset()">Clear</button>
+                    </div>
+                </div>
+            </div> -->
+        </form>
+    </div>
+</fieldset>
+</app-add-popup>

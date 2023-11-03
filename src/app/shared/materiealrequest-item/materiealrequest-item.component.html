@@ -1,0 +1,209 @@
+<app-add-popup title="Re-Order Purchase Items" 
+acceptLabel="Ok" 
+cancelLabel="Cancel" 
+acceptIcon="fa fa-plus" 
+[widthArg]="400" 
+[heightArg]="400" 
+
+(acceptClick)="onOkClick($event, MaterialForm)"
+(cancelClick)="onCancelClick()">
+
+<!-- <ul class="nav nav-tabs">
+    <li>
+        <a data-target="#opt" data-toggle="tab"
+            ><span class="scheduler-border">Raw Metrieal</span></a
+        >
+    </li>
+    <li >
+        <a data-target="#opt1" data-toggle="tab">
+            <span class="scheduler-border">Consumables Item</span></a
+        >
+    </li>
+    <li>
+      <a data-target="#opt2" data-toggle="tab">
+          <span class="scheduler-border">Child Part</span></a
+      >
+  </li>
+  <li>
+    <a data-target="#opt3" data-toggle="tab">
+        <span class="scheduler-border">Part</span></a
+    >
+  </li>
+  </ul> -->
+
+  <div class="tab-content">
+    <div *ngIf="Returnitems=='Raw Material'">
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Raw Matrieal</legend>
+            <div class="formData">
+                <form [formGroup]="MaterialForm">
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="form-group">
+                                <label path="itemcode" for="itemcode" cssClass="required">Item code</label>
+                                <input class="form-control" formControlName="itemcode" readonly />
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="form-group">
+                                <label path="itemname" for="itemname" cssClass="required">Item Name</label>
+                                <input type="itemname" class="form-control" path="itemname" formControlName="itemname" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="form-group">
+                                <label path="descrip" for="descrip" cssClass="required">Description</label>
+                                <input OnlyNumber class="form-control" formControlName="descrip" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="form-group">
+                                <label path="qunty" for="qunty" cssClass="required">Quantity</label>
+                                <input OnlyNumber class="form-control" formControlName="qunty"  />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary submit">Submit</button>
+                                <button type="button" class="btn btn-warning reset" (click)="onReset()">Clear</button>
+                            </div>
+                        </div>
+                    </div> -->
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <div *ngIf="Returnitems=='Consumable Item'">
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Consumable Items</legend>
+            <div class="formData">
+                <form [formGroup]="MaterialForm">
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="form-group">
+                                <label path="cucode" for="cucode" cssClass="required">Consumable Code</label>
+                                <input class="form-control" formControlName="cucode" readonly />
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="form-group">
+                                <label path="cuname" for="cuname" cssClass="required">Consumable Name</label>
+                                <input type="cuname" class="form-control" path="cuname" formControlName="cuname" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="form-group">
+                                <label path="cudescrip" for="cudescrip" cssClass="required">Description</label>
+                                <input OnlyNumber class="form-control" formControlName="cudescrip" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="form-group">
+                                <label path="cuqunty" for="cuqunty" cssClass="required">Quantity</label>
+                                <input OnlyNumber class="form-control" formControlName="cuqunty" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary submit">Submit</button>
+                                <button type="button" class="btn btn-warning reset" (click)="onReset()">Clear</button>
+                            </div>
+                        </div>
+                    </div> -->
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <div *ngIf="Returnitems=='Child Part'">
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Child Part</legend>
+            <div class="formData">
+                <form [formGroup]="MaterialForm">
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="form-group">
+                                <label path="cptcode" for="cptcode" cssClass="required">ChildPart code</label>
+                                <input class="form-control" formControlName="cptcode" readonly />
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="form-group">
+                                <label path="cptname" for="cptname" cssClass="required">ChildPart Name</label>
+                                <input type="cptname" class="form-control" path="cptname" formControlName="cptname" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="form-group">
+                                <label path="cptdescrip" for="cptdescrip" cssClass="required">Description</label>
+                                <input OnlyNumber class="form-control" formControlName="cptdescrip" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="form-group">
+                                <label path="cptqunty" for="cptqunty" cssClass="required">Quantity</label>
+                                <input OnlyNumber class="form-control" formControlName="cptqunty" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary submit">Submit</button>
+                                <button type="button" class="btn btn-warning reset" (click)="onReset()">Clear</button>
+                            </div>
+                        </div>
+                    </div> -->
+                </form>
+            </div>
+        </fieldset>
+    </div>
+    <div *ngIf="Returnitems=='Part'">
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Part</legend>
+            <div class="formData">
+                <form [formGroup]="MaterialForm">
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="form-group">
+                                <label path="prtcode" for="prtcode" cssClass="required">Part code</label>
+                                <input class="form-control" formControlName="prtcode" readonly />
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="form-group">
+                                <label path="prtname" for="prtname" cssClass="required">Part Name</label>
+                                <input type="prtname" class="form-control" path="prtname" formControlName="prtname" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="form-group">
+                                <label path="prtdescrip" for="prtdescrip" cssClass="required">Description</label>
+                                <input OnlyNumber class="form-control" formControlName="prtdescrip" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3">
+                            <div class="form-group">
+                                <label path="prtqunty" for="prtqunty" cssClass="required">Quantity</label>
+                                <input OnlyNumber class="form-control" formControlName="prtqunty" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary submit">Submit</button>
+                                <button type="button" class="btn btn-warning reset" (click)="onReset()">Clear</button>
+                            </div>
+                        </div>
+                    </div> -->
+                </form>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+</app-add-popup>

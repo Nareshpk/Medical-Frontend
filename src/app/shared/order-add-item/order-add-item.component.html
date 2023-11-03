@@ -1,0 +1,430 @@
+<app-add-popup title="Purchase Order" 
+acceptLabel="Ok" 
+cancelLabel="Cancel" 
+acceptIcon="fa fa-plus" 
+[widthArg]="400" 
+[heightArg]="400" 
+
+(acceptClick)="onOkClick($event, orderItemForm)"
+(cancelClick)="onCancelClick()">
+
+<!-- <ul class="nav nav-tabs">
+  <li *ngIf="suplier=='Raw Material'">
+      <a data-target="#opt" data-toggle="tab"
+          ><span class="scheduler-border">Raw Metrieal</span></a
+      >
+  </li>
+  <li *ngIf="suplier=='Consumable Item'">
+      <a data-target="#opt1" data-toggle="tab">
+          <span class="scheduler-border">Consumables Item</span></a
+      >
+  </li>
+  <li *ngIf="suplier=='Child Part'">
+    <a data-target="#opt2" data-toggle="tab">
+        <span class="scheduler-border">Child Part</span></a
+    >
+</li>
+<li *ngIf="suplier=='Part'">
+  <a data-target="#opt3" data-toggle="tab">
+      <span class="scheduler-border">Part</span></a
+  >
+</li>
+</ul> -->
+
+
+<div class="tab-content">
+    <div *ngIf="suplier=='Raw Material'">
+        <fieldset class="scheduler-border" >
+            <legend class="scheduler-border">Raw Material</legend>
+            <div class="formData">
+              <form [formGroup]="orderItemForm">
+                <div formArrayName="orderItemsFormArray"  *ngFor="let row of f?.orderItemsFormArray['controls']; let i = index">
+                  <div [formGroupName]="i">
+                    <div class="row">
+                      <div class="col-xs-2 col-sm-2">
+                        <div class="form-group">
+                            <label path="itemcode" for="itemcode" cssClass="required">item code</label>
+                            <input class="form-control" path="itemcode" formControlName="itemcode" readonly/>
+                            <!-- <select class="form-control" path="itemcode" formControlName="itemcode">
+                                    
+                              <option value="null"> -Select item Code- </option>
+                              <option *ngFor="let orderitem001mb of orderitem001mbs" [value]="orderitem001mb.slNo">
+                                  {{orderitem001mb.itemcode}} </option>
+                          </select> -->
+                        </div>
+                      </div>
+                      <div class="col-xs-2 col-sm-2">
+                        <div class="form-group">
+                            <label path="itemname" for="itemname" cssClass="required">item name</label>
+                            <input class="form-control" path="itemname" formControlName="itemname" readonly/>
+                        </div>
+                      </div>
+                      <div class="col-xs-2 col-sm-2">
+                        <div class="form-group">
+                            <label path="descrip" for="descrip" cssClass="required">Description</label>
+                            <input class="form-control" path="descrip" formControlName="descrip" readonly />
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="form-group">
+                            <label path="uom" for="series" cssClass="required" required="true">UOM</label>
+                            <input class="form-control" formControlName="uom" readonly/>
+                            
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                      <div class="form-group">
+                          <label path="hsn" for="series" cssClass="required" required="true">HSN/SAC</label>
+                          <input class="form-control" formControlName="hsn" readonly>
+                          
+                      </div>
+                  </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="form-group">
+                            <label path="unitrate" for="series" cssClass="required" required="true">UnitRate</label>
+                            <input class="form-control" formControlName="unitrate" readonly/>
+                            
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="form-group">
+                            <label path="qunty" for="series" cssClass="required" required="true">Quantity</label>
+                            <input class="form-control" formControlName="qunty"readonly/>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="form-group">
+                            <label path="totalamount" for="series" cssClass="required" required="true">TotalAmount</label>
+                            <input class="form-control" formControlName="totalamount" readonly/>
+                            
+                        </div>
+                    </div>
+                      <!-- <div class="col-xs-1 col-sm-1" style="left: 80px;top: 20px;">
+                        <button type="button" class="btn btn-primary submit" (click)="addItem()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-warning reset"   (click)="removeItem(i)" ><i class="fa fa-minus" aria-hidden="true"></i></button>
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+           
+        </fieldset>	
+    </div>
+    <div *ngIf="suplier=='Consumable Item'">
+        <fieldset class="scheduler-border" >
+            <legend class="scheduler-border">Consumables Item</legend>
+            <div class="formData">
+              <form [formGroup]="orderItemForm">
+                <div formArrayName="orderItemsFormArray"  *ngFor="let row of f?.orderItemsFormArray['controls']; let i = index">
+                  <div [formGroupName]="i">
+                    <div class="row">
+                      <div class="col-xs-2 col-sm-2">
+                        <div class="form-group">
+                            <label path="cucode" for="cucode" cssClass="required">CIC code</label>
+                            <input class="form-control" path="cucode" formControlName="cucode" readonly/>
+                            <!-- <select class="form-control" path="cucode" formControlName="cucode">
+                                    
+                              <option value="null"> -Select item Code- </option>
+                              <option *ngFor="let consumble001mb of consumble001mbs" [value]="consumble001mb.slNo">
+                                  {{consumble001mb.consmno}} </option>
+                          </select> -->
+                        </div>
+                      </div>
+                      <div class="col-xs-2 col-sm-2">
+                        <div class="form-group">
+                            <label path="cuname" for="cuname" cssClass="required">CIC name</label>
+                            <input class="form-control" path="cuname" formControlName="cuname" readonly/>
+                        </div>
+                      </div>
+                      <div class="col-xs-2 col-sm-2">
+                        <div class="form-group">
+                            <label path="cudescrip" for="cudescrip" cssClass="required">Description</label>
+                            <input class="form-control" path="cudescrip" formControlName="cudescrip"  readonly/>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="form-group">
+                            <label path="cuom" for="series" cssClass="required" required="true">UOM</label>
+                            <input class="form-control" formControlName="cuom" readonly/>
+                            
+                        </div>
+                    </div>
+
+                    <div class="col-xs-1 col-sm-1">
+                      <div class="form-group">
+                          <label path="chsn" for="series" cssClass="required" required="true">HSN/SAC</label>
+                          <input class="form-control" formControlName="chsn"readonly>
+                          
+                      </div>
+                  </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="form-group">
+                            <label path="cunitrate" for="series" cssClass="required" required="true">UnitRate</label>
+                            <input class="form-control" formControlName="cunitrate" readonly/>
+                            
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="form-group">
+                            <label path="cuqunty" for="series" cssClass="required" required="true">Quantity</label>
+                            <input class="form-control" formControlName="cuqunty" readonly/>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="col-xs-1 col-sm-1">
+                        <div class="form-group">
+                            <label path="cutotalamount" for="series" cssClass="required" required="true">TotalAmount</label>
+                            <input class="form-control" formControlName="cutotalamount" readonly />
+                            
+                        </div>
+                    </div>
+                      <!-- <div class="col-xs-1 col-sm-1" style="left: 80px;top: 20px;">
+                        <button type="button" class="btn btn-primary submit" (click)="addItem()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-warning reset"   (click)="removeItem(i)" ><i class="fa fa-minus" aria-hidden="true"></i></button>
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            
+        </fieldset> 
+    </div>
+    <div *ngIf="suplier=='Child Part'">
+      <fieldset class="scheduler-border" >
+          <legend class="scheduler-border">Child Part</legend>
+          <div class="formData">
+            <form [formGroup]="orderItemForm">
+              <div formArrayName="orderItemsFormArray"  *ngFor="let row of f?.orderItemsFormArray['controls']; let i = index">
+                <div [formGroupName]="i">
+                  <div class="row">
+                    <div class="col-xs-2 col-sm-2">
+                      <div class="form-group">
+                          <label path="cptcode" for="cptcode" cssClass="required">item code</label>
+                          <input class="form-control" path="cptcode" formControlName="cptcode" readonly/>
+                          <!-- <select class="form-control" path="cptcode" formControlName="cptcode">
+                                    
+                            <option value="null"> -Select item Code- </option>
+                            <option *ngFor="let childPart001mb of childPart001mbs" [value]="childPart001mb.slNo">
+                                {{childPart001mb.cpartno}} </option>
+                        </select> -->
+                      </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                      <div class="form-group">
+                          <label path="cptname" for="cptname" cssClass="required">item name</label>
+                          <input class="form-control" path="cptname" formControlName="cptname" readonly/>
+                      </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                      <div class="form-group">
+                          <label path="cptdescrip" for="cptdescrip" cssClass="required">Description</label>
+                          <input class="form-control" path="cptdescrip" formControlName="cptdescrip"  readonly/>
+                      </div>
+                  </div>
+                  <div class="col-xs-1 col-sm-1">
+                      <div class="form-group">
+                          <label path="cptuom" for="series" cssClass="required" required="true">UOM</label>
+                          <input class="form-control" formControlName="cptuom" readonly readonly/>
+                          
+                      </div>
+                  </div>
+                  <div class="col-xs-1 col-sm-1">
+                    <div class="form-group">
+                        <label path="cpthsn" for="series" cssClass="required" required="true">HSN/SAC</label>
+                        <input class="form-control" formControlName="cpthsn" readonly>
+                        
+                    </div>
+                </div>
+                  <div class="col-xs-1 col-sm-1">
+                      <div class="form-group">
+                          <label path="cptunitrate" for="series" cssClass="required" required="true">UnitRate</label>
+                          <input class="form-control" formControlName="cptunitrate" readonly/>
+                          
+                      </div>
+                  </div>
+                  <div class="col-xs-1 col-sm-1">
+                      <div class="form-group">
+                          <label path="cptqunty" for="series" cssClass="required" required="true">Quantity</label>
+                          <input class="form-control" formControlName="cptqunty" readonly/>
+                          
+                      </div>
+                  </div>
+                  
+                  <div class="col-xs-1 col-sm-1">
+                      <div class="form-group">
+                          <label path="cpttotalamount" for="series" cssClass="required" required="true">TotalAmount</label>
+                          <input class="form-control" formControlName="cpttotalamount" readonly/>
+                          
+                      </div>
+                  </div>
+                    <!-- <div class="col-xs-1 col-sm-1" style="left: 80px;top: 20px;">
+                      <button type="button" class="btn btn-primary submit" (click)="addItem()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                      <button type="button" class="btn btn-warning reset"   (click)="removeItem(i)" ><i class="fa fa-minus" aria-hidden="true"></i></button>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+         
+      </fieldset>	
+  </div>
+  <div *ngIf="suplier=='Part'">
+      <fieldset class="scheduler-border" >
+          <legend class="scheduler-border">Part</legend>
+          <div class="formData">
+            <form [formGroup]="orderItemForm">
+              <div formArrayName="orderItemsFormArray"  *ngFor="let row of f?.orderItemsFormArray['controls']; let i = index">
+                <div [formGroupName]="i">
+                  <div class="row">
+                    <div class="col-xs-2 col-sm-2">
+                      <div class="form-group">
+                          <label path="prtcode" for="prtcode" cssClass="required">Part code</label>
+                          <input class="form-control" path="prtcode" formControlName="prtcode" readonly/>
+                          <!-- <select class="form-control" path="prtcode" formControlName="prtcode">
+                                    
+                            <option value="null"> -Select item Code- </option>
+                            <option *ngFor="let part001mb of part001mbs" [value]="part001mb.slNo">
+                                {{part001mb.partno}} </option>
+                        </select> -->
+                      </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                      <div class="form-group">
+                          <label path="prtmname" for="prtmname" cssClass="required">Part name</label>
+                          <input class="form-control" path="prtmname" formControlName="prtmname" readonly/>
+                      </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                      <div class="form-group">
+                          <label path="prtdescrip" for="prtdescrip" cssClass="required">Description</label>
+                          <input class="form-control" path="prtdescrip" formControlName="prtdescrip"  readonly/>
+                      </div>
+                  </div>
+                  <div class="col-xs-1 col-sm-1">
+                      <div class="form-group">
+                          <label path="prtuom" for="series" cssClass="required" required="true">UOM</label>
+                          <input class="form-control" formControlName="prtuom" readonly/>
+                          
+                      </div>
+                  </div>
+                  <div class="col-xs-1 col-sm-1">
+                    <div class="form-group">
+                        <label path="prthsn" for="series" cssClass="required" required="true">HSN/SAC</label>
+                        <input class="form-control" formControlName="prthsn" readonly>
+                        
+                    </div>
+                </div>
+                  <div class="col-xs-1 col-sm-1">
+                      <div class="form-group">
+                          <label path="prtunitrate" for="series" cssClass="required" required="true">UnitRate</label>
+                          <input class="form-control" formControlName="prtunitrate" readonly/>
+                          
+                      </div>
+                  </div>
+                  <div class="col-xs-1 col-sm-1">
+                      <div class="form-group">
+                          <label path="prtqunty" for="series" cssClass="required" required="true">Quantity</label>
+                          <input class="form-control" formControlName="prtqunty" readonly/>
+                          
+                      </div>
+                  </div>
+                  <div class="col-xs-2 col-sm-2">
+                      <div class="form-group">
+                          <label path="prttotalamount" for="series" cssClass="required" required="true">TotalAmount</label>
+                          <input class="form-control" formControlName="prttotalamount" readonly/>
+                          
+                      </div>
+                  </div>
+                    <!-- <div class="col-xs-1 col-sm-1" style="left: 80px;top: 20px;">
+                      <button type="button" class="btn btn-primary submit" (click)="addItem()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                      <button type="button" class="btn btn-warning reset"   (click)="removeItem(i)" ><i class="fa fa-minus" aria-hidden="true"></i></button>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          
+      </fieldset> 
+  </div>
+  </div>
+
+
+    <!-- <div class="formData">
+        <form [formGroup]="orderItemForm">
+            <div formArrayName="orderItemsFormArray" *ngFor="let row of f?.orderItemsFormArray['controls']; let i = index">
+                <div [formGroupName]="i">
+                    <div class="row">
+                       
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="form-group">
+                                <label path="orderslno" for="orderslno" cssClass="required">ItemCode</label>
+                                <select class="form-control" path="orderslno" formControlName="orderslno" (change)="onChange($event,i)">
+                                    
+                                    <option value="null"> -Select item Code- </option>
+                                    <option *ngFor="let orderitem001mb of orderitem001mbs" [value]="orderitem001mb.slNo">
+                                        {{orderitem001mb.itemcode}} </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2">
+                            <div class="form-group">
+                                <label path="itemname" for="itemname" cssClass="required">ItemName</label>
+                                <input class="form-control" path="itemname" formControlName="itemname" readonly />
+                                
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2">
+                            <div class="form-group">
+                                <label path="descrip" for="descrip" cssClass="required">Description</label>
+                                <input class="form-control" path="descrip" formControlName="descrip" readonly />
+                            </div>
+                        </div>
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="form-group">
+                                <label path="uom" for="series" cssClass="required" required="true">UOM</label>
+                                <input class="form-control" formControlName="uom"readonly/>
+                                
+                            </div>
+                        </div>
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="form-group">
+                                <label path="unitrate" for="series" cssClass="required" required="true">UnitRate</label>
+                                <input class="form-control" formControlName="unitrate" readonly/>
+                                
+                            </div>
+                        </div>
+                        <div class="col-xs-1 col-sm-1">
+                            <div class="form-group">
+                                <label path="amount" for="series" cssClass="required" required="true">Quantity</label>
+                                <input class="form-control" formControlName="qunty"  (change)="onChangeQty($event,i)"/>
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-2 col-sm-2">
+                            <div class="form-group">
+                                <label path="totalamount" for="series" cssClass="required" required="true">TotalAmount</label>
+                                <input class="form-control" formControlName="totalamount" readonly/>
+                                
+                            </div>
+                        </div>
+                        <div class="col-xs-1 col-sm-1" style="left: 80px;top: 20px;">
+                            <button type="button" class="btn btn-primary submit" (click)="addItem()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                            <button type="button" class="btn btn-warning reset"   (click)="removeItem(i)" ><i class="fa fa-minus" aria-hidden="true"></i></button>
+                        </div>
+                       
+                    </div>
+                     
+                </div>
+            </div>
+            
+         </form>
+    </div> -->
+</app-add-popup>
