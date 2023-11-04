@@ -17,9 +17,9 @@ import { Status001mb } from 'src/app/shared/services/restcontroller/entities/sta
 import { CalloutService } from 'src/app/shared/services/services/callout.service';
 
 @Component({
-  selector: 'app-department-setting',
-  templateUrl: './department-setting.component.html',
-  styleUrls: ['./department-setting.component.scss']
+	selector: 'app-department-setting',
+	templateUrl: './department-setting.component.html',
+	styleUrls: ['./department-setting.component.scss']
 })
 export class DepartmentSettingComponent implements OnInit {
 
@@ -39,12 +39,12 @@ export class DepartmentSettingComponent implements OnInit {
 	statussets: Status001mb[] = [];
 	department001mb?: Departments001mb;
 	user?: Login001mb | any;
-  displayedColumns: string[] = [
-    'slNo',
-    'department',
-    'sslno',
-  ];
-  dataSource: MatTableDataSource<any>;
+	displayedColumns: string[] = [
+		'slNo',
+		'department',
+		'sslno',
+	];
+	dataSource: MatTableDataSource<any>;
 
 
 	constructor(private router: Router,
@@ -82,18 +82,16 @@ export class DepartmentSettingComponent implements OnInit {
 	loadData() {
 		this.departmentsManager.alldepartment().subscribe(response => {
 			this.departmentSettings = deserialize<Departments001mb[]>(Departments001mb, response);
-		  if (this.departmentSettings.length > 0) {
-        this.dataSource = new MatTableDataSource(this.departmentSettings);
-      } else {
-        this.dataSource = new MatTableDataSource([]);
-      }
+			if (this.departmentSettings.length > 0) {
+				this.dataSource = new MatTableDataSource(this.departmentSettings);
+			} else {
+				this.dataSource = new MatTableDataSource([]);
+			}
 		});
 	}
 
 	get f() { return this.departmentForm.controls; }
-  onDepartmentFormClick(event: any, departmentForm: any) {
-
-
+	onDepartmentFormClick(event: any, departmentForm: any) {
 		let departments001mb = new Departments001mb();
 		departments001mb.sslno = this.f.sslno.value ? this.f.sslno.value : "";
 		departments001mb.department = this.f.department.value ? this.f.department.value : "";

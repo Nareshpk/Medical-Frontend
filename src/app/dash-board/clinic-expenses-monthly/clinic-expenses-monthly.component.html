@@ -1,0 +1,59 @@
+<form>
+    <h1>Monthly Expenses Details</h1>
+    <mat-divider></mat-divider>
+    <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
+      fxLayoutAlign="start stretch" fxLayoutGap="5px">
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for="">Name
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+              <input formControlName="department" matInput placeholder="Enter Treatment Name" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for="">Expenses Name
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+              <textarea formControlName="department" matInput placeholder="Enter Treatment Name" ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for="">Date
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+              <input formControlName="department" matInput placeholder="Enter Treatment Name" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
+    fxLayoutAlign="start stretch" fxLayoutGap="5px">
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for="">Amount
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+            <input formControlName="department" matInput placeholder="Enter Treatment Name" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    <div class="save-cancel-btn" fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="end end">
+      <button mat-raised-button color="accent" >Cancel</button>
+      <button mat-raised-button color="primary" type="submit">Save</button>
+    </div>
+  </form>

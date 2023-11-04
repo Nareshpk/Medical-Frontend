@@ -59,9 +59,13 @@ import { UnitDeptMasterComponent } from './unit-dept-master/unit-dept-master.com
 import { UnitmasterComponent } from './unitmaster/unitmaster.component';
 import { UsernameComponent } from './username/username.component';
 import { ClinicExpensesComponent } from './clinic-expenses/clinic-expenses.component';
+import { ClinicExpensesDayilyComponent } from './clinic-expenses-dayily/clinic-expenses-dayily.component';
+import { ClinicExpensesMonthlyComponent } from './clinic-expenses-monthly/clinic-expenses-monthly.component';
+import { MonthlyexpensesManager } from '../shared/services/restcontroller/bizservice/Monthlyexpenses.service';
+import { DayilyexpensesManager } from '../shared/services/restcontroller/bizservice/Dayilyexpenses.service';
 
 @NgModule({
-  declarations: [DashBoardComponent, SidebarComponent, HeaderComponent, FooterComponent, DoctorDetailsComponent, PatientDetailsComponent, MasterDiagnosisComponent, MasterTreatmentComponent, HomeConsultationComponent, PatientConsultationComponent, PcPatientConsultationComponent, ProfileComponent, RegistrationComponent, UsernameComponent, PasswordComponent, UnitmasterComponent, UnitDeptMasterComponent, DepartmentSettingComponent, DepartmentParentComponent, ListOpPatientComponent, ListPcPatientComponent, PcPatientDetailsComponent, HistoryComponent, HistoryOpPatientComponent, HistoryPcPatientComponent, ClinicExpensesComponent],
+  declarations: [DashBoardComponent, SidebarComponent, HeaderComponent, FooterComponent, DoctorDetailsComponent, PatientDetailsComponent, MasterDiagnosisComponent, MasterTreatmentComponent, HomeConsultationComponent, PatientConsultationComponent, PcPatientConsultationComponent, ProfileComponent, RegistrationComponent, UsernameComponent, PasswordComponent, UnitmasterComponent, UnitDeptMasterComponent, DepartmentSettingComponent, DepartmentParentComponent, ListOpPatientComponent, ListPcPatientComponent, PcPatientDetailsComponent, HistoryComponent, HistoryOpPatientComponent, HistoryPcPatientComponent, ClinicExpensesComponent, ClinicExpensesDayilyComponent, ClinicExpensesMonthlyComponent],
   imports: [
     CommonModule,
     DashBoardRoutingModule,
@@ -100,7 +104,9 @@ import { ClinicExpensesComponent } from './clinic-expenses/clinic-expenses.compo
     PatientPcManager,
     PatientmasterManager,
     DatePipe,
-    CalloutService
+    CalloutService,
+    MonthlyexpensesManager,
+    DayilyexpensesManager
   ],
   // exports: [NgbCollapseModule],
   bootstrap: [DashBoardComponent,],
