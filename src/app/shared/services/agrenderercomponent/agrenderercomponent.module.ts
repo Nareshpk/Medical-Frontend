@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { IconRendererComponent } from '../renderercomponent/icon-renderer-component';
 import { ButtonRendererComponent } from '../renderercomponent/button-renderer-component';
 import { LinkRendererComponent } from '../renderercomponent/link-renderer-component';
-
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
   declarations: [ IconRendererComponent,ButtonRendererComponent,LinkRendererComponent ],
   imports: [
     CommonModule,
+    MatIconModule
   ]
 })
 export class AgrenderercomponentModule { }

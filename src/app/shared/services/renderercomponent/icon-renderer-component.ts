@@ -25,6 +25,8 @@ export class IconRendererComponent implements ICellRendererAngularComp {
 
 
     agInit(params: any): void {
+        console.log("label",this.label);
+        
         this.authManager.currentUserSubject.subscribe((object: any) => {
             let rgb = Utils.hexToRgb(object.theme);
             this.colorthemes_1 = Utils.rgbToHex(rgb, -0.3);

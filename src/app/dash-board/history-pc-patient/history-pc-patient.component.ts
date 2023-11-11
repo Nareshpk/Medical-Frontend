@@ -262,8 +262,6 @@ export class HistoryPcPatientComponent implements OnInit {
         resizable: true,
         suppressSizeToFit: true,
       },
-
-
       {
         headerName: 'Delete',
         cellRenderer: 'iconRenderer',
@@ -280,6 +278,23 @@ export class HistoryPcPatientComponent implements OnInit {
     ];
   }
 
+  onDeleteButtonClick(params: any) {
+    this.patientmasterManager.patientmasterdelete(params.data.slNo).subscribe((response) => {
+      for (let i = 0; i < this.patientmaster001mb.length; i++) {
+        if (this.patientmaster001mb[i].slNo == params.data.slNo) {
+          this.patientmaster001mb?.splice(i, 1);
+          break;
+        }
+      }
+      const selectedRows = params.api.getSelectedRows();
+      params.api.applyTransaction({ remove: selectedRows });
+      this.gridOptions.api.deselectAll();
+      // this.calloutService.showSuccess("Purchase Request Removed Successfully");
+    });
+  }
+
+
+
   setDoctorNo(params: any) {
     return params.data.dcslno2.dFirstName
   }
@@ -289,15 +304,12 @@ export class HistoryPcPatientComponent implements OnInit {
 
   }
 
-  onDeleteButtonClick(params: any) {
 
-  }
 
   addPatient() {
     this.router.navigate(['./app-dash-board/app-pc-patient-consultation']);
   }
   editable(element) {
-    console.log("element", element);
     this.router.navigate(['./app-dash-board/app-pc-patient-consultation', element.slNo]);
   }
   Filterchange(data: Event) {
@@ -311,7 +323,6 @@ export class HistoryPcPatientComponent implements OnInit {
   filteredProducts: any[];
   onSearchChange(searchValue: string): void {
     this.filteredProducts = [];
-    console.log(searchValue.length);
     if (searchValue.length > 2) {
       this.patientPcManager.allpatientpc(this.user.unitslno).subscribe(response => {
         this.patientpc001mb = deserialize<Patientpc001mb[]>(Patientpc001mb, response);
@@ -337,7 +348,6 @@ export class HistoryPcPatientComponent implements OnInit {
   }
 
   resetAwardLevelOnDobChange() {
-    console.log("this.previewWeek.value",this.previewWeek.value);
    
    }
    onStartDatefilter(event){
@@ -371,14 +381,10 @@ export class HistoryPcPatientComponent implements OnInit {
         let cdate = this.datepipe.transform(this.patientpc001mb[i].date, "yyyy-MM-dd");
         let startdate = this.datepipe.transform(this.range.value.start, "yyyy-MM-dd");
         let endDate = this.datepipe.transform(this.range.value.end, "yyyy-MM-dd");
-        if (startdate <= cdate &&endDate >= cdate) {
-          console.log("this.patientpc001mb[i]",this.patientpc001mb[i]);
-          
+        if (startdate <= cdate &&endDate >= cdate) {          
           this.patientpc.push(this.patientpc001mb[i])
         }
-      }
-      console.log('this.patientpc',this.patientpc);
-      
+      }      
       if (this.patientpc.length > 0) {
         this.gridOptions?.api?.setRowData(this.patientpc);
       } else {

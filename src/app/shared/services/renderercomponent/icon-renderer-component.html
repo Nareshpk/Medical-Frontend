@@ -2,13 +2,13 @@
     (click)="onClick($event)">
     <div class="iconalign" (click)="changeType(toggle)">
         <span>
-            <i [ngClass]="toggle? 'fa fa-pencil-square' : 'fa fa-pencil-square-o'"></i>
+            <mat-icon style="color: rgb(122, 0, 96);">edit</mat-icon>
         </span>
     </div>
 </a>
 <a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'Delete' ? true : false" href="javascript:void(0)"
     (click)="onClick($event)">
-    <i class="fa fa-trash"></i>
+    <mat-icon style="color: rgb(255, 7, 7);">delete</mat-icon>
 </a>
 <a [ngStyle]="{'color':colorthemes_1}" *ngIf="this.label == 'Audit' ? true : false" href="javascript:void(0)"
     (click)="onClick($event)">

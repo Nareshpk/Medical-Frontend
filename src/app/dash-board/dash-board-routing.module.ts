@@ -15,6 +15,7 @@ import { PcPatientConsultationComponent } from './pc-patient-consultation/pc-pat
 import { PcPatientDetailsComponent } from './pc-patient-details/pc-patient-details.component';
 import { HistoryComponent } from './history/history.component';
 import { ClinicExpensesComponent } from './clinic-expenses/clinic-expenses.component';
+import { AccountDeportmentComponent } from './account-deportment/account-deportment.component';
 
 const routes: Routes = [
   {
@@ -85,7 +86,11 @@ const routes: Routes = [
         path: 'app-clinic-expenses',
         component: ClinicExpensesComponent,
       },
-      
+      {
+        path: 'app-account-deportment',
+        component: AccountDeportmentComponent,
+      },
+
     ]
   }
 ];

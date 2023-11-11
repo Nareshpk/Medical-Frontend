@@ -8,6 +8,7 @@ import { PatientOpManager } from 'src/app/shared/services/restcontroller/bizserv
 import { TreatmentManager } from 'src/app/shared/services/restcontroller/bizservice/Treatment.service';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
 import { DoctorManager } from 'src/app/shared/services/restcontroller/bizservice/doctor.service';
+import { ToastService } from 'src/app/shared/services/restcontroller/callout/toast.service';
 import { Diagnosis001mb } from 'src/app/shared/services/restcontroller/entities/Diagnosis001mb';
 import { Doctor001mb } from 'src/app/shared/services/restcontroller/entities/Doctor001mb';
 import { Login001mb } from 'src/app/shared/services/restcontroller/entities/Login001mb';
@@ -60,6 +61,7 @@ export class PatientConsultationComponent implements OnInit {
     private patientOpManager: PatientOpManager,
     private router: Router,
     private route: ActivatedRoute,
+    private toast: ToastService,
   ) { }
 
   ngOnInit(): void {
@@ -167,6 +169,7 @@ export class PatientConsultationComponent implements OnInit {
       patientop001mb.updatedUser = this.authManager.getcurrentUser.username;
       patientop001mb.updatedDatetime = new Date();
       this.patientOpManager.patientopupdate(patientop001mb).subscribe((response) => {
+        this.toast.updateSnackBar('Patientop Updated Successfully');
         this.router.navigate(['./app-dash-board/app-home-consultation']);
         this.loadData();
         this.slNo = null;
@@ -176,6 +179,7 @@ export class PatientConsultationComponent implements OnInit {
       patientop001mb.insertUser = this.authManager.getcurrentUser.username;
       patientop001mb.insertDatetime = new Date();
       this.patientOpManager.patientopsave(patientop001mb).subscribe((response) => {
+        this.toast.saveSnackBar('Patientop Saved Successfully');
         this.router.navigate(['./app-dash-board/app-home-consultation']);
         this.loadData()
       })

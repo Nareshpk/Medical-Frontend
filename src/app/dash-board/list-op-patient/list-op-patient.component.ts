@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { GridOptions } from 'ag-grid-community';
 import { deserialize } from 'serializer.ts/Serializer';
+import { IconRendererComponent } from 'src/app/shared/services/renderercomponent/icon-renderer-component';
 import { PatientOpManager } from 'src/app/shared/services/restcontroller/bizservice/Patientop.service';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
 import { Login001mb } from 'src/app/shared/services/restcontroller/entities/Login001mb';
@@ -62,7 +63,11 @@ export class ListOpPatientComponent implements OnInit {
     private patientOpManager: PatientOpManager,
     private router: Router,
     private datePipe: DatePipe,
-  ) { }
+  ) { 
+    this.frameworkComponents = {
+      iconRenderer: IconRendererComponent
+    }
+  }
 
   ngOnInit(): void {
     this.user = this.authManager.getcurrentUser;
@@ -121,9 +126,9 @@ export class ListOpPatientComponent implements OnInit {
         filter: true,
         resizable: true,
         suppressSizeToFit: true,
-        // valueGetter: (params: any) => {
-        //   return params.data.date ? this.datepipe.transform(params.data.date, 'dd-MM-yyyy') : '';
-        // }
+        valueGetter: (params: any) => {
+          return params.data.cdate ? this.datePipe.transform(params.data.cdate, 'dd-MM-yyyy') : '';
+        }
       },
       {
         headerName: 'dcslno',
@@ -134,7 +139,7 @@ export class ListOpPatientComponent implements OnInit {
         filter: true,
         resizable: true,
         suppressSizeToFit: true,
-        // valueGetter: this.setDoctorNo.bind(this)
+        valueGetter: this.setDoctorNo.bind(this)
       },
       {
         headerName: 'pname',
@@ -245,9 +250,18 @@ export class ListOpPatientComponent implements OnInit {
         filter: true,
         resizable: true,
         suppressSizeToFit: true,
+      },{
+        headerName: 'Edit',
+        cellRenderer: 'iconRenderer',
+        width: 85,
+        // flex: 1,
+        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'center' },
+        cellRendererParams: {
+          onClick: this.onEditButtonClick.bind(this),
+          label: 'Edit'
+        },
       },
-
-
       {
         headerName: 'Delete',
         cellRenderer: 'iconRenderer',
@@ -256,7 +270,7 @@ export class ListOpPatientComponent implements OnInit {
         suppressSizeToFit: true,
         cellStyle: { textAlign: 'center' },
         cellRendererParams: {
-          // onClick: this.onDeleteButtonClick.bind(this),
+          onClick: this.onDeleteButtonClick.bind(this),
           label: 'Delete'
         },
       },
@@ -264,18 +278,54 @@ export class ListOpPatientComponent implements OnInit {
     ];
   }
 
+  onEditButtonClick(params: any) {
+    // this.slNo = params.data.slNo;
+    // this.unitslno = params.data.unitslno;
+    // this.insertUser = params.data.insertUser;
+    // this.insertDatetime = params.data.insertDatetime;
+    // this.dayilyExpensesForm.patchValue({
+    //   'name': params.data.name,
+    //   'date': this.datePipe.transform(params.data.date, "yyyy-MM-dd"),
+    //   'amount': params.data.amount,
+    //   'notes': params.data.notes,
+    // });
+    this.router.navigate(['./app-dash-board/app-patient-consultation', params.data.slNo]);
+  }
+
+  onDeleteButtonClick(params: any) {
+    this.patientOpManager.patientopdelete(params.data.slNo).subscribe((response) => {
+      for (let i = 0; i < this.patientop001mb.length; i++) {
+        if (this.patientop001mb[i].slNo == params.data.slNo) {
+          this.patientop001mb?.splice(i, 1);
+          break;
+        }
+      }
+      const selectedRows = params.api.getSelectedRows();
+      params.api.applyTransaction({ remove: selectedRows });
+      this.gridOptions.api.deselectAll();
+      // this.calloutService.showSuccess("Purchase Request Removed Successfully");
+    });
+  }
+
+  setDoctorNo(params: any) {    
+    return params.data.dslno2.dFirstName
+  }
+
+  setPatientNo(params: any) {
+    return params.data.pslno2.displayLname
+
+  }
+
   addPatient() {
     this.router.navigate(['./app-dash-board/app-patient-consultation']);
   }
   editable(element) {
-    console.log("element", element);
-    this.router.navigate(['./app-dash-board/app-patient-consultation', element.slNo]);
+   
   }
 
   filteredProducts: any[];
   onSearchChange(searchValue: string): void {
     this.filteredProducts = [];
-    console.log(searchValue.length);
     if (searchValue.length > 2) {
       this.patientOpManager.allpatientop(this.user.unitslno).subscribe(response => {
         this.patientop001mb = deserialize<Patientop001mb[]>(Patientop001mb, response);
@@ -301,7 +351,6 @@ export class ListOpPatientComponent implements OnInit {
   }
 
   resetAwardLevelOnDobChange() {
-    console.log("this.previewWeek.value",this.previewWeek.value);
     this.patientop=[]
     this.dataSource = new MatTableDataSource([]);
     this.patientOpManager.allpatientop(this.user.unitslno).subscribe(response => {

@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { deserialize } from 'serializer.ts/Serializer';
 import { DiagnosisManager } from 'src/app/shared/services/restcontroller/bizservice/Diagnosis.service';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
+import { ToastService } from 'src/app/shared/services/restcontroller/callout/toast.service';
 import { Diagnosis001mb } from 'src/app/shared/services/restcontroller/entities/Diagnosis001mb';
 import { Login001mb } from 'src/app/shared/services/restcontroller/entities/Login001mb';
 import { CalloutService } from 'src/app/shared/services/services/callout.service';
@@ -36,6 +37,7 @@ export class MasterDiagnosisComponent implements OnInit {
     private diagnosisManager: DiagnosisManager,
     private authManager: AuthManager,
     private calloutService: CalloutService,
+    private toast: ToastService,
   ) { }
 
   ngOnInit(): void {
@@ -97,6 +99,7 @@ export class MasterDiagnosisComponent implements OnInit {
       diagnosis001mb.updatedUser = this.authManager.getcurrentUser.username;
       diagnosis001mb.updatedDatetime = new Date();
       this.diagnosisManager.diagnosisupdate(diagnosis001mb).subscribe((response) => {
+        this.toast.updateSnackBar('Doctor Details Updated Successfully');
         this.diagnosisForm.reset();
         this.loadData();
         this.slNo = null;
@@ -106,7 +109,7 @@ export class MasterDiagnosisComponent implements OnInit {
       diagnosis001mb.insertUser = this.authManager.getcurrentUser.username;
       diagnosis001mb.insertDatetime = new Date();
       this.diagnosisManager.diagnosissave(diagnosis001mb).subscribe((response) => {
-        // this.diagnosisForm.reset();
+        this.toast.saveSnackBar('Doctor Details Saved Successfully');
         this.ngOnInit()
         this.loadData()
       })

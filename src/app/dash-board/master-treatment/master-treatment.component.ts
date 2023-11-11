@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { deserialize } from 'serializer.ts/Serializer';
 import { TreatmentManager } from 'src/app/shared/services/restcontroller/bizservice/Treatment.service';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
+import { ToastService } from 'src/app/shared/services/restcontroller/callout/toast.service';
 import { Diagnosis001mb } from 'src/app/shared/services/restcontroller/entities/Diagnosis001mb';
 import { Login001mb } from 'src/app/shared/services/restcontroller/entities/Login001mb';
 import { Treatment001mb } from 'src/app/shared/services/restcontroller/entities/Treatment001mb';
@@ -37,6 +38,7 @@ export class MasterTreatmentComponent implements OnInit {
     private TreatmentManager: TreatmentManager,
     private authManager: AuthManager,
     private calloutService: CalloutService,
+    private toast: ToastService,
   ) { }
 
   ngOnInit(): void {
@@ -96,6 +98,7 @@ export class MasterTreatmentComponent implements OnInit {
       treatment001mb.updatedUser = this.authManager.getcurrentUser.username;
       treatment001mb.updatedDatetime = new Date();
       this.TreatmentManager.treatmentupdate(treatment001mb).subscribe((response) => {
+        this.toast.updateSnackBar('Treatment Updated Successfully');
         this.treatmentForm.reset();
         this.loadData();
         this.slNo = null;
@@ -105,6 +108,7 @@ export class MasterTreatmentComponent implements OnInit {
       treatment001mb.insertUser = this.authManager.getcurrentUser.username;
       treatment001mb.insertDatetime = new Date();
       this.TreatmentManager.treatmentsave(treatment001mb).subscribe((response) => {
+        this.toast.saveSnackBar('Treatment Saved Successfully');
         this.treatmentForm.reset();
         this.loadData()
       })

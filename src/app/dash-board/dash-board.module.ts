@@ -63,9 +63,18 @@ import { ClinicExpensesDayilyComponent } from './clinic-expenses-dayily/clinic-e
 import { ClinicExpensesMonthlyComponent } from './clinic-expenses-monthly/clinic-expenses-monthly.component';
 import { MonthlyexpensesManager } from '../shared/services/restcontroller/bizservice/Monthlyexpenses.service';
 import { DayilyexpensesManager } from '../shared/services/restcontroller/bizservice/Dayilyexpenses.service';
+import { AgrenderercomponentModule } from '../shared/services/agrenderercomponent/agrenderercomponent.module';
+import { MatIconModule } from '@angular/material/icon';
+import { ToastService } from '../shared/services/restcontroller/callout/toast.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { AccountDeportmentComponent } from './account-deportment/account-deportment.component';
+import { ExcelsheetManager } from '../shared/services/restcontroller/bizservice/Excelsheet.service';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
-  declarations: [DashBoardComponent, SidebarComponent, HeaderComponent, FooterComponent, DoctorDetailsComponent, PatientDetailsComponent, MasterDiagnosisComponent, MasterTreatmentComponent, HomeConsultationComponent, PatientConsultationComponent, PcPatientConsultationComponent, ProfileComponent, RegistrationComponent, UsernameComponent, PasswordComponent, UnitmasterComponent, UnitDeptMasterComponent, DepartmentSettingComponent, DepartmentParentComponent, ListOpPatientComponent, ListPcPatientComponent, PcPatientDetailsComponent, HistoryComponent, HistoryOpPatientComponent, HistoryPcPatientComponent, ClinicExpensesComponent, ClinicExpensesDayilyComponent, ClinicExpensesMonthlyComponent],
+  declarations: [DashBoardComponent, SidebarComponent, HeaderComponent, FooterComponent, DoctorDetailsComponent, PatientDetailsComponent, MasterDiagnosisComponent, MasterTreatmentComponent, HomeConsultationComponent, PatientConsultationComponent, PcPatientConsultationComponent, ProfileComponent, RegistrationComponent, UsernameComponent, PasswordComponent, UnitmasterComponent, UnitDeptMasterComponent, DepartmentSettingComponent, DepartmentParentComponent, ListOpPatientComponent, ListPcPatientComponent, PcPatientDetailsComponent, HistoryComponent, HistoryOpPatientComponent, HistoryPcPatientComponent, ClinicExpensesComponent, ClinicExpensesDayilyComponent, ClinicExpensesMonthlyComponent, AccountDeportmentComponent],
   imports: [
     CommonModule,
     DashBoardRoutingModule,
@@ -80,6 +89,7 @@ import { DayilyexpensesManager } from '../shared/services/restcontroller/bizserv
     MatTableModule,
     FlexLayoutModule,
     AgGridModule.withComponents([]),
+    AgrenderercomponentModule,
     MatAutocompleteModule,
     MatInputModule,
     MatChipsModule,
@@ -89,6 +99,11 @@ import { DayilyexpensesManager } from '../shared/services/restcontroller/bizserv
     FormsModule,
     ReactiveFormsModule,
     MatNativeDateModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatBadgeModule
   ],
   providers: [
     LoginManager,
@@ -106,7 +121,10 @@ import { DayilyexpensesManager } from '../shared/services/restcontroller/bizserv
     DatePipe,
     CalloutService,
     MonthlyexpensesManager,
-    DayilyexpensesManager
+    DayilyexpensesManager,
+    ToastService,
+    ExcelsheetManager,
+    
   ],
   // exports: [NgbCollapseModule],
   bootstrap: [DashBoardComponent,],

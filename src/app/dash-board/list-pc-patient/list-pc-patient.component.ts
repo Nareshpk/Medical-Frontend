@@ -146,7 +146,7 @@ export class ListPcPatientComponent implements OnInit {
         }
       },
       {
-        headerName: 'dcslno',
+        headerName: 'Doctor Name',
         field: 'dcslno',
         width: 200,
         // flex: 1,
@@ -157,7 +157,18 @@ export class ListPcPatientComponent implements OnInit {
         valueGetter: this.setDoctorNo.bind(this)
       },
       {
-        headerName: 'pname',
+        headerName: 'Patient Name',
+        field: 'pcslno',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+        valueGetter: this.setPatientId.bind(this)
+      },
+      {
+        headerName: 'Patient Name',
         field: 'pcslno',
         width: 200,
         // flex: 1,
@@ -189,7 +200,17 @@ export class ListPcPatientComponent implements OnInit {
         suppressSizeToFit: true,
       },
       {
-        headerName: 'treatment',
+        headerName: 'Diagnosis',
+        field: 'diagnosis',
+        width: 200,
+        // flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+      },
+      {
+        headerName: 'Treatment',
         field: 'treatment',
         width: 200,
         // flex: 1,
@@ -215,16 +236,7 @@ export class ListPcPatientComponent implements OnInit {
         //   return params.data.reqDate ? this.datepipe.transform(params.data.reqDate, 'dd-MM-yyyy') : '';
         // }
       },
-      {
-        headerName: 'diagnosis',
-        field: 'diagnosis',
-        width: 200,
-        // flex: 1,
-        sortable: true,
-        filter: true,
-        resizable: true,
-        suppressSizeToFit: true,
-      },
+     
       {
         headerName: 'phone',
         field: 'phone',
@@ -236,7 +248,7 @@ export class ListPcPatientComponent implements OnInit {
         suppressSizeToFit: true,
       },
       {
-        headerName: 'fees',
+        headerName: 'Fees',
         field: 'fees',
         width: 200,
         // flex: 1,
@@ -246,7 +258,7 @@ export class ListPcPatientComponent implements OnInit {
         suppressSizeToFit: true,
       },
       {
-        headerName: 'balance',
+        headerName: 'Balance',
         field: 'balance',
         width: 200,
         // flex: 1,
@@ -257,7 +269,7 @@ export class ListPcPatientComponent implements OnInit {
       },
 
       {
-        headerName: 'fstatus',
+        headerName: 'Fees status',
         field: 'fstatus',
         width: 200,
         // flex: 1,
@@ -265,9 +277,18 @@ export class ListPcPatientComponent implements OnInit {
         filter: true,
         resizable: true,
         suppressSizeToFit: true,
+      },{
+        headerName: 'Edit',
+        cellRenderer: 'iconRenderer',
+        width: 85,
+        // flex: 1,
+        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'center' },
+        cellRendererParams: {
+          onClick: this.onEditButtonClick.bind(this),
+          label: 'Edit'
+        },
       },
-
-
       {
         headerName: 'Delete',
         cellRenderer: 'iconRenderer',
@@ -284,6 +305,27 @@ export class ListPcPatientComponent implements OnInit {
     ];
   }
 
+  onEditButtonClick(params: any) {
+    this.router.navigate(['./app-dash-board/app-pc-patient-consultation', params.data.slNo]);
+  }
+
+  onDeleteButtonClick(params: any) {
+    this.patientmasterManager.patientmasterdelete(params.data.slNo).subscribe((response) => {
+      for (let i = 0; i < this.patientmaster001mb.length; i++) {
+        if (this.patientmaster001mb[i].slNo == params.data.slNo) {
+          this.patientmaster001mb?.splice(i, 1);
+          break;
+        }
+      }
+      const selectedRows = params.api.getSelectedRows();
+      params.api.applyTransaction({ remove: selectedRows });
+      this.gridOptions.api.deselectAll();
+    });
+  }
+
+  setPatientId(params: any){
+    return params.data.pcslno2.pcPatientId
+  }
   setDoctorNo(params: any) {
     return params.data.dcslno2.dFirstName
   }
@@ -293,16 +335,11 @@ export class ListPcPatientComponent implements OnInit {
 
   }
 
-  onDeleteButtonClick(params: any) {
-
-  }
-
   addPatient() {
     this.router.navigate(['./app-dash-board/app-pc-patient-consultation']);
   }
   editable(element) {
-    console.log("element", element);
-    this.router.navigate(['./app-dash-board/app-pc-patient-consultation', element.slNo]);
+    
   }
   Filterchange(data: Event) {
     const value = (data.target as HTMLInputElement).value;
@@ -315,7 +352,6 @@ export class ListPcPatientComponent implements OnInit {
   filteredProducts: any[];
   onSearchChange(searchValue: string): void {
     this.filteredProducts = [];
-    console.log(searchValue.length);
     if (searchValue.length > 2) {
       this.patientPcManager.allpatientpc(this.user.unitslno).subscribe(response => {
         this.patientpc001mb = deserialize<Patientpc001mb[]>(Patientpc001mb, response);
@@ -341,7 +377,6 @@ export class ListPcPatientComponent implements OnInit {
   }
 
   resetAwardLevelOnDobChange() {
-    console.log("this.previewWeek.value",this.previewWeek.value);
     this.patientpc=[]
     this.patientPcManager.allpatientpc(this.user.unitslno).subscribe(response => {
       this.patientpc001mb = deserialize<Patientpc001mb[]>(Patientpc001mb, response);

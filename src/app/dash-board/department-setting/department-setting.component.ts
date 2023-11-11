@@ -11,6 +11,7 @@ import { IconRendererComponent } from 'src/app/shared/services/renderercomponent
 import { DepartmentsManager } from 'src/app/shared/services/restcontroller/bizservice/Departments.service';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
 import { StatusSettingManager } from 'src/app/shared/services/restcontroller/bizservice/status-setting.service';
+import { ToastService } from 'src/app/shared/services/restcontroller/callout/toast.service';
 import { Departments001mb } from 'src/app/shared/services/restcontroller/entities/Departments001mb';
 import { Login001mb } from 'src/app/shared/services/restcontroller/entities/Login001mb';
 import { Status001mb } from 'src/app/shared/services/restcontroller/entities/status001mb';
@@ -45,8 +46,6 @@ export class DepartmentSettingComponent implements OnInit {
 		'sslno',
 	];
 	dataSource: MatTableDataSource<any>;
-
-
 	constructor(private router: Router,
 		private departmentsManager: DepartmentsManager,
 		private datepipe: DatePipe,
@@ -56,6 +55,7 @@ export class DepartmentSettingComponent implements OnInit {
 		private statusSettingManager: StatusSettingManager,
 		private authManager: AuthManager,
 		private httpClient: HttpClient, private http: HttpClient,
+		private toast: ToastService,
 	) {
 		this.frameworkComponents = {
 			//  linkRenderer: LinkRendererComponent,
@@ -102,7 +102,7 @@ export class DepartmentSettingComponent implements OnInit {
 			departments001mb.updatedUser = this.authManager.getcurrentUser.username;
 			departments001mb.updatedDatetime = new Date();
 			this.departmentsManager.departmentupdate(departments001mb).subscribe((response) => {
-				this.calloutService.showSuccess("Department Details Updated Successfully");
+				this.toast.updateSnackBar('Departments update Successfully');
 				this.loadData();
 				this.departmentForm.reset();
 				this.slNo = null;
@@ -114,7 +114,7 @@ export class DepartmentSettingComponent implements OnInit {
 			departments001mb.insertUser = this.authManager.getcurrentUser.username;
 			departments001mb.insertDatetime = new Date();
 			this.departmentsManager.departmentsave(departments001mb).subscribe((response) => {
-				this.calloutService.showSuccess("Department Details Saved Successfully");
+				this.toast.saveSnackBar('Departments update Successfully');
 				this.loadData();
 				this.departmentForm.reset();
 				this.submitted = false;

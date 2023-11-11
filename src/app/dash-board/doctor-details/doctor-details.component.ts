@@ -5,6 +5,7 @@ import { GridOptions } from 'ag-grid-community';
 import { deserialize } from 'serializer.ts/Serializer';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
 import { DoctorManager } from 'src/app/shared/services/restcontroller/bizservice/doctor.service';
+import { ToastService } from 'src/app/shared/services/restcontroller/callout/toast.service';
 import { Doctor001mb } from 'src/app/shared/services/restcontroller/entities/Doctor001mb';
 import { Login001mb } from 'src/app/shared/services/restcontroller/entities/Login001mb';
 import { CalloutService } from 'src/app/shared/services/services/callout.service';
@@ -73,6 +74,7 @@ export class DoctorDetailsComponent implements OnInit {
     private doctorManager: DoctorManager,
     private authManager: AuthManager,
     private calloutService: CalloutService,
+    private toast: ToastService,
   ) { }
 
   ngOnInit(): void {
@@ -145,6 +147,7 @@ export class DoctorDetailsComponent implements OnInit {
       doctor001mb.updatedUser = this.authManager.getcurrentUser.username;
       doctor001mb.updatedDatetime = new Date();
       this.doctorManager.doctorupdate(doctor001mb).subscribe((response) => {
+        this.toast.updateSnackBar('Doctor Details Updated Successfully');
         this.doctorForm.reset();
         this.loadData();
         this.slNo = null;
@@ -154,6 +157,7 @@ export class DoctorDetailsComponent implements OnInit {
       doctor001mb.insertUser = this.authManager.getcurrentUser.username;
       doctor001mb.insertDatetime = new Date();
       this.doctorManager.doctorsave(doctor001mb).subscribe((response) => {
+        this.toast.saveSnackBar('Doctor Details Saved Successfully');
         this.doctorForm.reset();
         this.loadData()
       })

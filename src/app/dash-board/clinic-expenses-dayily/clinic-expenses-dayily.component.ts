@@ -1,12 +1,15 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GridOptions } from 'ag-grid-community';
 import { deserialize } from 'serializer.ts/Serializer';
+import { DeleteDialogComponent } from 'src/app/shared/delete-dialog/delete-dialog.component';
 import { IconRendererComponent } from 'src/app/shared/services/renderercomponent/icon-renderer-component';
 import { DayilyexpensesManager } from 'src/app/shared/services/restcontroller/bizservice/Dayilyexpenses.service';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
+import { ToastService } from 'src/app/shared/services/restcontroller/callout/toast.service';
 import { Dayilyexpenses001mb } from 'src/app/shared/services/restcontroller/entities/Dayilyexpenses001mb';
 import { Login001mb } from 'src/app/shared/services/restcontroller/entities/Login001mb';
 import { CalloutService } from 'src/app/shared/services/services/callout.service';
@@ -26,7 +29,7 @@ export class ClinicExpensesDayilyComponent implements OnInit {
   name: string;
   amount: number;
   notes: string;
-  date: Date |any;
+  date: Date | any;
   insertUser: string;
   insertDatetime: Date;
   updatedUser: string | null;
@@ -41,6 +44,8 @@ export class ClinicExpensesDayilyComponent implements OnInit {
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private authManager: AuthManager,
+    private toast: ToastService,
+    public dialog: MatDialog
   ) {
     this.frameworkComponents = {
       iconRenderer: IconRendererComponent
@@ -138,6 +143,18 @@ export class ClinicExpensesDayilyComponent implements OnInit {
         suppressSizeToFit: true,
       },
       {
+        headerName: 'Edit',
+        cellRenderer: 'iconRenderer',
+        width: 85,
+        // flex: 1,
+        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'center' },
+        cellRendererParams: {
+          onClick: this.onEditButtonClick.bind(this),
+          label: 'Edit'
+        },
+      },
+      {
         headerName: 'Delete',
         cellRenderer: 'iconRenderer',
         width: 85,
@@ -145,13 +162,56 @@ export class ClinicExpensesDayilyComponent implements OnInit {
         suppressSizeToFit: true,
         cellStyle: { textAlign: 'center' },
         cellRendererParams: {
-          // onClick: this.onDeleteButtonClick.bind(this),
+          onClick: this.onDeleteButtonClick.bind(this),
           label: 'Delete'
         },
       },
 
     ];
   }
+
+  onEditButtonClick(params: any) {
+    this.slNo = params.data.slNo;
+    this.unitslno = params.data.unitslno;
+    this.insertUser = params.data.insertUser;
+    this.insertDatetime = params.data.insertDatetime;
+    this.dayilyExpensesForm.patchValue({
+      'name': params.data.name,
+      'date': this.datePipe.transform(params.data.date, "yyyy-MM-dd"),
+      'amount': params.data.amount,
+      'notes': params.data.notes,
+    });
+  }
+
+  onDeleteButtonClick(params: any) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '400px',
+      data: { title: 'Delete', content: 'Do you want to delete?' },
+      panelClass: 'custom-dialog-panel', // Add this line to apply the custom styles
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("result", result);
+
+      if (result == "confirm") {
+        this.dayilyexpensesManager.dayilyexpensesdelete(params.data.slNo).subscribe((response) => {
+          for (let i = 0; i < this.dayilyexpenses001mb.length; i++) {
+            if (this.dayilyexpenses001mb[i].slNo == params.data.slNo) {
+              this.dayilyexpenses001mb?.splice(i, 1);
+              break;
+            }
+          }
+          const selectedRows = params.api.getSelectedRows();
+          params.api.applyTransaction({ remove: selectedRows });
+          this.gridOptions.api.deselectAll();
+          this.calloutService.showSuccess("Purchase Request Removed Successfully");
+        });
+      }
+
+    });
+
+  }
+
 
   rowClicked(params: any) {
     params.node.setData({
@@ -177,7 +237,7 @@ export class ClinicExpensesDayilyComponent implements OnInit {
       dayilyexpenses001mb.updatedUser = this.authManager.getcurrentUser.username;
       dayilyexpenses001mb.updatedDatetime = new Date();
       this.dayilyexpensesManager.dayilyexpensesupdate(dayilyexpenses001mb).subscribe((response) => {
-        this.calloutService.showSuccess("Department Details Updated Successfully");
+        this.toast.updateSnackBar('Dayily Expenses update Successfully');
         this.loadData();
         this.dayilyExpensesForm.reset();
         this.slNo = null;
@@ -190,7 +250,7 @@ export class ClinicExpensesDayilyComponent implements OnInit {
       dayilyexpenses001mb.insertUser = this.authManager.getcurrentUser.username;
       dayilyexpenses001mb.insertDatetime = new Date();
       this.dayilyexpensesManager.dayilyexpensessave(dayilyexpenses001mb).subscribe((response) => {
-        this.calloutService.showSuccess("Department Details Saved Successfully");
+        this.toast.saveSnackBar('Dayily Expenses  Saved Successfully');
         this.loadData();
         this.dayilyExpensesForm.reset();
         // this.submitted = false;

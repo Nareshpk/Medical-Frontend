@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { deserialize } from 'serializer.ts/Serializer';
 import { DiagnosisManager } from 'src/app/shared/services/restcontroller/bizservice/Diagnosis.service';
 import { PatientManager } from 'src/app/shared/services/restcontroller/bizservice/Patient.service';
@@ -9,6 +10,7 @@ import { PatientPcManager } from 'src/app/shared/services/restcontroller/bizserv
 import { TreatmentManager } from 'src/app/shared/services/restcontroller/bizservice/Treatment.service';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
 import { DoctorManager } from 'src/app/shared/services/restcontroller/bizservice/doctor.service';
+import { ToastService } from 'src/app/shared/services/restcontroller/callout/toast.service';
 import { Diagnosis001mb } from 'src/app/shared/services/restcontroller/entities/Diagnosis001mb';
 import { Doctor001mb } from 'src/app/shared/services/restcontroller/entities/Doctor001mb';
 import { Login001mb } from 'src/app/shared/services/restcontroller/entities/Login001mb';
@@ -53,8 +55,11 @@ export class PcPatientConsultationComponent implements OnInit {
   diagnosis001mb: Diagnosis001mb[] | any;
   treatment001mb: Treatment001mb[] | any;
   patientmaster001mb: Patientmaster001mb[] | any;
+  patientpc001mb: Patientpc001mb;
   user?: Login001mb | any;
   arrayslno: any = [];
+  get_data: any = [];
+  patientpc001mbs: Patientpc001mb[] | any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -67,12 +72,61 @@ export class PcPatientConsultationComponent implements OnInit {
     private patientOpManager: PatientOpManager,
     private patientPcManager: PatientPcManager,
     private patientmasterManager: PatientmasterManager,
+    private router: Router,
+    private route: ActivatedRoute,
+    private toast: ToastService,
   ) { }
 
   ngOnInit(): void {
     this.user = this.authManager.getcurrentUser;
+    let id = Number(this.route.snapshot.params.id)
     this.patientPcForm = this.formBuilder.group({
       patientPcFormArry: this.formBuilder.array([this.createItem()])
+    });
+
+
+    this.patientPcManager.findOne(id).subscribe(response => {
+      this.patientpc001mb = deserialize<Patientpc001mb>(Patientpc001mb, response);
+      this.doctorslno.setValue(this.patientpc001mb.dcslno)
+      this.dateslno.setValue(this.patientpc001mb.date)
+
+      this.get_data.push(this.patientpc001mb)
+      for (let i = 0; i < this.get_data.length; i++) {
+        this.slNo = this.get_data[i]?.slNo;
+        this.patientPcFormArry = this.f['patientPcFormArry'] as FormArray;
+        this.patientPcFormArry.controls[i].controls['pcslno'].setValue(this.get_data[i]?.pcslno);
+        this.patientPcFormArry.controls[i].controls['pname'].setValue(this.get_data[i]?.pname);
+        this.patientPcFormArry.controls[i].controls['age'].setValue(this.get_data[i].age);
+        this.patientPcFormArry.controls[i].controls['sex'].setValue(this.get_data[i].sex);
+        this.patientPcFormArry.controls[i].controls['address'].setValue(this.get_data[i].address);
+        this.patientPcFormArry.controls[i].controls['phone'].setValue(this.get_data[i].phone);
+        this.patientPcFormArry.controls[i].controls['treatment'].setValue(this.get_data[i].treatment);
+        this.patientPcFormArry.controls[i].controls['diagnosis'].setValue(this.get_data[i].diagnosis);
+        this.patientPcFormArry.controls[i].controls['fees'].setValue(this.get_data[i].fees);
+        this.patientPcFormArry.controls[i].controls['balance'].setValue(this.get_data[i].balance);
+        this.patientPcFormArry.controls[i].controls['fstatus'].setValue(this.get_data[i].fstatus);
+        this.patientPcFormArry.controls[i].controls['visit'].setValue(this.get_data[i].visit);
+      }
+      // this.slNo = this.patientop001mb.slNo;
+      // this.unitslno = this.patientop001mb.unitslno;
+      // this.insertUser = this.patientop001mb.insertUser;
+      // this.insertDatetime = this.patientop001mb.insertDatetime;
+      // this.patientdetailsForm.patchValue({
+      //   'pslno': this.patientop001mb.pslno,
+      //   'dslno': this.patientop001mb.dslno,
+      //   'pname': this.patientop001mb.pname,
+      //   'age': this.patientop001mb.age,
+      //   'sex': this.patientop001mb.sex,
+      //   'treatment': this.patientop001mb.treatment,
+      //   'address': this.patientop001mb.address,
+      //   'phone': this.patientop001mb.phone,
+      //   'diagnosis': this.patientop001mb.diagnosis,
+      //   'fees': this.patientop001mb.fees,
+      //   'balance': this.patientop001mb.balance,
+      //   'fstatus': this.patientop001mb.fstatus,
+      //   'cdate': this.patientop001mb.cdate,
+      //   'rdate': this.patientop001mb.rdate,
+      // });
     });
     this.loadData();
 
@@ -94,6 +148,9 @@ export class PcPatientConsultationComponent implements OnInit {
     this.treatmentManager.alltreatment(this.user.unitslno).subscribe(response => {
       this.treatment001mb = deserialize<Treatment001mb[]>(Treatment001mb, response);
     });
+    this.patientPcManager.allpatientpc(this.user.unitslno).subscribe(response => {
+      this.patientpc001mbs = deserialize<Patientpc001mb[]>(Patientpc001mb, response);
+    });
   }
 
   get f() {
@@ -103,7 +160,6 @@ export class PcPatientConsultationComponent implements OnInit {
   createItem() {
     return this.formBuilder.group({
       pcslno: ['', Validators.required],
-
       pname: ['', Validators.required],
       age: ['', Validators.required],
       sex: ['', Validators.required],
@@ -114,7 +170,7 @@ export class PcPatientConsultationComponent implements OnInit {
       fees: ['', Validators.required],
       balance: ['', Validators.required],
       fstatus: ['', Validators.required],
-      visit: ['1', Validators.required],
+      visit: ['', Validators.required],
     })
   }
 
@@ -129,6 +185,9 @@ export class PcPatientConsultationComponent implements OnInit {
     }
     this.arrayslno.push(event);
     let details = this.patientmaster001mb.find((x) => x.slNo == event)
+    let patientpc = this.patientpc001mbs.filter((x) => { return x.pcslno == event })
+    console.log("patientpc", patientpc);
+
     this.patientPcFormArry = this.f['patientPcFormArry'] as FormArray;
     this.patientPcFormArry.controls[index].controls['pname'].setValue(details?.displayLname);
     this.patientPcFormArry.controls[index].controls['age'].setValue(details.age);
@@ -137,6 +196,7 @@ export class PcPatientConsultationComponent implements OnInit {
     this.patientPcFormArry.controls[index].controls['phone'].setValue(details.phone);
     this.patientPcFormArry.controls[index].controls['treatment'].setValue(details.treatment);
     this.patientPcFormArry.controls[index].controls['diagnosis'].setValue(details.diagnosis);
+    this.patientPcFormArry.controls[index].controls['visit'].setValue(patientpc.length + 1);
     // this.patientPcForm.patchValue({
     //   'pname': details.patientFname,
     //   'age': details.age,
@@ -155,13 +215,10 @@ export class PcPatientConsultationComponent implements OnInit {
   }
 
   onpatientPcForm(event: any, patientPcForm: any) {
-console.log("doc_and_date",this.dateslno);
-
     let doc_and_date = [{
       dcslno: this.doctorslno.value,
       date: this.dateslno.value
     }]
-    console.log("this.f", doc_and_date);
     let patientpc001mbs: Patientpc001mb[] = [];
     for (let i = 0; i < this.patientPcForm.controls.patientPcFormArry.controls.length; i++) {
       let patientpc001mb = new Patientpc001mb();
@@ -180,10 +237,10 @@ console.log("doc_and_date",this.dateslno);
       patientpc001mb.visit = this.f.patientPcFormArry.value[i].visit ? this.f.patientPcFormArry.value[i].visit : null;
       patientpc001mb.date = this.dateslno.value;
       if (this.slNo) {
-        patientpc001mb.slNo = this.slNo;
-        patientpc001mb.unitslno = this.unitslno;
-        patientpc001mb.insertUser = this.insertUser;
-        patientpc001mb.insertDatetime = this.insertDatetime;
+        patientpc001mb.slNo = this.get_data[i]?.slNo;
+        patientpc001mb.unitslno = this.user.unitslno;
+        patientpc001mb.insertUser = this.authManager.getcurrentUser.username;
+        patientpc001mb.insertDatetime = new Date();
         patientpc001mb.updatedUser = this.authManager.getcurrentUser.username;
         patientpc001mb.updatedDatetime = new Date();
       } else {
@@ -194,15 +251,18 @@ console.log("doc_and_date",this.dateslno);
 
       patientpc001mbs.push(patientpc001mb)
     }
-    console.log("patientpc001mbs", patientpc001mbs);
 
     if (this.slNo) {
       this.patientPcManager.patientpcupdate(patientpc001mbs).subscribe((response) => {
+        this.toast.updateSnackBar('Patient Updated Successfully');
+        this.router.navigate(['./app-dash-board/app-home-consultation']);
         this.ngOnInit();
         this.slNo = null;
       });
     } else {
       this.patientPcManager.patientpcsave(patientpc001mbs).subscribe((response) => {
+        this.toast.saveSnackBar('Patient Updated Successfully');
+        this.router.navigate(['./app-dash-board/app-home-consultation']);
         this.ngOnInit();
       })
     }

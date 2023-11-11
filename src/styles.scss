@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
+html, body { height: 100%;overflow: hidden; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 @import "~ag-grid-community/dist/styles/ag-grid.css";
@@ -21,3 +21,55 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .ag-theme-balham .ag-ltr .ag-cell {
     border-right: 1px solid rgb(228, 225, 225);
 }
+
+.custom-snackbar {
+    text-align: center !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: #43ff7b;
+    color: rgb(255, 255, 255);
+    text-transform: capitalize !important;
+    .mat-simple-snackbar {
+      align-items: center !important;
+      justify-content: center !important;
+      text-transform: capitalize !important;
+      span {
+        text-align: center !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #fff;
+        text-transform: capitalize !important;
+      }
+    }
+  }
+
+  .custom-snackbar-update {
+    text-align: center !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: #ffd043;
+    color: rgb(255, 255, 255);
+    text-transform: capitalize !important;
+    .mat-simple-snackbar {
+      align-items: center !important;
+      justify-content: center !important;
+      text-transform: capitalize !important;
+      span {
+        text-align: center !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: rgb(0, 0, 0);
+        text-transform: capitalize !important;
+      }
+    }
+  }
+
+  // .custom-dialog-panel {
+  //   background-color: red; /* Replace with your desired background color */
+  // }
+  
+
+  // .custom-dialog-panel .mat-dialog-title {
+  //   background-color: red; /* Replace with your desired background color for the header */
+  //   color: #fff; /* Set text color for the title area */
+  // }

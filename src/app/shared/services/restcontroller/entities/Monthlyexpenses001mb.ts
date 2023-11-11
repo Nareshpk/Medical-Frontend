@@ -4,7 +4,7 @@ export class Monthlyexpenses001mb {
     mname:string;
     mamount:number;
     mnotes:string;
-    mdate:Date;
+    mdate:Date | any;
     insertUser: string;
     insertDatetime: Date;
     updatedUser: string | null;

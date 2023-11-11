@@ -1,43 +1,43 @@
-<form>
-    <h1>Monthly Expenses Details</h1>
-    <mat-divider></mat-divider>
-    <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
-      fxLayoutAlign="start stretch" fxLayoutGap="5px">
-      <div fxLayout="column">
-        <div class="custom-form-group">
-          <label class="custom-label" for="">Name
-          </label>
-          <div class="custom-form-control">
-            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
-              <input formControlName="department" matInput placeholder="Enter Treatment Name" />
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-      <div fxLayout="column">
-        <div class="custom-form-group">
-          <label class="custom-label" for="">Expenses Name
-          </label>
-          <div class="custom-form-control">
-            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
-              <textarea formControlName="department" matInput placeholder="Enter Treatment Name" ></textarea>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-      <div fxLayout="column">
-        <div class="custom-form-group">
-          <label class="custom-label" for="">Date
-          </label>
-          <div class="custom-form-control">
-            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
-              <input formControlName="department" matInput placeholder="Enter Treatment Name" />
-            </mat-form-field>
-          </div>
+<form [formGroup]="monthlyExpensesForm" (ngSubmit)="onMonthlyExpensesClick($event,monthlyExpensesForm)">
+  <h1>Monthly Expenses Details</h1>
+  <mat-divider></mat-divider>
+  <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
+    fxLayoutAlign="start stretch" fxLayoutGap="5px">
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for="">Name
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+            <input formControlName="mname" matInput placeholder="Enter Name" />
+          </mat-form-field>
         </div>
       </div>
     </div>
-    <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for="">Expenses Name
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+            <textarea formControlName="mnotes" matInput placeholder="Enter Expenses Name"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column">
+      <div class="custom-form-group">
+        <label class="custom-label" for="">Date
+        </label>
+        <div class="custom-form-control">
+          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
+            <input formControlName="mdate" matInput placeholder="Enter Date" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
     fxLayoutAlign="start stretch" fxLayoutGap="5px">
     <div fxLayout="column">
       <div class="custom-form-group">
@@ -45,15 +45,19 @@
         </label>
         <div class="custom-form-control">
           <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
-            <input formControlName="department" matInput placeholder="Enter Treatment Name" />
+            <input formControlName="mamount" matInput placeholder="Enter Amount" />
           </mat-form-field>
         </div>
       </div>
     </div>
   </div>
-  
-    <div class="save-cancel-btn" fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="end end">
-      <button mat-raised-button color="accent" >Cancel</button>
-      <button mat-raised-button color="primary" type="submit">Save</button>
-    </div>
-  </form>
+
+  <div class="save-cancel-btn" fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="end end">
+    <button mat-raised-button color="accent">Cancel</button>
+    <button mat-raised-button color="primary" type="submit">Save</button>
+  </div>
+</form>
+
+<ag-grid-angular #agGrid class="ag-theme-balham" (rowClicked)="rowClicked($event)" [gridOptions]="gridOptions"
+  style="width: 100%; height: 350px;margin-top: 20px;" [pagination]="true" [frameworkComponents]="frameworkComponents">
+</ag-grid-angular>

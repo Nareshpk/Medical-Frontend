@@ -8,6 +8,7 @@ import { PatientManager } from 'src/app/shared/services/restcontroller/bizservic
 import { PatientmasterManager } from 'src/app/shared/services/restcontroller/bizservice/Patientmaster.service';
 import { TreatmentManager } from 'src/app/shared/services/restcontroller/bizservice/Treatment.service';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
+import { ToastService } from 'src/app/shared/services/restcontroller/callout/toast.service';
 import { Diagnosis001mb } from 'src/app/shared/services/restcontroller/entities/Diagnosis001mb';
 import { Login001mb } from 'src/app/shared/services/restcontroller/entities/Login001mb';
 import { Patient001mb } from 'src/app/shared/services/restcontroller/entities/Patient001mb';
@@ -67,7 +68,8 @@ export class PcPatientDetailsComponent implements OnInit {
     private patientmasterManager: PatientmasterManager,
     private diagnosisManager: DiagnosisManager,
     private TreatmentManager: TreatmentManager,
-    private datepipe: DatePipe
+    private datepipe: DatePipe,
+    private toast: ToastService,
   ) { }
 
   ngOnInit(): void {
@@ -103,12 +105,10 @@ export class PcPatientDetailsComponent implements OnInit {
       }
     });
     let date = this.datepipe.transform(new Date, 'MM-yy')
-    console.log("date", date);
-
     this.patientmasterManager.getCount().subscribe(response => {
       this.count = response[0].row == 0 ? 1 : parseInt(response[0].row) + 1;
       this.patientForm.patchValue({
-        pcPatientId: String(`AMK/${date}/`) + String(this.count).padStart(4, '0')
+        pcPatientId: String(`AMK-pc/${date}/`) + String(this.count).padStart(4, '0')
       });
     });
   }
@@ -168,6 +168,7 @@ export class PcPatientDetailsComponent implements OnInit {
       patientmaster001mb.updatedUser = this.authManager.getcurrentUser.username;
       patientmaster001mb.updatedDatetime = new Date();
       this.patientmasterManager.patientmasterupdate(patientmaster001mb).subscribe((response) => {
+        this.toast.updateSnackBar('Patient Updated Successfully');
         this.patientForm.reset();
         this.loadData();
         this.slNo = null;
@@ -177,6 +178,7 @@ export class PcPatientDetailsComponent implements OnInit {
       patientmaster001mb.insertUser = this.authManager.getcurrentUser.username;
       patientmaster001mb.insertDatetime = new Date();
       this.patientmasterManager.patientmastersave(patientmaster001mb).subscribe((response) => {
+        this.toast.saveSnackBar('Patient Updated Successfully');
         this.patientForm.reset();
         this.loadData()
       })

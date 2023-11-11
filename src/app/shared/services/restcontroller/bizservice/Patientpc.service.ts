@@ -32,6 +32,8 @@ export class PatientPcManager extends BaseService {
   findOne(id: any) {
     let data: any = {};
     data['id'] = id;
+    console.log("data",data);
+    
     return this.getCallService(`${this.patientpcUrl}`, data);
   }
 

@@ -255,7 +255,6 @@ export class HistoryOpPatientComponent implements OnInit {
           return params.data.rdate ? this.datePipe.transform(params.data.rdate, 'dd-MM-yyyy') : '';
         }
       },
-
       {
         headerName: 'Delete',
         cellRenderer: 'iconRenderer',
@@ -264,13 +263,29 @@ export class HistoryOpPatientComponent implements OnInit {
         suppressSizeToFit: true,
         cellStyle: { textAlign: 'center' },
         cellRendererParams: {
-          // onClick: this.onDeleteButtonClick.bind(this),
+          onClick: this.onDeleteButtonClick.bind(this),
           label: 'Delete'
         },
       },
 
     ];
   }
+
+  onDeleteButtonClick(params: any) {
+    this.patientOpManager.patientopdelete(params.data.slNo).subscribe((response) => {
+      for (let i = 0; i < this.patientop001mb.length; i++) {
+        if (this.patientop001mb[i].slNo == params.data.slNo) {
+          this.patientop001mb?.splice(i, 1);
+          break;
+        }
+      }
+      const selectedRows = params.api.getSelectedRows();
+      params.api.applyTransaction({ remove: selectedRows });
+      this.gridOptions.api.deselectAll();
+      // this.calloutService.showSuccess("Purchase Request Removed Successfully");
+    });
+  }
+
 
   setDoctorNo(params: any) {
     return params.data.dslno2.dFirstName
@@ -279,14 +294,12 @@ export class HistoryOpPatientComponent implements OnInit {
     this.router.navigate(['./app-dash-board/app-patient-consultation']);
   }
   editable(element) {
-    console.log("element", element);
     this.router.navigate(['./app-dash-board/app-patient-consultation', element.slNo]);
   }
 
   filteredProducts: any[];
   onSearchChange(searchValue: string): void {
     this.filteredProducts = [];
-    console.log(searchValue.length);
     if (searchValue.length > 2) {
       this.patientOpManager.allpatientop(this.user.unitslno).subscribe(response => {
         this.patientop001mb = deserialize<Patientop001mb[]>(Patientop001mb, response);
@@ -312,14 +325,11 @@ export class HistoryOpPatientComponent implements OnInit {
   }
 
   resetAwardLevelOnDobChange() {
-    console.log("this.previewWeek.value",this.previewWeek.value);
    
    }
 
    onDatefilter(event){
     this.patientop=[]
-    console.log("start",this.range.value.start);
-    console.log("end",this.range.value.end); 
     this.dataSource = new MatTableDataSource([]);
     this.patientOpManager.allpatientop(this.user.unitslno).subscribe(response => {
       this.patientop001mb = deserialize<Patientop001mb[]>(Patientop001mb, response);
@@ -329,12 +339,10 @@ export class HistoryOpPatientComponent implements OnInit {
         let startdate = this.datePipe.transform(this.range.value.start, "yyyy-MM-dd");
         let endDate = this.datePipe.transform(this.range.value.end, "yyyy-MM-dd");
       
-        console.log("test and Test else");
         if (cdate == startdate) {
           this.patientop.push(this.patientop001mb[i])
         }
       }
-      console.log('this.patientop',this.patientop);
       
       if (this.patientop.length > 0) {
         this.gridOptions?.api?.setRowData(this.patientop);
@@ -347,8 +355,6 @@ export class HistoryOpPatientComponent implements OnInit {
 
    onDateendfilter(event){
     this.patientop=[]
-    console.log("start",this.range.value.start);
-    console.log("end",this.range.value.end); 
     this.patientOpManager.allpatientop(this.user.unitslno).subscribe(response => {
       this.patientop001mb = deserialize<Patientop001mb[]>(Patientop001mb, response);
     
@@ -359,9 +365,7 @@ export class HistoryOpPatientComponent implements OnInit {
         if (startdate <= cdate && endDate >= cdate) {
           this.patientop.push(this.patientop001mb[i])
         }
-      }
-      console.log('this.patientop',this.patientop);
-      
+      }      
       if (this.patientop.length > 0) {
         this.gridOptions?.api?.setRowData(this.patientop);
       } else {

@@ -1,9 +1,11 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { deserialize } from 'serializer.ts/Serializer';
 import { PatientManager } from 'src/app/shared/services/restcontroller/bizservice/Patient.service';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
+import { ToastService } from 'src/app/shared/services/restcontroller/callout/toast.service';
 import { Login001mb } from 'src/app/shared/services/restcontroller/entities/Login001mb';
 import { Patient001mb } from 'src/app/shared/services/restcontroller/entities/Patient001mb';
 import { CalloutService } from 'src/app/shared/services/services/callout.service';
@@ -52,6 +54,8 @@ export class PatientDetailsComponent implements OnInit {
     private authManager: AuthManager,
     private patientManager: PatientManager,
     private calloutService: CalloutService,
+    private datepipe: DatePipe,
+    private toast: ToastService,
   ) { }
 
   ngOnInit(): void {
@@ -80,9 +84,10 @@ export class PatientDetailsComponent implements OnInit {
     });
 
     this.patientManager.getCount().subscribe(response => {
+      let date = this.datepipe.transform(new Date, 'MM-yy')
       this.count = response[0].row == 0 ? 1 : parseInt(response[0].row) + 1;
       this.patientForm.patchValue({
-        patientId: String("SE/PRS/22-23/") + String(this.count).padStart(4, '0')
+        patientId: String(`AMK-op/${date}/`) + String(this.count).padStart(4, '0')
       });
     });
   }
@@ -139,6 +144,7 @@ export class PatientDetailsComponent implements OnInit {
       patient001mb.updatedUser = this.authManager.getcurrentUser.username;
       patient001mb.updatedDatetime = new Date();
       this.patientManager.patientupdate(patient001mb).subscribe((response) => {
+        this.toast.updateSnackBar('Patient Updated Successfully');
         this.patientForm.reset();
         this.loadData();
         this.slNo = null;
@@ -148,6 +154,7 @@ export class PatientDetailsComponent implements OnInit {
       patient001mb.insertUser = this.authManager.getcurrentUser.username;
       patient001mb.insertDatetime = new Date();
       this.patientManager.patientsave(patient001mb).subscribe((response) => {
+        this.toast.saveSnackBar('Patient Saved Successfully');
         this.patientForm.reset();
         this.loadData()
       })

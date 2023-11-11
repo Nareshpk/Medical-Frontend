@@ -35,12 +35,13 @@ import { BaseService } from './shared/services/services/base.service';
 import { CalloutService } from './shared/services/services/callout.service';
 import { DataSharedService } from './shared/services/services/datashared.service';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { DeleteDialogComponent } from './shared/delete-dialog/delete-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-
+    DeleteDialogComponent,
   ],
   imports: [
     BrowserModule,
