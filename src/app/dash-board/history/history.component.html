@@ -1,9 +1,5 @@
-<!-- <app-patient-consultation></app-patient-consultation> -->
-<mat-tab-group>
-  <mat-tab label="Op Patient History">
-    <app-history-op-patient></app-history-op-patient
-  ></mat-tab>
-  <mat-tab label="Pc Patient History"
-    ><app-history-pc-patient></app-history-pc-patient
-  ></mat-tab>
-</mat-tab-group>
+<nav mat-tab-nav-bar>
+  <a mat-tab-link routerLink="./app-history-op-patient" routerLinkActive #purReqSlipTab="routerLinkActive" [active]="purReqSlipTab.isActive">Purchase Requisition Slip </a>
+  <a mat-tab-link routerLink="./app-history-pc-patient" routerLinkActive #supplierQuotTab="routerLinkActive" [active]="supplierQuotTab.isActive">Supplier Quotation</a>
+</nav>
+<router-outlet></router-outlet>

@@ -1,0 +1,32 @@
+/* my-component.component.scss */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .input-field {
+    margin-bottom: 20px;
+  
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  
+    .error-message {
+      color: red;
+      font-size: 14px;
+    }
+  }
+  
+  .submit-button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

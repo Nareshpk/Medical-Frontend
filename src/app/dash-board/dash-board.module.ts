@@ -72,6 +72,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AccountDeportmentComponent } from './account-deportment/account-deportment.component';
 import { ExcelsheetManager } from '../shared/services/restcontroller/bizservice/Excelsheet.service';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [DashBoardComponent, SidebarComponent, HeaderComponent, FooterComponent, DoctorDetailsComponent, PatientDetailsComponent, MasterDiagnosisComponent, MasterTreatmentComponent, HomeConsultationComponent, PatientConsultationComponent, PcPatientConsultationComponent, ProfileComponent, RegistrationComponent, UsernameComponent, PasswordComponent, UnitmasterComponent, UnitDeptMasterComponent, DepartmentSettingComponent, DepartmentParentComponent, ListOpPatientComponent, ListPcPatientComponent, PcPatientDetailsComponent, HistoryComponent, HistoryOpPatientComponent, HistoryPcPatientComponent, ClinicExpensesComponent, ClinicExpensesDayilyComponent, ClinicExpensesMonthlyComponent, AccountDeportmentComponent],
@@ -103,7 +104,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatSnackBarModule,
     MatDialogModule,
     MatButtonModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatButtonToggleModule
   ],
   providers: [
     LoginManager,

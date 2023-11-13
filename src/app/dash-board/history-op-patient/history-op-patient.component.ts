@@ -22,6 +22,7 @@ export class HistoryOpPatientComponent implements OnInit {
   });
   frameworkComponents: any;
   public gridOptions: GridOptions | any;
+  searchText: string = '';
   pslno: number;
   dslno: number;
   pname: string;
@@ -71,7 +72,7 @@ export class HistoryOpPatientComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.authManager.getcurrentUser;
     this.dataSource = new MatTableDataSource([]);
-    this.patientop=[]
+    this.patientop = []
     this.patientOpManager.allpatientop(this.user.unitslno).subscribe(response => {
       this.patientop001mb = deserialize<Patientop001mb[]>(Patientop001mb, response);
       if (this.patientop001mb.length > 0) {
@@ -81,6 +82,13 @@ export class HistoryOpPatientComponent implements OnInit {
       }
     });
     this.createDataGrid001();
+  }
+
+
+  filteredItems() {
+    return this.patientop001mb?.filter(item =>
+      item.dslno2.dFirstName.toLowerCase().includes(this.searchText.toLowerCase())
+    );
   }
 
   rowClicked(params: any) {
@@ -298,52 +306,41 @@ export class HistoryOpPatientComponent implements OnInit {
   }
 
   filteredProducts: any[];
-  onSearchChange(searchValue: string): void {
-    this.filteredProducts = [];
-    if (searchValue.length > 2) {
-      this.patientOpManager.allpatientop(this.user.unitslno).subscribe(response => {
-        this.patientop001mb = deserialize<Patientop001mb[]>(Patientop001mb, response);
+  clearSearch() {
+    this.searchText = '';
+  }
 
-        this.filteredProducts = this.patientop001mb.filter(product =>
-          product.dcslno2.dFirstName.toLowerCase().includes(searchValue.toLowerCase())
-        );
-
-        if (this.filteredProducts.length > 0) {
-          this.gridOptions?.api?.setRowData(this.filteredProducts);
-        } else {
-
-          this.gridOptions?.api?.setRowData([]);
-
-        }
-      });
+  onInput(event: Event) {
+    let filteredName: any = this.filteredItems()
+    if (filteredName.length > 0) {
+      this.gridOptions?.api?.setRowData(filteredName);
     } else {
-      if (searchValue.length == 0) {
-        this.filteredProducts =[]
-      }
-
+      this.gridOptions?.api?.setRowData([]);
     }
   }
 
-  resetAwardLevelOnDobChange() {
-   
-   }
+  onKeyUp(event: KeyboardEvent) {
+    if (event.key === 'Backspace' && this.searchText === '') {
+      this.clearSearch();
+    }
+  }
 
-   onDatefilter(event){
+
+ 
+
+  onStartDatefilter(event){
     this.patientop=[]
-    this.dataSource = new MatTableDataSource([]);
     this.patientOpManager.allpatientop(this.user.unitslno).subscribe(response => {
       this.patientop001mb = deserialize<Patientop001mb[]>(Patientop001mb, response);
-    
+
       for (let i = 0; i < this.patientop001mb.length; i++) {
         let cdate = this.datePipe.transform(this.patientop001mb[i].cdate, "yyyy-MM-dd");
         let startdate = this.datePipe.transform(this.range.value.start, "yyyy-MM-dd");
         let endDate = this.datePipe.transform(this.range.value.end, "yyyy-MM-dd");
-      
         if (cdate == startdate) {
           this.patientop.push(this.patientop001mb[i])
         }
       }
-      
       if (this.patientop.length > 0) {
         this.gridOptions?.api?.setRowData(this.patientop);
       } else {
@@ -353,16 +350,16 @@ export class HistoryOpPatientComponent implements OnInit {
     
    }
 
-   onDateendfilter(event){
+   onEndDatefilter(event){
     this.patientop=[]
     this.patientOpManager.allpatientop(this.user.unitslno).subscribe(response => {
       this.patientop001mb = deserialize<Patientop001mb[]>(Patientop001mb, response);
-    
+      this.patientop=[]
       for (let i = 0; i < this.patientop001mb.length; i++) {
         let cdate = this.datePipe.transform(this.patientop001mb[i].cdate, "yyyy-MM-dd");
         let startdate = this.datePipe.transform(this.range.value.start, "yyyy-MM-dd");
         let endDate = this.datePipe.transform(this.range.value.end, "yyyy-MM-dd");
-        if (startdate <= cdate && endDate >= cdate) {
+        if (startdate <= cdate &&endDate >= cdate) {          
           this.patientop.push(this.patientop001mb[i])
         }
       }      
@@ -373,6 +370,19 @@ export class HistoryOpPatientComponent implements OnInit {
       }
     });
     
+   }
+
+   clear(){
+    this.clearSearch();
+    this.range.reset()
+    this.patientOpManager.allpatientop(this.user.unitslno).subscribe(response => {
+      this.patientop001mb = deserialize<Patientop001mb[]>(Patientop001mb, response);
+      if (this.patientop001mb.length > 0) {
+        this.gridOptions?.api?.setRowData(this.patientop001mb);
+      } else {
+        this.gridOptions?.api?.setRowData([]);
+      }
+    });
    }
 
 }

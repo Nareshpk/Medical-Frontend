@@ -3,13 +3,14 @@
       <div class="col-3">
         <form class="example-form">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Search</mat-label>
             <mat-icon matPrefix>search</mat-icon>
-            <input type="search" matInput (input)="onSearchChange($event.target.value)">
+            <input type="search" matInput [(ngModel)]="searchText" 
+            (input)="onInput($event)"
+            (keyup)="onKeyUp($event)">
           </mat-form-field>
         </form>
       </div>
-      <div class="col-3">
+      <div class="col-4">
         <div class="custom-form-group">
           <div class="custom-form-control">
             <!-- <mat-form-field appearance="outline" [style.width.px]=327>
@@ -27,7 +28,9 @@
           </div>
         </div>
       </div>
-      <div class="col-3"></div>
+      <div class="col-2" style="display: flex;align-items: center;justify-content: center;">
+        <button mat-raised-button color="primary" (click)="clear()">Clear</button>
+      </div>
       <div class="col-3" style="display: flex;align-items: center;justify-content: center;">
         <button mat-raised-button color="primary" (click)="addPatient()">Add Patient</button>
       </div>

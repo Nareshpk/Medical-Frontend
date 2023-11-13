@@ -1,5 +1,7 @@
-<!-- <app-patient-consultation></app-patient-consultation> -->
-<mat-tab-group>
-  <mat-tab label="Op patient"> <app-list-op-patient></app-list-op-patient></mat-tab>
-  <mat-tab label="Pc patient"><app-list-pc-patient></app-list-pc-patient></mat-tab>
-</mat-tab-group>
+<nav mat-tab-nav-bar>
+  <a mat-tab-link routerLink="./app-list-op-patient" routerLinkActive #purReqSlipTab="routerLinkActive"
+    [active]="purReqSlipTab.isActive">Op patient</a>
+  <a mat-tab-link routerLink="./app-list-pc-patient" routerLinkActive #supplierQuotTab="routerLinkActive"
+    [active]="supplierQuotTab.isActive">Pc patient</a>
+</nav>
+<router-outlet></router-outlet>

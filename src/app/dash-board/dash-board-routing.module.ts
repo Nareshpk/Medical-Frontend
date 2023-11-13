@@ -16,6 +16,8 @@ import { PcPatientDetailsComponent } from './pc-patient-details/pc-patient-detai
 import { HistoryComponent } from './history/history.component';
 import { ClinicExpensesComponent } from './clinic-expenses/clinic-expenses.component';
 import { AccountDeportmentComponent } from './account-deportment/account-deportment.component';
+import { HistoryPcPatientComponent } from './history-pc-patient/history-pc-patient.component';
+import { HistoryOpPatientComponent } from './history-op-patient/history-op-patient.component';
 
 const routes: Routes = [
   {
@@ -41,6 +43,17 @@ const routes: Routes = [
       {
         path: "app-home-consultation",
         component: HomeConsultationComponent,
+        children:[
+          {
+            path: "app-list-op-patient",
+            component: ListOpPatientComponent,
+          },
+          {
+            path: "app-list-pc-patient",
+            component: ListPcPatientComponent,
+    
+          },
+        ]
       },
       {
         path: "app-profile",
@@ -49,15 +62,7 @@ const routes: Routes = [
       {
         path: "app-department-parent",
         component: DepartmentParentComponent,
-      }, {
-        path: "app-list-pc-patient",
-        component: ListPcPatientComponent,
-
-      },
-      {
-        path: "app-list-op-patient",
-        component: ListOpPatientComponent,
-      },
+      }, 
       {
         path: 'app-patient-consultation',
         component: PatientConsultationComponent,
@@ -81,6 +86,13 @@ const routes: Routes = [
       {
         path: 'app-history',
         component: HistoryComponent,
+        children: [{
+          path: 'app-history-op-patient',
+          component: HistoryOpPatientComponent,
+        }, {
+          path: 'app-history-pc-patient',
+          component: HistoryPcPatientComponent,
+        }]
       },
       {
         path: 'app-clinic-expenses',

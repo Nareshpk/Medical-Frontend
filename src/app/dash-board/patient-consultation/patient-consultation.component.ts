@@ -170,7 +170,7 @@ export class PatientConsultationComponent implements OnInit {
       patientop001mb.updatedDatetime = new Date();
       this.patientOpManager.patientopupdate(patientop001mb).subscribe((response) => {
         this.toast.updateSnackBar('Patientop Updated Successfully');
-        this.router.navigate(['./app-dash-board/app-home-consultation']);
+        this.router.navigate(['./app-dash-board/app-home-consultation/app-home-consultation/app-list-op-patient']);
         this.loadData();
         this.slNo = null;
       });
@@ -180,7 +180,7 @@ export class PatientConsultationComponent implements OnInit {
       patientop001mb.insertDatetime = new Date();
       this.patientOpManager.patientopsave(patientop001mb).subscribe((response) => {
         this.toast.saveSnackBar('Patientop Saved Successfully');
-        this.router.navigate(['./app-dash-board/app-home-consultation']);
+        this.router.navigate(['./app-dash-board/app-home-consultation/app-list-op-patient']);
         this.loadData()
       })
     }

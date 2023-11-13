@@ -26,7 +26,7 @@ export class HistoryPcPatientComponent implements OnInit {
     start: new FormControl(null),
     end: new FormControl(null),
   })
-
+  searchText: string = '';
   frameworkComponents: any;
   public gridOptions: GridOptions | any;
   patientpc: any[] = [];
@@ -320,39 +320,38 @@ export class HistoryPcPatientComponent implements OnInit {
   addcustomer() {
     // this.Openpopup(0, 'Add Customer',PopupComponent);
   }
-  filteredProducts: any[];
-  onSearchChange(searchValue: string): void {
-    this.filteredProducts = [];
-    if (searchValue.length > 2) {
-      this.patientPcManager.allpatientpc(this.user.unitslno).subscribe(response => {
-        this.patientpc001mb = deserialize<Patientpc001mb[]>(Patientpc001mb, response);
 
-        this.filteredProducts = this.patientpc001mb.filter(product =>
-          product.dcslno2.dFirstName.toLowerCase().includes(searchValue.toLowerCase())
-        );
+  filteredItems() {
+    return this.patientpc001mb?.filter(item =>
+      item.dcslno2.dFirstName.toLowerCase().includes(this.searchText.toLowerCase())
+    );
+  }
 
-        if (this.filteredProducts.length > 0) {
-          this.gridOptions?.api?.setRowData(this.filteredProducts);
-        } else {
+   clearSearch() {
+    this.searchText = '';
+  }
 
-          this.gridOptions?.api?.setRowData([]);
-
-        }
-      });
+  onInput(event: Event) {
+    let filteredName: any = this.filteredItems()
+    if (filteredName.length > 0) {
+      this.gridOptions?.api?.setRowData(filteredName);
     } else {
-      if (searchValue.length == 0) {
-        this.filteredProducts =[]
-      }
-
+      this.gridOptions?.api?.setRowData([]);
     }
   }
 
-  resetAwardLevelOnDobChange() {
-   
-   }
-   onStartDatefilter(event){
+  onKeyUp(event: KeyboardEvent) {
+    if (event.key === 'Backspace' && this.searchText === '') {
+      this.clearSearch();
+    }
+  }
+
+
+ 
+
+  onStartDatefilter(event){
     this.patientpc=[]
-    this.patientPcManager.allpatientpc(this.user.unitslno).subscribe(response => {
+     this.patientPcManager.allpatientpc(this.user.unitslno).subscribe(response => {
       this.patientpc001mb = deserialize<Patientpc001mb[]>(Patientpc001mb, response);
 
       for (let i = 0; i < this.patientpc001mb.length; i++) {
@@ -363,6 +362,8 @@ export class HistoryPcPatientComponent implements OnInit {
           this.patientpc.push(this.patientpc001mb[i])
         }
       }
+      
+      
       if (this.patientpc.length > 0) {
         this.gridOptions?.api?.setRowData(this.patientpc);
       } else {
@@ -392,6 +393,19 @@ export class HistoryPcPatientComponent implements OnInit {
       }
     });
     
+   }
+
+   clear(){
+    this.clearSearch();
+    this.range.reset()
+    this.patientPcManager.allpatientpc(this.user.unitslno).subscribe(response => {
+      this.patientpc001mb = deserialize<Patientpc001mb[]>(Patientpc001mb, response);
+      if (this.patientpc001mb.length > 0) {
+        this.gridOptions?.api?.setRowData(this.patientpc001mb);
+      } else {
+        this.gridOptions?.api?.setRowData([]);
+      }
+    });
    }
 
 }

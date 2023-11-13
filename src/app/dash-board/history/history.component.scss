@@ -11,3 +11,14 @@
 table {
   width: 100%;
 }
+
+.mat-button-toggle {
+ background-color: rgb(53, 53, 250);
+ padding: 2px;
+}
+
+/* Add styles for the checked state */
+.mat-button-toggle-checked {
+  background-color: aqua;
+  /* Your styles for the checked state */
+}

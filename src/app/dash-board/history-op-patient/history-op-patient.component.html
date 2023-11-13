@@ -3,9 +3,10 @@
       <div class="col-3">
         <form class="example-form">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Search</mat-label>
             <mat-icon matPrefix>search</mat-icon>
-            <input type="search" matInput (input)="onSearchChange($event.target.value)">
+            <input type="search" matInput [(ngModel)]="searchText" 
+            (input)="onInput($event)"
+            (keyup)="onKeyUp($event)">
           </mat-form-field>
         </form>
       </div>
@@ -14,8 +15,8 @@
           <div class="custom-form-control">
             <!-- <mat-form-field appearance="outline" [style.width.px]=400> -->
               <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                <input matStartDate formControlName="start" placeholder="Start date" (dateChange)="onDatefilter($event)">
-                <input matEndDate formControlName="end" placeholder="End date" (dateChange)="onDateendfilter($event)">
+                <input matStartDate formControlName="start" placeholder="Start date" (dateChange)="onStartDatefilter($event)">
+                <input matEndDate formControlName="end" placeholder="End date" (dateChange)="onEndDatefilter($event)">
               </mat-date-range-input>
               <mat-date-range-picker #picker></mat-date-range-picker>
               <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -24,8 +25,11 @@
             <!-- </mat-form-field> -->
           </div>
         </div>
+       
       </div>
-      <div class="col-2"></div>
+      <div class="col-2" style="display: flex;align-items: center;justify-content: center;">
+        <button mat-raised-button color="primary" (click)="clear()">Clear</button>
+      </div>
       <div class="col-3" style="display: flex;align-items: center;justify-content: center;">
         <button mat-raised-button color="primary" (click)="addPatient()">Add Patient</button>
       </div>

@@ -1,60 +1,48 @@
 <form [formGroup]="dayilyExpensesForm" (ngSubmit)="onDayilyExpensesClick($event, dayilyExpensesForm)">
   <h1>Dayily Expenses Details</h1>
   <mat-divider></mat-divider>
-  <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
-    fxLayoutAlign="start stretch" fxLayoutGap="5px">
-    <div fxLayout="column">
-      <div class="custom-form-group">
-        <label class="custom-label" for="">Name
-        </label>
-        <div class="custom-form-control">
-          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
-            <input formControlName="name" matInput placeholder="Enter  Name" />
-          </mat-form-field>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="input-field">
+          <label for="username">Name:</label>
+          <input type="text" class="form-control" placeholder="Enter  Name" formControlName="name" [ngClass]="{ 'error': f.name.errors.required }">
+          <div *ngIf="submitted && f.name.errors.required" class="error-message">Username is required.</div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="input-field">
+          <label for="username">Expenses Name</label>
+          <textarea formControlName="notes" class="form-control" placeholder="Enter Expenses Name"></textarea>
+          <!-- <div *ngIf="f.name class="error-message">Username is required.</div> -->
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="input-field">
+          <label for="username">Date</label>
+          <input type="text" class="form-control" formControlName="date" [ngClass]="{ 'error': usernameError }">
+          <!-- <div *ngIf="f.name class="error-message">Username is required.</div> -->
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="input-field">
+          <label for="username">Amount</label>
+          <input type="text" formControlName="amount" class="form-control" placeholder="Enter Amount" [ngClass]="{ 'error': usernameError }">
+          <!-- <div *ngIf="f.name class="error-message">Username is required.</div> -->
         </div>
       </div>
     </div>
-    <div fxLayout="column">
-      <div class="custom-form-group">
-        <label class="custom-label" for="">Expenses Name
-        </label>
-        <div class="custom-form-control">
-          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
-            <textarea formControlName="notes" matInput placeholder="Enter Expenses Name"></textarea>
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
-    <div fxLayout="column">
-      <div class="custom-form-group">
-        <label class="custom-label" for="">Date
-        </label>
-        <div class="custom-form-control">
-          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
-            <input formControlName="date" matInput placeholder="Enter Date" readonly="true" />
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
-    fxLayoutAlign="start stretch" fxLayoutGap="5px">
-    <div fxLayout="column">
-      <div class="custom-form-group">
-        <label class="custom-label" for="">Amount
-        </label>
-        <div class="custom-form-control">
-          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
-            <input formControlName="amount" matInput placeholder="Enter Amount" />
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="save-cancel-btn" fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="end end">
-    <button mat-raised-button color="accent" type="button">Cancel</button>
-    <button mat-raised-button color="primary" type="submit">Save</button>
+    <div class="row" align="end">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <button type="button" style="margin-right: 20px;" class="btn btn-warning reset"
+            (click)="onReset()">Clear</button>
+          <button type="submit" class="btn btn-primary submit">Save</button>
+
+        </div>
+      </div>
+    </div>
   </div>
 </form>
 

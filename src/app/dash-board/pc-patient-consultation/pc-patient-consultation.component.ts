@@ -255,14 +255,14 @@ export class PcPatientConsultationComponent implements OnInit {
     if (this.slNo) {
       this.patientPcManager.patientpcupdate(patientpc001mbs).subscribe((response) => {
         this.toast.updateSnackBar('Patient Updated Successfully');
-        this.router.navigate(['./app-dash-board/app-home-consultation']);
+        this.router.navigate(['./app-dash-board/app-home-consultation/app-list-pc-patient']);
         this.ngOnInit();
         this.slNo = null;
       });
     } else {
       this.patientPcManager.patientpcsave(patientpc001mbs).subscribe((response) => {
         this.toast.saveSnackBar('Patient Updated Successfully');
-        this.router.navigate(['./app-dash-board/app-home-consultation']);
+        this.router.navigate(['./app-dash-board/app-home-consultation/app-list-pc-patient']);
         this.ngOnInit();
       })
     }

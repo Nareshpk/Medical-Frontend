@@ -24,6 +24,9 @@ export class ClinicExpensesDayilyComponent implements OnInit {
   frameworkComponents: any;
   public gridOptions: GridOptions | any;
   dayilyExpensesForm: FormGroup | any;
+  usernameError=false;
+  passwordError=false;
+  submitted = false;
   slNo: number;
   unitslno: number;
   name: string;
@@ -56,11 +59,11 @@ export class ClinicExpensesDayilyComponent implements OnInit {
     this.user = this.authManager.getcurrentUser;
     let date =
       this.dayilyExpensesForm = this.formBuilder.group({
-        name: ['', Validators.required],
-        amount: ['', Validators.required],
-        notes: ['', Validators.required],
+        name: ['',[Validators.required]],
+        amount: ['', [Validators.required]],
+        notes: ['',[Validators.required]],
         date: [this.datePipe.transform(new Date(), "yyyy-MM-dd")],
-      })
+      } )
     this.loadData();
     this.createDataGrid001()
   }
@@ -183,6 +186,15 @@ export class ClinicExpensesDayilyComponent implements OnInit {
     });
   }
 
+  private markFormGroupTouched(formGroup: FormGroup) {
+    (<any>Object).values(formGroup.controls).forEach((control: any) => {
+      control.markAsTouched();
+      if (control.controls) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
+
   onDeleteButtonClick(params: any) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       width: '400px',
@@ -224,6 +236,11 @@ export class ClinicExpensesDayilyComponent implements OnInit {
 
 
   onDayilyExpensesClick(event: any, dayilyExpensesForm: any) {
+    this.markFormGroupTouched(this.dayilyExpensesForm);
+    this.submitted = true;
+    if (this.dayilyExpensesForm.invalid) {
+      return;
+    }
     let dayilyexpenses001mb = new Dayilyexpenses001mb();
     dayilyexpenses001mb.name = this.f.name.value ? this.f.name.value : "";
     dayilyexpenses001mb.amount = this.f.amount.value ? this.f.amount.value : "";
@@ -238,10 +255,10 @@ export class ClinicExpensesDayilyComponent implements OnInit {
       dayilyexpenses001mb.updatedDatetime = new Date();
       this.dayilyexpensesManager.dayilyexpensesupdate(dayilyexpenses001mb).subscribe((response) => {
         this.toast.updateSnackBar('Dayily Expenses update Successfully');
-        this.loadData();
+        this.ngOnInit();
         this.dayilyExpensesForm.reset();
         this.slNo = null;
-        // this.submitted = false;
+        this.submitted = false;
       });
 
     }
@@ -251,10 +268,26 @@ export class ClinicExpensesDayilyComponent implements OnInit {
       dayilyexpenses001mb.insertDatetime = new Date();
       this.dayilyexpensesManager.dayilyexpensessave(dayilyexpenses001mb).subscribe((response) => {
         this.toast.saveSnackBar('Dayily Expenses  Saved Successfully');
-        this.loadData();
+        this.ngOnInit();
+        // this.dayilyExpensesForm.reset();
         this.dayilyExpensesForm.reset();
-        // this.submitted = false;
+        this.submitted = false;
+        // this.checkForm.markAsPristine();
+        const usernameField = document.getElementById('name');
+        if (usernameField) {
+          usernameField.focus();
+        }
       });
+    }
+  }
+
+
+  onReset(){
+    this.ngOnInit()
+    this.dayilyExpensesForm.reset();
+    const usernameField = document.getElementById('name');
+    if (usernameField) {
+      usernameField.focus();
     }
   }
 

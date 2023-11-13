@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent implements OnInit {
-
+  selectedValue: string = 'option1';
   constructor() { }
 
   ngOnInit(): void {
