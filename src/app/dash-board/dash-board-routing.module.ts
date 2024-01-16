@@ -18,6 +18,12 @@ import { ClinicExpensesComponent } from './clinic-expenses/clinic-expenses.compo
 import { AccountDeportmentComponent } from './account-deportment/account-deportment.component';
 import { HistoryPcPatientComponent } from './history-pc-patient/history-pc-patient.component';
 import { HistoryOpPatientComponent } from './history-op-patient/history-op-patient.component';
+import { AllowanceComponent } from './allowance/allowance.component';
+import { StockComponent } from './stock/stock.component';
+import { StockDetailsComponent } from './stock-details/stock-details.component';
+import { StockProductDetailsComponent } from './stock-product-details/stock-product-details.component';
+import { StockProductDistributionComponent } from './stock-product-distribution/stock-product-distribution.component';
+import { StockProductSalesComponent } from './stock-product-sales/stock-product-sales.component';
 
 const routes: Routes = [
   {
@@ -43,7 +49,7 @@ const routes: Routes = [
       {
         path: "app-home-consultation",
         component: HomeConsultationComponent,
-        children:[
+        children: [
           {
             path: "app-list-op-patient",
             component: ListOpPatientComponent,
@@ -51,7 +57,7 @@ const routes: Routes = [
           {
             path: "app-list-pc-patient",
             component: ListPcPatientComponent,
-    
+
           },
         ]
       },
@@ -62,7 +68,7 @@ const routes: Routes = [
       {
         path: "app-department-parent",
         component: DepartmentParentComponent,
-      }, 
+      },
       {
         path: 'app-patient-consultation',
         component: PatientConsultationComponent,
@@ -97,6 +103,32 @@ const routes: Routes = [
       {
         path: 'app-clinic-expenses',
         component: ClinicExpensesComponent,
+      },
+      {
+        path: 'app-allowance',
+        component: AllowanceComponent,
+      },
+      {
+        path: 'app-stock',
+        component: StockComponent,
+        children: [
+          {
+            path: 'app-stock-details',
+            component: StockDetailsComponent,
+          },
+          {
+            path: 'app-stock-product-details',
+            component: StockProductDetailsComponent,
+          },
+          {
+            path: 'app-stock-product-distribution',
+            component: StockProductDistributionComponent,
+          },
+          {
+            path: 'app-stock-product-sales',
+            component: StockProductSalesComponent,
+          },
+        ]
       },
       {
         path: 'app-account-deportment',

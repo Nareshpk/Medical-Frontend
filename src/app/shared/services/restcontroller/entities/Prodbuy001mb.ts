@@ -1,14 +1,12 @@
-export class Customer001mb {
+
+export class Prodbuy001mb {
     slNo: number;
     unitslno: number;
-    prodslno:number;
-    customerName:string;
-    customerMobile:string;
     date: Date;
+    total:string;
+    prodName: string;
+    prodPrice: string;
     qty: string;
-    retailCost:string;
-    customerPrice:string;
-    profit:string;
     insertUser: string;
     insertDatetime: Date;
     updatedUser: string | null;

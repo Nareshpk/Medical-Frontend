@@ -71,11 +71,58 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { AccountDeportmentComponent } from './account-deportment/account-deportment.component';
 import { ExcelsheetManager } from '../shared/services/restcontroller/bizservice/Excelsheet.service';
-import {MatBadgeModule} from '@angular/material/badge';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { StockProductSalesComponent } from './stock-product-sales/stock-product-sales.component';
+import { StockProductDistributionComponent } from './stock-product-distribution/stock-product-distribution.component';
+import { StockProductDetailsComponent } from './stock-product-details/stock-product-details.component';
+import { StockDetailsComponent } from './stock-details/stock-details.component';
+import { StockComponent } from './stock/stock.component';
+import { AllowanceManager } from '../shared/services/restcontroller/bizservice/Allowance.service';
+import { AllowanceComponent } from './allowance/allowance.component';
+import { ProdmasterManager } from '../shared/services/restcontroller/bizservice/ProductMaster.service';
+import { CustomerManager } from '../shared/services/restcontroller/bizservice/customer.service';
+import { DistributionManager } from '../shared/services/restcontroller/bizservice/Distribution.service';
+import { ProdbuyManager } from '../shared/services/restcontroller/bizservice/Prodbuy.service';
 
 @NgModule({
-  declarations: [DashBoardComponent, SidebarComponent, HeaderComponent, FooterComponent, DoctorDetailsComponent, PatientDetailsComponent, MasterDiagnosisComponent, MasterTreatmentComponent, HomeConsultationComponent, PatientConsultationComponent, PcPatientConsultationComponent, ProfileComponent, RegistrationComponent, UsernameComponent, PasswordComponent, UnitmasterComponent, UnitDeptMasterComponent, DepartmentSettingComponent, DepartmentParentComponent, ListOpPatientComponent, ListPcPatientComponent, PcPatientDetailsComponent, HistoryComponent, HistoryOpPatientComponent, HistoryPcPatientComponent, ClinicExpensesComponent, ClinicExpensesDayilyComponent, ClinicExpensesMonthlyComponent, AccountDeportmentComponent],
+  declarations: [
+    DashBoardComponent,
+    SidebarComponent,
+    HeaderComponent,
+    FooterComponent,
+    DoctorDetailsComponent,
+    PatientDetailsComponent,
+    MasterDiagnosisComponent,
+    MasterTreatmentComponent,
+    HomeConsultationComponent,
+    PatientConsultationComponent,
+    PcPatientConsultationComponent,
+    ProfileComponent,
+    RegistrationComponent,
+    UsernameComponent,
+    PasswordComponent,
+    UnitmasterComponent,
+    UnitDeptMasterComponent,
+    DepartmentSettingComponent,
+    DepartmentParentComponent,
+    ListOpPatientComponent,
+    ListPcPatientComponent,
+    PcPatientDetailsComponent,
+    HistoryComponent,
+    HistoryOpPatientComponent,
+    HistoryPcPatientComponent,
+    ClinicExpensesComponent,
+    ClinicExpensesDayilyComponent,
+    ClinicExpensesMonthlyComponent,
+    AccountDeportmentComponent,
+    StockProductSalesComponent,
+    StockProductDistributionComponent,
+    StockProductDetailsComponent,
+    StockDetailsComponent,
+    StockComponent,
+    AllowanceComponent
+  ],
   imports: [
     CommonModule,
     DashBoardRoutingModule,
@@ -126,7 +173,11 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     DayilyexpensesManager,
     ToastService,
     ExcelsheetManager,
-    
+    AllowanceManager,
+    ProdmasterManager,
+    CustomerManager,
+    DistributionManager,
+    ProdbuyManager
   ],
   // exports: [NgbCollapseModule],
   bootstrap: [DashBoardComponent,],

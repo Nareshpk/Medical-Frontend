@@ -12,10 +12,12 @@ import { Customer001mb } from "../entities/Customer001mb";
 @Injectable()
 export class CustomerManager extends BaseService {
 
-    private CustomerUrl: string = `${environment.apiUrl}/customers`
+    private CustomerUrl: string = `${environment.apiUrl}/Customer`
 
-    allcustomer() {
-        return this.getCallService(`${this.CustomerUrl}` + "/findAll");
+    allcustomer(unitslno:any) {
+        let data: any = {};
+        data['unitslno'] = unitslno;
+        return this.getCallService(`${this.CustomerUrl}` + "/findAll", data);
     }
 
     saveCustomer(customer001mb: Customer001mb) {

@@ -1,15 +1,19 @@
+<div class="container-fluid">
+  <div class="text-center">
+    <h4>Creat Clinic</h4>
+  </div>
+
 <form [formGroup]="unitmasterForm" (ngSubmit)="onUnitMasterClick($event,unitmasterForm)">
-  <h1>Treatment Details</h1>
-  <mat-divider></mat-divider>
+  
   <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
     fxLayoutAlign="start stretch" fxLayoutGap="5px">
     <div fxLayout="column">
       <div class="custom-form-group">
-        <label class="custom-label" for="">Treatment Name
+        <label class="custom-label" for="">Branch Name
         </label>
         <div class="custom-form-control">
           <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
-            <input formControlName="unitName" matInput placeholder="Enter Treatment Name" />
+            <input formControlName="unitName" matInput placeholder="Enter Branch Name" />
           </mat-form-field>
         </div>
       </div>
@@ -17,11 +21,11 @@
 
     <div fxLayout="column">
       <div class="custom-form-group">
-        <label class="custom-label" for="">Treatment Name
+        <label class="custom-label" for="">Branch Describtion
         </label>
         <div class="custom-form-control">
           <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
-            <textarea formControlName="unitDescribtion" matInput placeholder="Enter unitDescribtion" ></textarea>
+            <textarea formControlName="unitDescribtion" matInput placeholder="Branch Describtion" ></textarea>
           </mat-form-field>
         </div>
       </div>
@@ -33,11 +37,11 @@
     <div fxLayout="column">
       <div class="custom-form-group">
         <label class="custom-label" for="">
-          Fees Status
+          Status
         </label>
         <div class="custom-form-control">
           <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=327>
-            <mat-select matNativeControl formControlName="status" placeholder="Fees Status">
+            <mat-select matNativeControl formControlName="status" placeholder="Status">
               <mat-option *ngFor="let statusprop of statusproperty" [value]="statusprop.slNo">
                 {{statusprop.name}}
               </mat-option>
@@ -54,58 +58,10 @@
     <button mat-raised-button color="primary" type="submit">Save</button>
   </div>
 </form>
-
-<div style="margin-top: 20px;">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-    <!-- Position Column -->
-    <ng-container matColumnDef="slNo">
-      <th mat-header-cell *matHeaderCellDef> slNo</th>
-      <td mat-cell *matCellDef="let element"> {{element.slNo}} </td>
-    </ng-container>
-
-    <!-- Name Column -->
-    <ng-container matColumnDef="unitName">
-      <th mat-header-cell *matHeaderCellDef>unitName </th>
-      <td mat-cell *matCellDef="let element"> {{element.unitName}} </td>
-    </ng-container>
-
-     <!-- Name Column -->
-     <ng-container matColumnDef="unitDescribtion">
-      <th mat-header-cell *matHeaderCellDef>unitDescribtion </th>
-      <td mat-cell *matCellDef="let element"> {{element.unitDescribtion}} </td>
-    </ng-container>
-
-
-     <!-- Name Column -->
-     <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>status </th>
-      <td mat-cell *matCellDef="let element"> {{element.status}} </td>
-    </ng-container>
-
-
-    <ng-container matColumnDef="action" stickyEnd>
-      <th mat-header-cell *matHeaderCellDef> <span class="tab_head"> Action </span>
-      </th>
-      <td mat-cell *matCellDef="let element" data-label="action" (click)="$event.stopPropagation()"
-        (click)="$event.stopPropagation()" style="pointer-events:all;">
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="editable(element)">
-            <mat-icon>edit</mat-icon>
-            <span>Edit</span>
-          </button>
-          <button mat-menu-item (click)="onDeleteButtonClick(element)">
-            <mat-icon>delete</mat-icon>
-            <span>Delete</span>
-          </button>
-        </mat-menu>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
 </div>
+
+<fieldset class="scheduler-border">
+  <legend class="scheduler-border">Unit Master Details</legend>
+  <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions" style="width: 100%; height: 350px;" [pagination]="true" [frameworkComponents]="frameworkComponents">
+  </ag-grid-angular>
+</fieldset>

@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GridOptions } from 'ag-grid-community';
 import { deserialize } from 'serializer.ts/Serializer';
+import { DeleteDialogComponent } from 'src/app/shared/delete-dialog/delete-dialog.component';
 import { IconRendererComponent } from 'src/app/shared/services/renderercomponent/icon-renderer-component';
 import { DepartmentsManager } from 'src/app/shared/services/restcontroller/bizservice/Departments.service';
 import { AuthManager } from 'src/app/shared/services/restcontroller/bizservice/auth-manager.service';
@@ -47,63 +48,180 @@ export class UnitDeptMasterComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
 
   constructor(private formBuilder: FormBuilder,
-      // private roleManager: RoleManager,
-      // private userManager: UserManager,
-      private calloutService: CalloutService,
-      private authManager: AuthManager,
-      private modalService: NgbModal,
-      private unitManagerManager: UnitManagerManager,
-      private departmentsManager: DepartmentsManager,
-      private statusSettingManager: StatusSettingManager,
-      private unitDepartManager: UnitDepartManager,
+    // private roleManager: RoleManager,
+    // private userManager: UserManager,
+    private calloutService: CalloutService,
+    private authManager: AuthManager,
+    private modalService: NgbModal,
+    private unitManagerManager: UnitManagerManager,
+    private departmentsManager: DepartmentsManager,
+    private statusSettingManager: StatusSettingManager,
+    private unitDepartManager: UnitDepartManager,
   ) {
-      this.frameworkComponents = {
-          iconRenderer: IconRendererComponent
-      }
+    this.frameworkComponents = {
+      iconRenderer: IconRendererComponent
+    }
   }
 
   ngOnInit() {
-      this.user = this.authManager.getcurrentUser;
+    this.user = this.authManager.getcurrentUser;
 
-      this.UnitDepartMasterForm = this.formBuilder.group({
-        unitslNo: [null, Validators.required],
-          departslNo: [null, Validators.required],
-      });
+    this.UnitDepartMasterForm = this.formBuilder.group({
+      unitslNo: [null, Validators.required],
+      departslNo: [null, Validators.required],
+    });
 
 
-      this.departmentsManager.alldepartment().subscribe(response => {
-          this.departmentSettings = deserialize<Departments001mb[]>(Departments001mb, response);
-          console.log("this.departmentSettings ", this.departmentSettings)
-      });
-      this.unitManagerManager.allunitmanager().subscribe((response) => {
-        this.unitmasters = deserialize<UnitMaster001mb[]>(UnitMaster001mb, response);
-        console.log("this.unitmasters ", this.unitmasters)
+    this.departmentsManager.alldepartment().subscribe(response => {
+      this.departmentSettings = deserialize<Departments001mb[]>(Departments001mb, response);
+      console.log("this.departmentSettings ", this.departmentSettings)
+    });
+    this.unitManagerManager.allunitmanager().subscribe((response) => {
+      this.unitmasters = deserialize<UnitMaster001mb[]>(UnitMaster001mb, response);
+      console.log("this.unitmasters ", this.unitmasters)
     })
+    this.createDataGrid001();
 
-
-      this.loadData();
+    this.loadData();
 
 
   }
 
-  loadData() {
-      // this.roleManager.allrole().subscribe((response) => {
-      //     this.roles = deserialize<Role001mb[]>(Role001mb, response);
-      // });
 
-      this.unitDepartManager.allunitdepartmanager().subscribe((response) => {
-          this.unitdepartmasters = deserialize<Unitdepartmaster001mb[]>(Unitdepartmaster001mb, response);
-          console.log("this.unitdepartmasters ", this.unitdepartmasters);
-          if (this.unitdepartmasters.length > 0) {
-            this.dataSource = new MatTableDataSource(this.unitdepartmasters);
-          } else {
-            this.dataSource = new MatTableDataSource([]);
-          }
-      })
+  loadData() {
+    // this.roleManager.allrole().subscribe((response) => {
+    //     this.roles = deserialize<Role001mb[]>(Role001mb, response);
+    // });
+
+    this.unitDepartManager.allunitdepartmanager().subscribe((response) => {
+      this.unitdepartmasters = deserialize<Unitdepartmaster001mb[]>(Unitdepartmaster001mb, response);
+      console.log("this.unitdepartmasters ", this.unitdepartmasters);
+      if (this.unitdepartmasters.length > 0) {
+        this.gridOptions?.api?.setRowData(this.unitdepartmasters);
+      } else {
+        this.gridOptions?.api?.setRowData([]);
+      }
+    })
 
   }
 
   get f() { return this.UnitDepartMasterForm.controls; }
+
+  createDataGrid001(): void {
+    this.gridOptions = {
+      paginationPageSize: 10,
+      rowSelection: 'single',
+      onFirstDataRendered: this.onFirstDataRendered.bind(this)
+    };
+    this.gridOptions.editType = 'fullRow';
+    this.gridOptions.enableRangeSelection = true;
+    this.gridOptions.animateRows = true;
+    this.gridOptions.columnDefs = [
+      {
+        headerName: '#Id',
+        field: 'slNo',
+        width: 200,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        headerCheckboxSelection: true,
+        headerCheckboxSelectionFilteredOnly: true,
+        checkboxSelection: true,
+        suppressSizeToFit: true,
+      },
+      {
+        headerName: 'Unit Name',
+        field: "unitName",
+        width: 200,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+        valueGetter: this.setUnitName.bind(this)
+      },
+      {
+        headerName: 'Department Name',
+        field: "deptslNo",
+        width: 200,
+        flex: 1,
+        sortable: true,
+        filter: true,
+        resizable: true,
+        suppressSizeToFit: true,
+        valueGetter: this.setDeptName.bind(this)
+      },
+
+      {
+        headerName: 'Edit',
+        cellRenderer: 'iconRenderer',
+        width: 200,
+        flex: 1,
+        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'center' },
+        cellRendererParams: {
+          onClick: this.onEditButtonClick.bind(this),
+          label: 'Edit'
+        }
+      },
+      {
+        headerName: 'Delete',
+        cellRenderer: 'iconRenderer',
+        width: 85,
+        // flex: 1,
+        suppressSizeToFit: true,
+        cellStyle: { textAlign: 'center' },
+        cellRendererParams: {
+          onClick: this.onDeleteButtonClick.bind(this),
+          label: 'Delete'
+        }
+      },
+
+    ];
+  }
+
+  setDeptName(params: any): string {
+    return params.data.departslNo2 ? params.data.departslNo2?.department : null;
+  }
+
+  setUnitName(params: any): string {
+    return params.data.unitslNo2 ? params.data.unitslNo2?.unitName : null;
+  }
+  onFirstDataRendered(params: any) {
+    params.api.sizeColumnsToFit();
+  }
+  onEditButtonClick(params: any) {
+    // this.id = params.data.id;
+    console.log("params--edit", params);
+    this.slNo = params.data.slNo;
+    this.insertUser = params.data.insertUser;
+    this.insertDatetime = params.data.insertDatetime;
+    this.UnitDepartMasterForm.patchValue({
+      'departslNo': params.data.departslNo,
+      'unitslNo': params.data.unitslNo,
+    });
+  }
+
+  onDeleteButtonClick(params: any) {
+    const modalRef = this.modalService.open(DeleteDialogComponent);
+    modalRef.componentInstance.details = "Unit Master";
+    modalRef.result.then((data) => {
+      if (data == "Yes") {
+        this.unitDepartManager.deleteunitdepartmanager(params.data.slNo).subscribe((response) => {
+          for (let i = 0; i < this.unitdepartmasters.length; i++) {
+            if (this.unitdepartmasters[i].slNo == params.data.slNo) {
+              this.unitdepartmasters?.splice(i, 1);
+              break;
+            }
+          }
+          const selectedRows = params.api.getSelectedRows();
+          params.api.applyTransaction({ remove: selectedRows });
+          this.calloutService.showSuccess("Unit Master data Removed Successfully");
+        });
+      }
+    })
+  }
 
   onUnitDepartMasterClick(event: any, UnitDepartMasterForm: any) {
 
@@ -118,33 +236,33 @@ export class UnitDeptMasterComponent implements OnInit {
       unitDepartMaster001mb.slNo = this.slNo;
       unitDepartMaster001mb.insertUser = this.insertUser;
       unitDepartMaster001mb.insertDatetime = this.insertDatetime;
-        unitDepartMaster001mb.updatedUser = this.authManager.getcurrentUser.username;
-        unitDepartMaster001mb.updatedDatetime = new Date();
-        this.unitDepartManager.updateunitdepartmanager(unitDepartMaster001mb).subscribe(response => {
-            this.calloutService.showSuccess("Unit Deartment Master Updated Successfully");
-            this.loadData();
-            this.submitted = false;
-            this.slNo = null;
-        })
+      unitDepartMaster001mb.updatedUser = this.authManager.getcurrentUser.username;
+      unitDepartMaster001mb.updatedDatetime = new Date();
+      this.unitDepartManager.updateunitdepartmanager(unitDepartMaster001mb).subscribe(response => {
+        this.calloutService.showSuccess("Unit Deartment Master Updated Successfully");
+        this.loadData();
+        this.submitted = false;
+        this.slNo = null;
+      })
     }
     else {
       unitDepartMaster001mb.insertUser = this.authManager.getcurrentUser.username;
       unitDepartMaster001mb.insertDatetime = new Date();
-        this.unitDepartManager.saveunitdepartmanager(unitDepartMaster001mb).subscribe(response => {
-            this.calloutService.showSuccess("Unit Deartment Master Saved Successfully");
-            this.UnitDepartMasterForm.reset();
-            this.loadData();
-            this.submitted = false;
-            this.slNo = null;
-        });
+      this.unitDepartManager.saveunitdepartmanager(unitDepartMaster001mb).subscribe(response => {
+        this.calloutService.showSuccess("Unit Deartment Master Saved Successfully");
+        this.UnitDepartMasterForm.reset();
+        this.loadData();
+        this.submitted = false;
+        this.slNo = null;
+      });
     }
 
 
-}
+  }
 
-onReset() {
+  onReset() {
     this.UnitDepartMasterForm.reset();
     this.submitted = false;
 
-}
+  }
 }

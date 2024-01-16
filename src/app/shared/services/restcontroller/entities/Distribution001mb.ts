@@ -1,14 +1,10 @@
-export class Customer001mb {
+export class Distribution001mb {
     slNo: number;
     unitslno: number;
     prodslno:number;
-    customerName:string;
-    customerMobile:string;
+    clinicslno:number;
     date: Date;
     qty: string;
-    retailCost:string;
-    customerPrice:string;
-    profit:string;
     insertUser: string;
     insertDatetime: Date;
     updatedUser: string | null;

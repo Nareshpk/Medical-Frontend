@@ -1,0 +1,11 @@
+<nav mat-tab-nav-bar>
+    <a mat-tab-link routerLink="./app-stock-details" routerLinkActive #purReqSlipTab="routerLinkActive"
+      [active]="purReqSlipTab.isActive">Enter Prodcut Details</a>
+    <a mat-tab-link routerLink="./app-stock-product-details" routerLinkActive #buyingrQuotTab="routerLinkActive"
+      [active]="buyingrQuotTab.isActive">Product Buying Details</a>
+      <a mat-tab-link routerLink="./app-stock-product-distribution" routerLinkActive #distributionQuotTab="routerLinkActive"
+      [active]="distributionQuotTab.isActive">Product distribution Details</a>
+      <a mat-tab-link routerLink="./app-stock-product-sales" routerLinkActive #salesQuotTab="routerLinkActive"
+      [active]="salesQuotTab.isActive">Product sales Details</a>
+  </nav>
+  <router-outlet></router-outlet>

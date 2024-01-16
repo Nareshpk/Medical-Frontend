@@ -1,98 +1,59 @@
-<form [formGroup]="UnitDepartMasterForm" (ngSubmit)="onUnitDepartMasterClick($event,UnitDepartMasterForm)">
-  <h1>Treatment Details</h1>
-  <mat-divider></mat-divider>
-  <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
-    fxLayoutAlign="start stretch" fxLayoutGap="35px">
-    <div fxLayout="column">
-      <div class="custom-form-group">
-        <label class="custom-label" for="">
-          Fees Status
-        </label>
-        <div class="custom-form-control">
-          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=400>
-            <mat-select matNativeControl formControlName="unitslNo" placeholder="Fees Status">
-              <mat-option  *ngFor="let unitmaster of unitmasters" [value]="unitmaster.slNo">
-                {{unitmaster.unitName}}
-              </mat-option>
-
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
-
-    <div fxLayout="column">
-      <div class="custom-form-group">
-        <label class="custom-label" for="">
-          Fees Status
-        </label>
-        <div class="custom-form-control">
-          <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=400>
-            <mat-select matNativeControl formControlName="departslNo" placeholder="Fees Status">
-              <mat-option  *ngFor="let department of departmentSettings" [value]="department.slNo">
-                {{department.department}}
-              </mat-option>
-
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
-
+<div class="container-fluid">
+  <div class="text-center">
+    <h4>Merge Clincic & Department</h4>
   </div>
 
-  <div class="save-cancel-btn" fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="end end">
-    <button mat-raised-button color="accent" (click)="onReset()">Cancel</button>
-    <button mat-raised-button color="primary" type="submit">Save</button>
-  </div>
-</form>
+  <form [formGroup]="UnitDepartMasterForm" (ngSubmit)="onUnitDepartMasterClick($event,UnitDepartMasterForm)">
+    <h1>Treatment Details</h1>
+    <mat-divider></mat-divider>
+    <div fxLayout="row" fxLayout.lg="row" fxLayout.md="row" fxLayout.sm="row" fxLayout.xs="column"
+      fxLayoutAlign="start stretch" fxLayoutGap="35px">
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for="">
+            Fees Status
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=400>
+              <mat-select matNativeControl formControlName="unitslNo" placeholder="Fees Status">
+                <mat-option *ngFor="let unitmaster of unitmasters" [value]="unitmaster.slNo">
+                  {{unitmaster.unitName}}
+                </mat-option>
 
-<div style="margin-top: 20px;">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
 
-    <!-- Position Column -->
-    <ng-container matColumnDef="slNo">
-      <th mat-header-cell *matHeaderCellDef> slNo</th>
-      <td mat-cell *matCellDef="let element"> {{element.slNo}} </td>
-    </ng-container>
+      <div fxLayout="column">
+        <div class="custom-form-group">
+          <label class="custom-label" for="">
+            Fees Status
+          </label>
+          <div class="custom-form-control">
+            <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=400>
+              <mat-select matNativeControl formControlName="departslNo" placeholder="Fees Status">
+                <mat-option *ngFor="let department of departmentSettings" [value]="department.slNo">
+                  {{department.department}}
+                </mat-option>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="unitslNo">
-      <th mat-header-cell *matHeaderCellDef>unitName </th>
-      <td mat-cell *matCellDef="let element"> {{element.unitslNo}} </td>
-    </ng-container>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
 
-     <!-- Name Column -->
-     <ng-container matColumnDef="departslNo">
-      <th mat-header-cell *matHeaderCellDef>unitDescribtion </th>
-      <td mat-cell *matCellDef="let element"> {{element.departslNo}} </td>
-    </ng-container>
+    </div>
 
-
-
-
-    <ng-container matColumnDef="action" stickyEnd>
-      <th mat-header-cell *matHeaderCellDef> <span class="tab_head"> Action </span>
-      </th>
-      <td mat-cell *matCellDef="let element" data-label="action" (click)="$event.stopPropagation()"
-        (click)="$event.stopPropagation()" style="pointer-events:all;">
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="editable(element)">
-            <mat-icon>edit</mat-icon>
-            <span>Edit</span>
-          </button>
-          <button mat-menu-item (click)="onDeleteButtonClick(element)">
-            <mat-icon>delete</mat-icon>
-            <span>Delete</span>
-          </button>
-        </mat-menu>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+    <div class="save-cancel-btn" fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="end end">
+      <button mat-raised-button color="accent" (click)="onReset()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit">Save</button>
+    </div>
+  </form>
 </div>
+<fieldset class="scheduler-border">
+  <legend class="scheduler-border">Unit Department Master Details</legend>
+  <ag-grid-angular #agGrid class="ag-theme-balham" [gridOptions]="gridOptions" style="width: 100%; height: 350px;" [pagination]="true" [frameworkComponents]="frameworkComponents">
+  </ag-grid-angular>
+</fieldset>
