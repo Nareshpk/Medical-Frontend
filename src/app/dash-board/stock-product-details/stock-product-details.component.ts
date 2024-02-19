@@ -35,7 +35,7 @@ export class StockProductDetailsComponent implements OnInit {
   unitslno: number;
   date: Date;
   total: string;
-  prodName: string;
+  proSlno: string;
   prodPrice: string;
   qty: string;
   insertUser: string;
@@ -47,6 +47,7 @@ export class StockProductDetailsComponent implements OnInit {
   prodmaster001mbs: Prodmaster001mb[] | any;
   user?: Login001mb | any;
   count: number = 0;
+  productdetails: any
 
   constructor(
     private formBuilder: FormBuilder,
@@ -108,16 +109,31 @@ export class StockProductDetailsComponent implements OnInit {
 
   onSelectionChange(event: any) {
 
-    let object = this.prodmaster001mbs.find((x) => x.prodName == event.option.value)
-    this.buyingProdctForm.patchValue({
-      'product_price': object?.prodPrice
-    })
-
+    this.productdetails = this.prodmaster001mbs.find((x) => x.prodName == event.option.value)
+    let prodbuy = this.prodbuy001mb.find((x: any) => x.proSlno == this.productdetails?.slNo)
+    console.log("prodbuy------>>", prodbuy);
+    if (prodbuy) {
+      this.slNo = prodbuy.slNo;
+      this.unitslno = prodbuy.unitslno;
+      this.insertUser = prodbuy.insertUser;
+      this.insertDatetime = prodbuy.insertDatetime;
+      let getdate = this.datepipe.transform(prodbuy.date, "yyyy-MM-dd");
+      this.buyingProdctForm.patchValue({
+        'product_Name': this.prodmaster001mb.find((x) => x.slNo == prodbuy.proSlno)?.prodName,
+        'product_price': prodbuy.prodPrice,
+        'product_qty': prodbuy.qty,
+        'total_amount': prodbuy.total,
+        'date': new Date(getdate).toISOString().split('T')[0]
+      });
+    } else {
+      this.buyingProdctForm.patchValue({
+        'product_price': this.productdetails?.prodPrice
+      })
+    }
   }
 
   onBlurMethod(event: any) {
     let total: any = parseInt(event.target.value) * parseInt(this.f.product_price.value)
-    console.log("event-->>", total === 'NaN');
     this.buyingProdctForm.patchValue({
       'total_amount': total == 0 ? 0 : total
     })
@@ -157,7 +173,7 @@ export class StockProductDetailsComponent implements OnInit {
       },
       {
         headerName: 'Product Name',
-        field: 'prodName',
+        field: 'proSlno',
         width: 200,
         // flex: 1,
         sortable: true,
@@ -165,6 +181,10 @@ export class StockProductDetailsComponent implements OnInit {
         resizable: true,
         suppressSizeToFit: true,
         // valueGetter: this.setDoctorNo.bind(this)
+        valueGetter: (params: any) => {
+          return params.data.proSlno ? this.prodmaster001mbs.find((x) => x.slNo == params.data.proSlno)?.prodName : '';
+        }
+
       },
       {
         headerName: 'Product Price',
@@ -235,7 +255,7 @@ export class StockProductDetailsComponent implements OnInit {
     this.insertDatetime = params.data.insertDatetime;
     let getdate = this.datepipe.transform(params.data.date, "yyyy-MM-dd");
     this.buyingProdctForm.patchValue({
-      'product_Name':  params.data.prodName,
+      'product_Name': this.prodmaster001mb.find((x) => x.slNo == params.data.proSlno)?.prodName,
       'product_price': params.data.prodPrice,
       'product_qty': params.data.qty,
       'total_amount': params.data.total,
@@ -251,8 +271,6 @@ export class StockProductDetailsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("result", result);
-
       if (result == "confirm") {
         this.prodbuyManager.Prodbuydelete(params.data.slNo).subscribe((response) => {
           for (let i = 0; i < this.prodbuy001mb.length; i++) {
@@ -273,10 +291,10 @@ export class StockProductDetailsComponent implements OnInit {
   }
 
 
-  onBuyingProdct(event:any,prodmasterForm:any){
+  onBuyingProdct(event: any, prodmasterForm: any) {
     let prodbuy001mb = new Prodbuy001mb();
     prodbuy001mb.date = this.f.date.value;
-    prodbuy001mb.prodName = this.f.product_Name.value;
+    prodbuy001mb.proSlno = this.f.product_Name.value ? this.productdetails.slNo : '';
     prodbuy001mb.prodPrice = this.f.product_price.value;
     prodbuy001mb.qty = this.f.product_qty.value;
     prodbuy001mb.total = this.f.total_amount.value;
@@ -301,7 +319,7 @@ export class StockProductDetailsComponent implements OnInit {
       this.prodbuyManager.Prodbuysave(prodbuy001mb).subscribe((response) => {
         this.ngOnInit()
         this.toast.saveSnackBar('Patientop Saved Successfully');
-       
+
       })
     }
   }

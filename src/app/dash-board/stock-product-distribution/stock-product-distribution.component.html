@@ -50,7 +50,8 @@
                 <div class="col-sm-3 mb-3">
                     <div class="form-group">
                         <label path="date" for="date" cssClass="required">Given qty</label>
-                        <input class="form-control" style="margin-top: 4px;" formControlName="per_qty" />
+                        <input class="form-control" style="margin-top: 4px;" formControlName="per_qty" (input)="onQtyChange($event)"/>
+                        <span *ngIf="qtydetails" style="color: red;font-size: small;">The material is limited</span>
                     </div>
                 </div>
             </div>

@@ -128,7 +128,7 @@ export class LoginComponent implements OnInit {
       // 		}
       // 	})
       // } else {
-      this.router.navigate(['/app-dash-board/app-home-consultation']);
+      this.router.navigate(['/app-dash-board/app-home-consultation/app-list-op-patient']);
 
       // }
 

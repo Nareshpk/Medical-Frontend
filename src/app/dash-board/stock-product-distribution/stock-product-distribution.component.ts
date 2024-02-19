@@ -8,12 +8,14 @@ import { deserialize } from "serializer.ts/Serializer";
 import { DeleteDialogComponent } from "src/app/shared/delete-dialog/delete-dialog.component";
 import { IconRendererComponent } from "src/app/shared/services/renderercomponent/icon-renderer-component";
 import { DistributionManager } from "src/app/shared/services/restcontroller/bizservice/Distribution.service";
+import { ProdbuyManager } from "src/app/shared/services/restcontroller/bizservice/Prodbuy.service";
 import { ProdmasterManager } from "src/app/shared/services/restcontroller/bizservice/ProductMaster.service";
 import { AuthManager } from "src/app/shared/services/restcontroller/bizservice/auth-manager.service";
 import { UnitManagerManager } from "src/app/shared/services/restcontroller/bizservice/unitmaster.service";
 import { ToastService } from "src/app/shared/services/restcontroller/callout/toast.service";
 import { Distribution001mb } from "src/app/shared/services/restcontroller/entities/Distribution001mb";
 import { Login001mb } from "src/app/shared/services/restcontroller/entities/Login001mb";
+import { Prodbuy001mb } from "src/app/shared/services/restcontroller/entities/Prodbuy001mb";
 import { Prodmaster001mb } from "src/app/shared/services/restcontroller/entities/Prodmaster001mb";
 import { UnitMaster001mb } from "src/app/shared/services/restcontroller/entities/unitmaster001mb";
 
@@ -47,6 +49,8 @@ export class StockProductDistributionComponent implements OnInit {
   clinic_name: any
   distribution001mb: Distribution001mb[] = [];
   productdetails: any;
+  prodbuy001mb: Prodbuy001mb[] | any;
+  qtydetails: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -58,8 +62,10 @@ export class StockProductDistributionComponent implements OnInit {
     private datepipe: DatePipe,
     private prodmasterManager: ProdmasterManager,
     private distributionManager: DistributionManager,
-    public dialog: MatDialog
-  ) { 
+    public dialog: MatDialog,
+    private prodbuyManager: ProdbuyManager,
+
+  ) {
     this.frameworkComponents = {
       iconRenderer: IconRendererComponent
     }
@@ -91,6 +97,10 @@ export class StockProductDistributionComponent implements OnInit {
       this.prodmaster001mb = deserialize<Prodmaster001mb[]>(Prodmaster001mb, response);
 
     });
+
+    this.prodbuyManager.allProdbuy(this.user.unitslno).subscribe(response => {
+      this.prodbuy001mb = deserialize<Prodbuy001mb[]>(Prodbuy001mb, response);
+    });
     this.loadData();
     this.createDataGrid001();
   }
@@ -117,20 +127,27 @@ export class StockProductDistributionComponent implements OnInit {
   onSelectionChange(event: any) {
 
     this.productdetails = this.prodmaster001mb.find((x: any) => x.prodName == event.option.value)
-    console.log('object--->>',  this.productdetails);
-
     this.distributionForm.patchValue({
-      'product_Name':  this.productdetails?.prodName
+      'product_Name': this.productdetails?.prodName
     })
 
   }
 
   onBlurMethod(event: any) {
-    let total: any = parseInt(event.target.value) * parseInt(this.f.product_price.value)
-    console.log("event-->>", total === 'NaN');
+    let total: any = parseInt(event.target.value) * parseInt(this.f.product_price.value);
     this.distributionForm.patchValue({
       'total_amount': total == 0 ? 0 : total
     })
+  }
+
+  onQtyChange(event: any) {
+    let item = this.prodbuy001mb.find((x: any) => x.proSlno == this.productdetails?.slNo)
+    let qtys = String(event?.target?.value).padStart(2, '0')
+    if (item?.qty >= qtys) {
+      this.qtydetails = false;
+    } else {
+      this.qtydetails = true;
+    }
   }
 
   createDataGrid001(): void {
@@ -176,7 +193,7 @@ export class StockProductDistributionComponent implements OnInit {
         resizable: true,
         suppressSizeToFit: true,
         valueGetter: (params: any) => {
-          return params.data.unitslno ? this.unitmasters.find((x: any) => x?.slNo === params?.data?.unitslno)?.unitName:'';
+          return params.data.unitslno ? this.unitmasters.find((x: any) => x?.slNo === params?.data?.unitslno)?.unitName : '';
         }
         // valueGetter: this.setPatientNo.bind(this)
       },
@@ -190,7 +207,7 @@ export class StockProductDistributionComponent implements OnInit {
         resizable: true,
         suppressSizeToFit: true,
         valueGetter: (params: any) => {
-          return params.data.clinicslno ? this.unitmasters.find((x: any) => x?.slNo === params?.data?.clinicslno)?.unitName:'';
+          return params.data.clinicslno ? this.unitmasters.find((x: any) => x?.slNo === params?.data?.clinicslno)?.unitName : '';
         }
       },
       {
@@ -203,7 +220,7 @@ export class StockProductDistributionComponent implements OnInit {
         resizable: true,
         suppressSizeToFit: true,
         valueGetter: (params: any) => {
-          return params.data.prodslno ? this.prodmaster001mb.find((x: any) => x?.slNo === params?.data?.prodslno)?.prodName:'';
+          return params.data.prodslno ? this.prodmaster001mb.find((x: any) => x?.slNo === params?.data?.prodslno)?.prodName : '';
         }
       },
       {
@@ -246,7 +263,7 @@ export class StockProductDistributionComponent implements OnInit {
     ];
   }
 
-  
+
   onEditButtonClick(params: any) {
     this.slNo = params.data.slNo;
     this.unitslno = params.data.unitslno;
@@ -256,7 +273,7 @@ export class StockProductDistributionComponent implements OnInit {
     this.productdetails = this.prodmaster001mb.find((x: any) => x.slNo == params.data.prodslno)
     this.clinic_name = this.unitmasters.find((x: any) => x?.slNo === this.user?.unitslno);
     this.distributionForm.patchValue({
-      'product_Name':  this.productdetails?.prodName,
+      'product_Name': this.productdetails?.prodName,
       'per_qty': params.data.qty,
       'Clinic_no': params.data.clinicslno,
       'clinic_name': this.clinic_name?.unitName,
@@ -272,8 +289,6 @@ export class StockProductDistributionComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("result", result);
-
       if (result == "confirm") {
         this.distributionManager.Distributiondelete(params.data.slNo).subscribe((response) => {
           for (let i = 0; i < this.distribution001mb.length; i++) {
@@ -296,7 +311,7 @@ export class StockProductDistributionComponent implements OnInit {
   onDistribution(event: any, prodmasterForm: any) {
     let distribution001mb = new Distribution001mb();
     distribution001mb.date = this.f.date.value;
-    distribution001mb.prodslno =  this.productdetails?.slNo;
+    distribution001mb.prodslno = this.productdetails?.slNo;
     distribution001mb.qty = this.f.per_qty.value;
     distribution001mb.clinicslno = this.f.Clinic_no.value;
 
@@ -317,8 +332,6 @@ export class StockProductDistributionComponent implements OnInit {
       distribution001mb.unitslno = this.user.unitslno;
       distribution001mb.insertUser = this.authManager.getcurrentUser.username;
       distribution001mb.insertDatetime = new Date();
-      console.log("distribution001mb------->>",distribution001mb);
-      
       this.distributionManager.Distributionsave(distribution001mb).subscribe((response) => {
         this.ngOnInit()
         this.toast.saveSnackBar('Patientop Saved Successfully');

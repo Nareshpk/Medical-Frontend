@@ -47,6 +47,7 @@
                     <div class="form-group">
                         <label path="date" for="date" cssClass="required">qty</label>
                         <input class="form-control" placeholder="qty" style="margin-top: 4px;" formControlName="qty" (input)="onBlurMethod($event)"/>
+                        <span *ngIf="qtydetails" style="color: red;font-size: small;">The material is limited</span>
                     </div>
                 </div>
                 <div class="col-sm-3 mb-3">

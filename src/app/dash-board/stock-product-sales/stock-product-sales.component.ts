@@ -7,12 +7,14 @@ import { GridOptions } from "ag-grid-community";
 import { deserialize } from "serializer.ts/Serializer";
 import { DeleteDialogComponent } from "src/app/shared/delete-dialog/delete-dialog.component";
 import { IconRendererComponent } from "src/app/shared/services/renderercomponent/icon-renderer-component";
+import { ProdbuyManager } from "src/app/shared/services/restcontroller/bizservice/Prodbuy.service";
 import { ProdmasterManager } from "src/app/shared/services/restcontroller/bizservice/ProductMaster.service";
 import { AuthManager } from "src/app/shared/services/restcontroller/bizservice/auth-manager.service";
 import { CustomerManager } from "src/app/shared/services/restcontroller/bizservice/customer.service";
 import { ToastService } from "src/app/shared/services/restcontroller/callout/toast.service";
 import { Customer001mb } from "src/app/shared/services/restcontroller/entities/Customer001mb";
 import { Login001mb } from "src/app/shared/services/restcontroller/entities/Login001mb";
+import { Prodbuy001mb } from "src/app/shared/services/restcontroller/entities/Prodbuy001mb";
 import { Prodmaster001mb } from "src/app/shared/services/restcontroller/entities/Prodmaster001mb";
 
 @Component({
@@ -47,6 +49,9 @@ export class StockProductSalesComponent implements OnInit {
   user?: Login001mb | any;
   customer001mb: Customer001mb[] = []
   productdetails: any;
+  qtydetails: boolean = false;
+  prodbuy001mb: Prodbuy001mb[] | any;
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -57,7 +62,8 @@ export class StockProductSalesComponent implements OnInit {
     private datepipe: DatePipe,
     private prodmasterManager: ProdmasterManager,
     private customerManager: CustomerManager,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private prodbuyManager: ProdbuyManager,
   ) {
     this.frameworkComponents = {
       iconRenderer: IconRendererComponent
@@ -81,6 +87,11 @@ export class StockProductSalesComponent implements OnInit {
       this.prodmaster001mb = deserialize<Prodmaster001mb[]>(Prodmaster001mb, response);
 
     });
+
+    this.prodbuyManager.allProdbuy(this.user.unitslno).subscribe(response => {
+      this.prodbuy001mb = deserialize<Prodbuy001mb[]>(Prodbuy001mb, response);
+    });
+
     this.loadData();
     this.createDataGrid001();
   }
@@ -117,13 +128,19 @@ export class StockProductSalesComponent implements OnInit {
   }
 
   onBlurMethod(event: any) {
-    console.log("this.f.customer_price.value", this.productdetails?.prodPrice);
+    
     let item = this.prodmaster001mb.find((x) => x.prodName == this.f.product_Name.value)
     let valeu = this.productdetails?.prodPrice ? this.productdetails?.prodPrice : item?.prodPrice;
 
     let total: any = parseInt(event.target.value) * parseInt(valeu)
-    console.log("total", total);
-
+    let quality = this.prodbuy001mb.find((x: any) => x.proSlno == item?.slNo)
+   
+    let qtys = String(event?.target?.value).padStart(2, '0')
+    if (parseInt(quality?.qty) >= parseInt(qtys)) {
+      this.qtydetails = false;
+    } else {
+      this.qtydetails = true;
+    }
     this.CustomerForm.patchValue({
       'retail_cost': total,
       'profit': parseInt(this.f.customer_price.value) - parseInt(total)
@@ -311,8 +328,6 @@ export class StockProductSalesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("result", result);
-
       if (result == "confirm") {
         this.customerManager.deleteCustomer(params.data.slNo).subscribe((response) => {
           for (let i = 0; i < this.customer001mb.length; i++) {

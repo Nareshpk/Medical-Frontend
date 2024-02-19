@@ -4,7 +4,7 @@ export class Prodbuy001mb {
     unitslno: number;
     date: Date;
     total:string;
-    prodName: string;
+    proSlno: number;
     prodPrice: string;
     qty: string;
     insertUser: string;
